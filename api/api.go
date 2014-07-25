@@ -44,5 +44,13 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(currentRule.ruleDescription))
 }
 
-func CreateKoan(w http.ResponseWriter, r *http.Request) {}
-func GuessRule(w http.ResponseWriter, r *http.Request)  {}
+func CreateKoan(w http.ResponseWriter, r *http.Request) {
+	doesKoanFulfillRule := false
+	if doesKoanFulfillRule == true {
+		w.Write([]byte("true"))
+	} else {
+		w.Write([]byte("false"))
+	}
+}
+
+func GuessRule(w http.ResponseWriter, r *http.Request) {}
