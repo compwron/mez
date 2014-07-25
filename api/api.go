@@ -25,7 +25,9 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "malformed JSON", 400)
 	} else {
 		fmt.Println(parsed)
-		currentRule, _, _ = parseRule(parsed)
+		if currentRule.ruleDescription == "meaningless starter rule" { // should not be able to override game rule until game is won
+			currentRule, _, _ = parseRule(parsed)
+		}
 		fmt.Println("new current rule is", currentRule)
 		// currentRule = Rule{"2^MG"} // must have two upright medium size green pyramids
 	}
