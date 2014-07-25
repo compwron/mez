@@ -9,3 +9,7 @@ git clone <this repo> && cd <this repo>
 alias gb="go fmt ../mez/... && go clean && go get && go build main.go && ./main"
 gb
 ````
+
+````
+{"a":"b"} 
+````
