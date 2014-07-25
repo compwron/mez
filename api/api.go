@@ -12,7 +12,7 @@ type Rule struct {
 
 type Koan struct{}
 
-var currentRule = Rule{"foo"}
+var currentRule = Rule{"meaningless starter rule"}
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("How to play:\n		POST /game {rule: [<TODO>]} to start game"))
@@ -25,17 +25,20 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "malformed JSON", 400)
 	} else {
 		fmt.Println(parsed)
-		rule, correct, incorrect := parseRule(parsed)
-		fmt.Println(rule, correct, incorrect)
-		currentRule = Rule{"2^MG"} // must have two upright medium size green pyramids
+		currentRule, _, _ = parseRule(parsed)
+		fmt.Println("new current rule is", currentRule)
+		// currentRule = Rule{"2^MG"} // must have two upright medium size green pyramids
 	}
 }
 
 func parseRule(data map[string]interface{}) (Rule, Koan, Koan) {
-	return Rule{}, Koan{}, Koan{}
+	newRule := data["rule"].(string)
+	fmt.Println(newRule, "new rule!!")
+	return Rule{newRule}, Koan{}, Koan{}
 }
 
 func ViewGame(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("viewing new rule", currentRule)
 	w.Write([]byte(currentRule.ruleDescription))
 }
 
