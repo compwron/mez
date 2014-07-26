@@ -12,7 +12,8 @@ type Rule struct {
 
 type Koan struct{}
 
-var currentRule = Rule{"meaningless starter rule"}
+var originalRule = Rule{"meaningless starter rule"}
+var currentRule = originalRule
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("How to play:" +
@@ -62,7 +63,34 @@ func CreateKoan(w http.ResponseWriter, r *http.Request) {
 }
 
 func doesKoanFulfillRule(koan string) bool {
+
+	// rule = "1^MG, 1>S, !2>"
+
+	// koan = "1>SG, 1^MG"
+
+	// rule = "1^"
+
+	// koan = "1^MG"
+
 	return false
 }
 
-func GuessRule(w http.ResponseWriter, r *http.Request) {}
+func GuessRule(w http.ResponseWriter, r *http.Request) {
+	// if rule matches, end game
+	ruleGuessHash, err := json.Parse(r.Body)
+	if err != nil {
+		fmt.Println("Can't get rule from response")
+	}
+	ruleGuess := ruleGuessHash["rule"].(string)
+	if ruleMatches(ruleGuess) {
+		currentRule = Rule{"meaningless starter rule"}
+		w.Write([]byte("true"))
+		fmt.Println("Game won! Rule reset.")
+	} else {
+		w.Write([]byte("false"))
+	}
+}
+
+func ruleMatches(guess string) bool {
+	return true
+}
