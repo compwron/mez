@@ -1,0 +1,11 @@
+DONE
+can set rule at game beginning
+can reset rule only once (no resettting rule after game starts until game is won)
+
+
+TODO
+check koan against rule
+check rule guess against rule
+figure out how to write tests
+print koans with results at GET /game rather than rule
+store koans with result when they are submitted

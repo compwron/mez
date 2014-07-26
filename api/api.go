@@ -46,7 +46,11 @@ func parseRule(data map[string]interface{}) (Rule, Koan, Koan) {
 
 func ViewGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("viewing new rule", currentRule)
-	w.Write([]byte(currentRule.ruleDescription))
+	w.Write([]byte(koanSummaries()))
+}
+
+func koanSummaries() string {
+	return "current koans and their results against the rule"
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
