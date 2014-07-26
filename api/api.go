@@ -15,7 +15,11 @@ type Koan struct{}
 var currentRule = Rule{"meaningless starter rule"}
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("How to play:\n		POST /game {rule: [<TODO>]} to start game"))
+	w.Write([]byte("How to play:" +
+		"\n		POST /game {\"rule\": \"new rule\"} to start game" +
+		"\n		GET /game to see current rule and current koans w/ outcomes" +
+		"\n		POST /game/koan {\"koan\": \"new koan\"} to submit a koan (get boolean win/fail back)" +
+		"\n		POST /game/guess {\"rule\": \"your guess for the rule\"} to possibly end game"))
 }
 
 func CreateGame(w http.ResponseWriter, r *http.Request) {
@@ -45,12 +49,20 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
-	doesKoanFulfillRule := false
-	if doesKoanFulfillRule == true {
+	newKoanHash, err := json.Parse(r.Body)
+	newKoan := newKoanHash["koan"].(string)
+	if err != nil {
+		fmt.Println("can't get koan from response")
+	}
+	if doesKoanFulfillRule(newKoan) == true {
 		w.Write([]byte("true"))
 	} else {
 		w.Write([]byte("false"))
 	}
+}
+
+func doesKoanFulfillRule(koan string) bool {
+	return false
 }
 
 func GuessRule(w http.ResponseWriter, r *http.Request) {}
