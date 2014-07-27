@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mez/json"
 	"net/http"
+	"reflect"
 	"strings"
 )
 
@@ -32,7 +33,8 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Println(parsed)
 		// need golang comparator
-		if currentRule.ruleDescriptions == originalRule.ruleDescriptions { // should not be able to override game rule until game is won
+
+		if reflect.DeepEqual(currentRule.ruleDescriptions, originalRule.ruleDescriptions) {
 			currentRule, _, _ = parseRule(parsed)
 		}
 		fmt.Println("new current rule is", currentRule)
@@ -43,7 +45,7 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 func parseRule(data map[string]interface{}) (Rule, Koan, Koan) {
 	newRule := data["rule"].(string)
 	fmt.Println(newRule, "new rule!!")
-	return Rule{newRule}, Koan{}, Koan{}
+	return Rule{strings.Split(newRule, ",")}, Koan{}, Koan{}
 }
 
 func ViewGame(w http.ResponseWriter, r *http.Request) {
@@ -52,7 +54,7 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 }
 
 func koanSummaries() string {
-	return currentRule.ruleDescriptions + " current koans and their results against the rule"
+	return strings.Join(currentRule.ruleDescriptions, ", ") + " current koans and their results against the rule"
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
@@ -78,8 +80,8 @@ func doesKoanFulfillRule(koan string) bool {
 
 	// koan = "1^MG"
 
-	if !koan.contains("!") {
-		return rule.parts[0].contains(koan)
+	if !strings.Contains(koan, "!") {
+		return strings.Contains(currentRule.ruleDescriptions[0], koan)
 	}
 
 	return false
@@ -93,7 +95,7 @@ func GuessRule(w http.ResponseWriter, r *http.Request) {
 	}
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
-		currentRule = Rule{"meaningless starter rule"}
+		currentRule = originalRule
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
 	} else {
