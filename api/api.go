@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"mez/json"
 	"net/http"
+	"strings"
 )
 
 type Rule struct {
-	ruleDescription string
+	ruleDescriptions []string
 }
 
 type Koan struct{}
 
-var originalRule = Rule{"meaningless starter rule"}
+var originalRule = Rule{strings.Split("1^", ",")}
 var currentRule = originalRule
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,8 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "malformed JSON", 400)
 	} else {
 		fmt.Println(parsed)
-		if currentRule.ruleDescription == "meaningless starter rule" { // should not be able to override game rule until game is won
+		// need golang comparator
+		if currentRule.ruleDescriptions == originalRule.ruleDescriptions { // should not be able to override game rule until game is won
 			currentRule, _, _ = parseRule(parsed)
 		}
 		fmt.Println("new current rule is", currentRule)
@@ -50,7 +52,7 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 }
 
 func koanSummaries() string {
-	return "current koans and their results against the rule"
+	return currentRule.ruleDescriptions + " current koans and their results against the rule"
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
@@ -68,13 +70,17 @@ func CreateKoan(w http.ResponseWriter, r *http.Request) {
 
 func doesKoanFulfillRule(koan string) bool {
 
-	// rule = "1^MG, 1>S, !2>"
+	// rule = "1^MG, 1>S, !3>"
 
 	// koan = "1>SG, 1^MG"
 
 	// rule = "1^"
 
 	// koan = "1^MG"
+
+	if !koan.contains("!") {
+		return rule.parts[0].contains(koan)
+	}
 
 	return false
 }
