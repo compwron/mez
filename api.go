@@ -87,10 +87,9 @@ func intOf(char string) (int64, error) {
 func doesKoanFulfillRule(rule Rule, koan string) bool {
 	ruleCharacters := strings.Split(rule.ruleDescriptions[0], "")
 	koanCharacters := strings.Split(koan, "")
-	
+
 	rulePieceCount, ruleErr := intOf(ruleCharacters[0])
 	koanPieceCount, koanErr := intOf(koanCharacters[0])
-	
 
 	if ruleErr != nil || koanErr != nil {
 		return false
