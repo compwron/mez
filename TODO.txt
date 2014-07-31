@@ -10,3 +10,4 @@ check rule guess against rule
 figure out how to write tests
 print koans with results at GET /game rather than rule
 store koans with result when they are submitted
+multi-part rules 

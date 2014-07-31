@@ -5,11 +5,16 @@ import (
 	"testing"
 )
 
-func verify(rule string, koan string, t *testing.T) {
-	zen := doesKoanFulfillRule(Rule{[]string{rule}}, koan)
-	if !zen {
-		t.Errorf(koan + " should fulfill rule " + rule)
-	}
+func TestOneOrMoreButNotThreePieces(t *testing.T) {
+	rules := []string{"!3^", "1^"}
+	koan := "1^SG"
+	verifyMultiRule(rules, koan, t)
+}
+
+func TestThreeDoesNotFulfillNonThreeMultiRule(t *testing.T) {
+	rules := []string{"1^", "!3^"}
+	koan := "3^SG"
+	excludeMultiRule(rules, koan, t)
 }
 
 func TestOnePieceShouldNotMatchTwoPieceRule(t *testing.T) {
@@ -28,4 +33,26 @@ func TestSimplestKoanWithSimplestRule(t *testing.T) {
 	rule := "1^"
 	koan := "1^SG"
 	verify(rule, koan, t)
+}
+
+func verify(rule string, koan string, t *testing.T) {
+	zen := doesKoanFulfillRule(Rule{[]string{rule}}, koan)
+	if !zen {
+		t.Errorf(koan + " should fulfill rule " + rule)
+	}
+}
+
+func verifyMultiRule(rules []string, koan string, t *testing.T) {
+	multiRule(true, rules, koan, t)
+}
+
+func excludeMultiRule(rules []string, koan string, t *testing.T) {
+	multiRule(false, rules, koan, t)
+}
+
+func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
+	zen := doesKoanFulfillRule(Rule{rules}, koan)
+	if zen != shouldPass {
+		t.Errorf(koan + " should not fulfill rule ")
+	}
 }
