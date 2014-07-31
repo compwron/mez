@@ -1,8 +1,7 @@
-package api
+package main
 
 import (
 	"fmt"
-	"mez/json"
 	"net/http"
 	"reflect"
 	"strings"
@@ -12,10 +11,14 @@ type Rule struct {
 	ruleDescriptions []string
 }
 
-type Koan struct{}
+type Koan struct {
+	description  string
+	fulfillsRule bool
+}
 
 var originalRule = Rule{strings.Split("1^", ",")}
 var currentRule = originalRule
+var koans []Koan
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("How to play:" +
@@ -27,7 +30,7 @@ func Instructions(w http.ResponseWriter, r *http.Request) {
 
 func CreateGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Body)
-	parsed, err := json.Parse(r.Body)
+	parsed, err := Parse(r.Body)
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
@@ -58,15 +61,22 @@ func koanSummaries() string {
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
-	newKoanHash, err := json.Parse(r.Body)
+	fmt.Println("in create koan")
+	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
+	koans = append(koans, Koan{newKoan, doesKoanFulfillRule(newKoan)})
+	fmt.Println(koans)
+	firstKoanDescription := koans[0].description
+	w.Write([]byte(koans[0].description))
 	if err != nil {
 		fmt.Println("can't get koan from response")
 	}
 	if doesKoanFulfillRule(newKoan) == true {
-		w.Write([]byte("true"))
+		fmt.Println("in create koan 2")
+		w.Write([]byte("true foo" + firstKoanDescription))
 	} else {
-		w.Write([]byte("false"))
+		fmt.Println("in create koan 3")
+		w.Write([]byte("false bar" + firstKoanDescription))
 	}
 }
 
@@ -84,12 +94,12 @@ func doesKoanFulfillRule(koan string) bool {
 		return strings.Contains(currentRule.ruleDescriptions[0], koan)
 	}
 
-	return false
+	return true
 }
 
 func GuessRule(w http.ResponseWriter, r *http.Request) {
 	// if rule matches, end game
-	ruleGuessHash, err := json.Parse(r.Body)
+	ruleGuessHash, err := Parse(r.Body)
 	if err != nil {
 		fmt.Println("Can't get rule from response")
 	}
@@ -99,7 +109,7 @@ func GuessRule(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
 	} else {
-		w.Write([]byte("false"))
+		w.Write([]byte("false guess"))
 	}
 }
 
