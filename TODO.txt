@@ -4,13 +4,9 @@ can reset rule only once (no resettting rule after game starts until game is won
 
 
 TODO
+require one failing and one passing koan when creating rule
 check koan against rule
 check rule guess against rule
 figure out how to write tests
 print koans with results at GET /game rather than rule
 store koans with result when they are submitted
-
-
-restructure the go
-test the go
-finish the rule stuff

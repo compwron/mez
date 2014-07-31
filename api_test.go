@@ -1,13 +1,17 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"testing"
 )
 
-func TestFoo(t *testing.T) {
-	fmt.Println("Running a test")
-	if 1 != 2 {
-		t.Errorf("broken test")
+func TestSimplestKoanWithSimplestRule(t *testing.T) {
+	oneUprightRule := Rule{[]string{"1^"}}
+	oneUprightSmallGreen := "1^SG"
+
+	zen := doesKoanFulfillRule(oneUprightRule, oneUprightSmallGreen)
+	if !zen {
+		t.Errorf("Koan should fulfill rule")
+		// TODO get better to_s for Rule and Koan
 	}
 }

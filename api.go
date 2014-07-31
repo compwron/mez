@@ -57,49 +57,34 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 }
 
 func koanSummaries() string {
-	// 1^Koan: a koan : falseKoan: a koan : false
-
 	summary := "Koans:\n"
 	fmt.Println("koans:", koans)
 	for koanNum := range koans {
 		koan := koans[koanNum]
 		summary += koan.description + " : " + strconv.FormatBool(koan.fulfillsRule) + "\n"
 	}
-
 	return summary
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
-	koans = append(koans, Koan{newKoan, doesKoanFulfillRule(newKoan)})
-	fmt.Println(koans)
-	w.Write([]byte(koans[0].description))
+	koans = append(koans, Koan{newKoan, doesKoanFulfillRule(currentRule, newKoan)})
 	if err != nil {
 		fmt.Println("can't get koan from response")
 	}
-	if doesKoanFulfillRule(newKoan) == true {
+	if doesKoanFulfillRule(currentRule, newKoan) == true {
 		w.Write([]byte("true"))
 	} else {
 		w.Write([]byte("false"))
 	}
 }
 
-func doesKoanFulfillRule(koan string) bool {
-
-	// rule = "1^MG, 1>S, !3>"
-
-	// koan = "1>SG, 1^MG"
-
-	// rule = "1^"
-
-	// koan = "1^MG"
-
-	if !strings.Contains(koan, "!") {
-		return strings.Contains(currentRule.ruleDescriptions[0], koan)
+func doesKoanFulfillRule(rule Rule, koan string) bool {
+	if strings.Contains(koan, currentRule.ruleDescriptions[0]) {
+		return true
 	}
-
-	return true
+	return false
 }
 
 func GuessRule(w http.ResponseWriter, r *http.Request) {
