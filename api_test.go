@@ -5,13 +5,23 @@ import (
 	"testing"
 )
 
-func TestSimplestKoanWithSimplestRule(t *testing.T) {
-	oneUprightRule := Rule{[]string{"1^"}}
-	oneUprightSmallGreen := "1^SG"
-
-	zen := doesKoanFulfillRule(oneUprightRule, oneUprightSmallGreen)
+func verify(rule string, koan string, t *testing.T) {
+	zen := doesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if !zen {
-		t.Errorf("Koan should fulfill rule")
-		// TODO get better to_s for Rule and Koan
+		t.Errorf(koan + " should fulfill rule " + rule)
 	}
+}
+
+func TestSimplestKoanWithSimplestRule(t *testing.T) {
+	rule := "1^" 
+	koan := "1^SG"
+
+	verify(rule, koan, t)
+}
+
+func TestTwoPiecesShouldMatchAtLeastOnePieceRule(t *testing.T) {
+	rule := "1^" 
+	koan := "2^SG"
+
+	verify(rule, koan, t)
 }
