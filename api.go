@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -52,31 +53,35 @@ func parseRule(data map[string]interface{}) (Rule, Koan, Koan) {
 }
 
 func ViewGame(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("viewing new rule", currentRule)
 	w.Write([]byte(koanSummaries()))
 }
 
 func koanSummaries() string {
-	return strings.Join(currentRule.ruleDescriptions, ", ") + " current koans and their results against the rule"
+	// 1^Koan: a koan : falseKoan: a koan : false
+
+	summary := "Koans:\n"
+	fmt.Println("koans:", koans)
+	for koanNum := range koans {
+		koan := koans[koanNum]
+		summary += koan.description + " : " + strconv.FormatBool(koan.fulfillsRule) + "\n"
+	}
+
+	return summary
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("in create koan")
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
 	koans = append(koans, Koan{newKoan, doesKoanFulfillRule(newKoan)})
 	fmt.Println(koans)
-	firstKoanDescription := koans[0].description
 	w.Write([]byte(koans[0].description))
 	if err != nil {
 		fmt.Println("can't get koan from response")
 	}
 	if doesKoanFulfillRule(newKoan) == true {
-		fmt.Println("in create koan 2")
-		w.Write([]byte("true foo" + firstKoanDescription))
+		w.Write([]byte("true"))
 	} else {
-		fmt.Println("in create koan 3")
-		w.Write([]byte("false bar" + firstKoanDescription))
+		w.Write([]byte("false"))
 	}
 }
 
