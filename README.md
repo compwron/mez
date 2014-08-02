@@ -10,6 +10,7 @@ alias gb="go fmt && go test && go install && ./../../bin/mez"
 gb
 ````
 
+How to run tests and see coverage percentage:
 ````
-{"a":"b"} 
+go tool cover -html=coverage.out
 ````

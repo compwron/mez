@@ -11,3 +11,20 @@ figure out how to write tests
 print koans with results at GET /game rather than rule
 store koans with result when they are submitted
 multi-part rules 
+write go benchmark tests 
+use go test coverage
+run go fix on the code and see if anything happens
+http://blog.golang.org/profiling-go-programs
+https://medium.com/@benbjohnson/structuring-tests-in-go-46ddee7a25c
+Break out the heavy logic into a non-api package / file
+
+Put test coverage into default build task
+ go tool cover -html=coverage.out
+
+
+MAYBE?
+When you sucessfully start a game, you get a uuid / unique token. You can use this token to "authenticate" yourself (per game) to say yes/no to koans
+OR you get a unique token per koan submitted, and you can attach one of these tokens to your /game/guess to mark that it was yours. (Also attach it to other koans in the game to identify them as yours) - but why? Just leave out the token to make many unclaimed guesses
+But it would be cool to have all guesses in a game claimed (except for the first, obviously) and then the guess claimed by the koan-user... 
+Basically I think that login spoils the fun here. 
+Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
