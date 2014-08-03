@@ -8,10 +8,6 @@ import (
 	"strings"
 )
 
-type Rule struct {
-	ruleDescriptions []string
-}
-
 type Koan struct {
 	description  string
 	fulfillsRule bool
@@ -19,7 +15,6 @@ type Koan struct {
 
 var originalRule = Rule{strings.Split("1^", ",")}
 var currentRule = originalRule
-var koans []Koan
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("How to play:" +
@@ -30,46 +25,26 @@ func Instructions(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateGame(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Body)
+	fmt.Println("Trying to create game")
 	parsed, err := Parse(r.Body)
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
-		fmt.Println(parsed)
-		// need golang comparator
-
 		if reflect.DeepEqual(currentRule.ruleDescriptions, originalRule.ruleDescriptions) {
-			currentRule, _, _ = parseRule(parsed)
+			currentRule, _, _ = ParseRule(parsed)
+			fmt.Println("Set new Rule to", currentRule)
 		}
-		fmt.Println("new current rule is", currentRule)
-		// currentRule = Rule{"2^MG"} // must have two upright medium size green pyramids
 	}
-}
-
-func parseRule(data map[string]interface{}) (Rule, Koan, Koan) {
-	newRule := data["rule"].(string)
-	fmt.Println(newRule, "new rule!!")
-	return Rule{strings.Split(newRule, ",")}, Koan{}, Koan{}
 }
 
 func ViewGame(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(koanSummaries()))
-}
-
-func koanSummaries() string {
-	summary := "Koans:\n"
-	fmt.Println("koans:", koans)
-	for koanNum := range koans {
-		koan := koans[koanNum]
-		summary += koan.description + " : " + strconv.FormatBool(koan.fulfillsRule) + "\n"
-	}
-	return summary
+	w.Write([]byte(KoanSummaries()))
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
-	koans = append(koans, Koan{newKoan, doesKoanFulfillRule(currentRule, newKoan)})
+	Koans = append(Koans, Koan{newKoan, doesKoanFulfillRule(currentRule, newKoan)})
 	if err != nil {
 		fmt.Println("can't get koan from response")
 	}
@@ -119,8 +94,4 @@ func GuessRule(w http.ResponseWriter, r *http.Request) {
 	} else {
 		w.Write([]byte("false guess"))
 	}
-}
-
-func ruleMatches(guess string) bool {
-	return true
 }
