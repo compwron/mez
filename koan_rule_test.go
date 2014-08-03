@@ -36,7 +36,7 @@ func TestSimplestKoanWithSimplestRule(t *testing.T) {
 }
 
 func verify(rule string, koan string, t *testing.T) {
-	zen := doesKoanFulfillRule(Rule{[]string{rule}}, koan)
+	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if !zen {
 		t.Errorf(koan + " should fulfill rule " + rule)
 	}
@@ -51,7 +51,7 @@ func excludeMultiRule(rules []string, koan string, t *testing.T) {
 }
 
 func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
-	zen := doesKoanFulfillRule(Rule{rules}, koan)
+	zen := DoesKoanFulfillRule(Rule{rules}, koan)
 	if zen != shouldPass {
 		t.Errorf(koan + " should not fulfill rule ")
 	}
