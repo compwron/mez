@@ -20,7 +20,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		return true
 	}
 
-	if strings.Contains(koan, currentRule.ruleDescriptions[0]) {
+	if strings.Contains(koan, CurrentRule.ruleDescriptions[0]) {
 		return true
 	}
 	return false

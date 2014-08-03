@@ -4,16 +4,12 @@ import (
 	"fmt"
 	"net/http"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
-type Koan struct {
-	description  string
-	fulfillsRule bool
-}
-
 var originalRule = Rule{strings.Split("1^", ",")}
-var currentRule = originalRule
+var CurrentRule = originalRule
 
 func Instructions(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("How to play:" +
@@ -29,9 +25,23 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
-		if reflect.DeepEqual(currentRule.ruleDescriptions, originalRule.ruleDescriptions) {
-			currentRule, _, _ = ParseRule(parsed)
-			fmt.Println("Set new Rule to", currentRule)
+		if reflect.DeepEqual(CurrentRule.ruleDescriptions, originalRule.ruleDescriptions) {
+			submittedRule := ParseRule(parsed)
+			trueKoan := ParseKoan(parsed, true)
+			falseKoan := ParseKoan(parsed, false)
+			trueKoanIsOk := DoesKoanFulfillRule(submittedRule, trueKoan.description)
+			falseKoanIsOk := !DoesKoanFulfillRule(submittedRule, falseKoan.description)
+
+			if trueKoanIsOk && falseKoanIsOk {
+				AddFullKoan(trueKoan)
+				AddFullKoan(falseKoan)
+				CurrentRule = submittedRule
+			} else {
+				w.Write([]byte("Koans do not fulfull rule; game not started.\n"))
+				// w.Write(r.Body)
+				w.Write([]byte("True koan is ok? " + strconv.FormatBool(trueKoanIsOk)))
+				w.Write([]byte("False koan is ok? " + strconv.FormatBool(falseKoanIsOk)))
+			}
 		}
 	}
 }
@@ -43,11 +53,11 @@ func ViewGame(w http.ResponseWriter, r *http.Request) {
 func CreateKoan(w http.ResponseWriter, r *http.Request) {
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
-	Koans = append(Koans, Koan{newKoan, DoesKoanFulfillRule(currentRule, newKoan)})
+	AddKoan(newKoan)
 	if err != nil {
 		fmt.Println("can't get koan from response")
 	}
-	if DoesKoanFulfillRule(currentRule, newKoan) == true {
+	if DoesKoanFulfillRule(CurrentRule, newKoan) == true {
 		w.Write([]byte("true"))
 	} else {
 		w.Write([]byte("false"))
@@ -62,7 +72,7 @@ func GuessRule(w http.ResponseWriter, r *http.Request) {
 	}
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
-		currentRule = originalRule
+		CurrentRule = originalRule
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
 	} else {

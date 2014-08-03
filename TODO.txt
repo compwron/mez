@@ -16,7 +16,7 @@ use go test coverage
 run go fix on the code and see if anything happens
 http://blog.golang.org/profiling-go-programs
 https://medium.com/@benbjohnson/structuring-tests-in-go-46ddee7a25c
-Break out the heavy logic into a non-api package / file
+See past games
 
 Put test coverage into default build task
  go tool cover -html=coverage.out
