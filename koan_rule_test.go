@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "fmt"
 	"testing"
 )
 
@@ -20,7 +19,7 @@ func TestThreeDoesNotFulfillNonThreeMultiRule(t *testing.T) {
 func TestOnePieceShouldNotMatchTwoPieceRule(t *testing.T) {
 	rule := "2^"
 	koan := "1^SG"
-	verify(rule, koan, t)
+	falsify(rule, koan, t)
 }
 
 func TestTwoPiecesShouldMatchAtLeastOnePieceRule(t *testing.T) {
@@ -39,6 +38,13 @@ func verify(rule string, koan string, t *testing.T) {
 	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if !zen {
 		t.Errorf(koan + " should fulfill rule " + rule)
+	}
+}
+
+func falsify(rule string, koan string, t *testing.T) {
+	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
+	if zen {
+		t.Errorf(koan + " should NOT fulfill rule " + rule)
 	}
 }
 

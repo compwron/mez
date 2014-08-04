@@ -22,3 +22,9 @@ Players view koans and results (GET /game)
 Players guess rule (POST /game/guess {"rule":"3^G"})
 If guess is correct, game resets
 
+
+To run just one test:
+````
+go test -test.run <testname> <- actually this is a regex running against test names
+````
+
