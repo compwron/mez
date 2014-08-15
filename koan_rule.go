@@ -7,13 +7,12 @@ import (
 )
 
 func remove(data []string, item string) []string {
-	newData := make([]string, len(data))
+	newData := make([]string, len(data)-1)
 	for i := 0; i < len(data); i++ {
 		if data[i] != item {
 			newData = append(newData, data[i])
 		}
 	}
-	fmt.Println("new data without removed element:")
 	return newData
 }
 
@@ -22,14 +21,10 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	ruleNot := false
 	ruleCharacters := strings.Split(rule.ruleDescriptions[0], "")
 	if ruleCharacters[0] == "!" {
-		fmt.Println("Setting ruleNot to true")
 		ruleNot = true
-
-		remove(ruleCharacters, "!")
-		fmt.Println("Removed leading ! from ruleCharacters now that ruleNot is set")
-		fmt.Println(ruleCharacters)
+		ruleCharacters = remove(ruleCharacters, "!")
 	}
-	rulePieceCount, ruleErr := intOf(ruleCharacters[0])
+	rulePieceCount := intOf(ruleCharacters[0])
 
 	koanCharacters := strings.Split(koan, "")
 	// koan is not allowed to contain !
@@ -38,11 +33,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		return false
 	}
 
-	koanPieceCount, koanErr := intOf(koanCharacters[0])
-
-	if ruleErr != nil || koanErr != nil {
-		return false
-	}
+	koanPieceCount := intOf(koanCharacters[0])
 
 	// if rule is a not, check that koanCount is anything other than ruleCount
 	if ruleNot {
@@ -54,6 +45,10 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	return false
 }
 
-func intOf(char string) (int64, error) {
-	return strconv.ParseInt(char, 10, 8)
+func intOf(char string) int {
+	i, err := strconv.Atoi(char)
+	if err != nil {
+		return 0
+	}
+	return i
 }

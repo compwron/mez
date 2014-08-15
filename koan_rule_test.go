@@ -10,6 +10,12 @@ func TestOneOrMoreButNotThreePieces(t *testing.T) {
 	verifyMultiRule(rules, koan, t)
 }
 
+func TestNegativeOfThreePieces(t *testing.T) {
+	rules := []string{"!3^"}
+	koan := "1^SG"
+	verifyMultiRule(rules, koan, t)
+}
+
 func TestThreeDoesNotFulfillNonThreeMultiRule(t *testing.T) {
 	rules := []string{"1^", "!3^"}
 	koan := "3^SG"
