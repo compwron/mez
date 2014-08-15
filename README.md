@@ -1,5 +1,7 @@
 This is supposed to be a game, played via GET and POST requests. 
 
+[![Build Status](https://travis-ci.org/compwron/mez.svg)](https://travis-ci.org/compwron/mez)
+
 To run locally:
 
 ````
