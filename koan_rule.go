@@ -22,9 +22,16 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	ruleCharacters := strings.Split(rule.ruleDescriptions[0], "")
 	if ruleCharacters[0] == "!" {
 		ruleNot = true
-		ruleCharacters = remove(ruleCharacters, "!")
+		ruleCharacters = ruleCharacters[1:]
 	}
-	rulePieceCount := intOf(ruleCharacters[0])
+
+	rulePieceCount := 0
+
+	if ruleCharacters[0] == "" {
+		rulePieceCount = intOf(ruleCharacters[1])
+	} else {
+		rulePieceCount = intOf(ruleCharacters[0])
+	}
 
 	koanCharacters := strings.Split(koan, "")
 	// koan is not allowed to contain !
