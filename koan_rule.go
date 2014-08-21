@@ -25,13 +25,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		ruleCharacters = ruleCharacters[1:]
 	}
 
-	rulePieceCount := 0
-
-	if ruleCharacters[0] == "" {
-		rulePieceCount = intOf(ruleCharacters[1])
-	} else {
-		rulePieceCount = intOf(ruleCharacters[0])
-	}
+	rulePieceCount := intOf(ruleCharacters[0])
 
 	koanCharacters := strings.Split(koan, "")
 	// koan is not allowed to contain !
@@ -55,6 +49,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 func intOf(char string) int {
 	i, err := strconv.Atoi(char)
 	if err != nil {
+		fmt.Println("Failed to parse", char)
 		return 0
 	}
 	return i
