@@ -1,36 +1,8 @@
 TODO
-
-test that createRule works for rule that passes its own koans (and negative case)
-
-
-DONE
-can set rule at game beginning
-can reset rule only once (no resettting rule after game starts until game is won)
-require one failing and one passing koan when creating rule
-
-In progress:
-check rule guess against rule
-
-TODO
 Make all beginning rules work http://www.koryheath.com/zendo/rules-for-beginners/
 Deploy to heroku
 When at least two of the beginning rules work, grit my teeth and let someone playtest it
-Add logging for all game actions
-Switch from fmt to log
-
-multi-part rules 
-write go benchmark tests 
-run go fix on the code and see if anything happens
-http://blog.golang.org/profiling-go-programs
-https://medium.com/@benbjohnson/structuring-tests-in-go-46ddee7a25c
-See past games
-Put test coverage into default build task
- go tool cover -html=coverage.out
-
+Save past games to file
 
 MAYBE?
-When you sucessfully start a game, you get a uuid / unique token. You can use this token to "authenticate" yourself (per game) to say yes/no to koans
-OR you get a unique token per koan submitted, and you can attach one of these tokens to your /game/guess to mark that it was yours. (Also attach it to other koans in the game to identify them as yours) - but why? Just leave out the token to make many unclaimed guesses
-But it would be cool to have all guesses in a game claimed (except for the first, obviously) and then the guess claimed by the koan-user... 
-Basically I think that login spoils the fun here. 
 Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
