@@ -30,9 +30,8 @@ func analyzeSingleRule(ruleCharacters []string) (bool, int) {
 	return ruleNot, rulePieceCount
 }
 
-func splitKoan(koan string) (bool, int) {
+func koanCountValidity(koanCharacters []string) (bool, int) {
 	invalidKoan := false
-	koanCharacters := strings.Split(koan, "")
 	if koanCharacters[0] == "!" {
 		invalidKoan = true
 	}
@@ -70,7 +69,7 @@ func ruleColor(rulePieces []string) string {
 func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
 	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
 
-	// Nesting is bad and I should feel bad. 
+	// Nesting is bad and I should feel bad.
 	ruleColor := ruleColor(rulePieces)
 	if ruleColor != "none" {
 		for _, koanPiece := range koanPieces {
@@ -91,13 +90,13 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
 	for i := 0; i < len(rule.ruleDescriptions); i++ {
-		invalidKoan, koanPieceCount := splitKoan(koan)
+		koanPieces := strings.Split(koan, "")
+		invalidKoan, koanPieceCount := koanCountValidity(koanPieces)
 		if invalidKoan {
 			return false
 		}
-		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
-		koanPieces := strings.Split(koan, "")
 
+		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
 		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
 
 		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
