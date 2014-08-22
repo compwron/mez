@@ -9,6 +9,11 @@ import (
 	"testing"
 )
 
+func body(res *http.Response) string {
+	dataBuf, _ := ioutil.ReadAll(res.Body)
+	return string(dataBuf)
+}
+
 func TestGuessRuleGet(t *testing.T) {
 	handler := GuessRule()
 	server := httptest.NewServer(handler)
@@ -17,8 +22,7 @@ func TestGuessRuleGet(t *testing.T) {
 	res, _ := http.Get(server.URL)
 	defer res.Body.Close()
 
-	dataBuf, _ := ioutil.ReadAll(res.Body)
-	data := string(dataBuf)
+	data := body(res)
 
 	if !strings.Contains(data, "not supported") {
 		t.Errorf("Should not support Get for Guess")
@@ -56,8 +60,7 @@ func TestGameGet(t *testing.T) {
 	res, _ := http.Get(server.URL)
 	defer res.Body.Close()
 
-	dataBuf, _ := ioutil.ReadAll(res.Body)
-	data := string(dataBuf)
+	data := body(res)
 
 	if !strings.Contains(data, "Koans:") {
 		t.Errorf("Should have Koans list in game summary")
@@ -67,3 +70,43 @@ func TestGameGet(t *testing.T) {
 		t.Errorf("Should have original rule in game summary")
 	}
 }
+
+func TestValidGamePost(t *testing.T) {
+	handler := Game()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	newRuleJson := "{\"rule\":\"1^\", \"true\":\"1^SG\", \"false\":\"0^SG\"}"
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(newRuleJson)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if err != nil {
+		t.Errorf("Should not error when setting rule ")
+	}
+
+	if data != "true" {
+		t.Errorf("rule should be valid", data)
+	}
+}
+
+func TestNonValidGamePost(t *testing.T) {
+	handler := Game()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	badRuleJson := "{\"rule\":\"1^\", \"true\":\"0^SG\", \"false\":\"1^SG\"}"
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(badRuleJson)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if err != nil {
+		t.Errorf("Should not error when setting rule ")
+	}
+
+	if !strings.Contains(data, "Koans do not fulfull rule") {
+		t.Errorf("rule should NOT be valid", data)
+	}
+}
+
+// test setting rule twice

@@ -25,24 +25,31 @@ func Game() http.HandlerFunc {
 }
 
 func createGame(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Trying to create game")
+	// fmt.Println("Trying to create game")
 	parsed, err := Parse(r.Body)
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
 		if reflect.DeepEqual(CurrentRule.ruleDescriptions, OriginalRule.ruleDescriptions) {
-			fmt.Println("Current rule is default rule")
+			// fmt.Println("Current rule is default rule")
 			submittedRule := ParseRule(parsed)
+
+			if (parsed["true"] == nil) || (parsed["false"] == nil) {
+				w.Write([]byte("need true koan and false koan"))
+				return
+			}
+
 			trueKoan := ParseKoan(parsed, true)
 			falseKoan := ParseKoan(parsed, false)
 			trueKoanIsOk := DoesKoanFulfillRule(submittedRule, trueKoan.description)
 			falseKoanIsOk := !DoesKoanFulfillRule(submittedRule, falseKoan.description)
 
 			if trueKoanIsOk && falseKoanIsOk {
-				fmt.Println("Valid new rule because its true and false koans are true and false")
+				// fmt.Println("Valid new rule because its true and false koans are true and false")
 				AddFullKoan(trueKoan)
 				AddFullKoan(falseKoan)
 				CurrentRule = submittedRule
+				w.Write([]byte("true"))
 			} else {
 				w.Write([]byte("Koans do not fulfull rule; game not started.\n"))
 				// w.Write(r.Body)
