@@ -5,22 +5,23 @@ import (
 )
 
 // Color rule
-func TestAllPiecesMustBeSameColorPass(t *testing.T){
+func TestAllPiecesMustBeSameColorPass(t *testing.T) {
 	rule := "G" // All pieces must be green
 	koan := "1^SG"
 	verify(rule, koan, t)
 }
 
-func TestAllPiecesMustBeSameColorFail(t *testing.T){
+func TestAllPiecesMustBeSameColorFail(t *testing.T) {
 	rule := "G"
-	koan :=  "1^SB"
+	koan := "1^SB"
 	falsify(rule, koan, t)
 }
 
+func TestAllPiecesMustBeSameColorPassWithMultiColorKoan(t *testing.T) {}
+func TestAllPiecesMustBeSameColorFailWithMultiColorKoan(t *testing.T) {}
 
-func TestNegativeAllPiecesMustBeSameColorPass(t *testing.T){}
-func TestNegativeAllPiecesMustBeSameColorFail(t *testing.T){}
-
+func TestNegativeAllPiecesMustBeSameColorPass(t *testing.T) {}
+func TestNegativeAllPiecesMustBeSameColorFail(t *testing.T) {}
 
 // Count rule
 func TestOneOrMoreButNotThreePieces(t *testing.T) {

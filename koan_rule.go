@@ -6,6 +6,7 @@ import (
 )
 
 var ValidColors = [3]string{"B", "G", "R"}
+
 // var ValidSize []string = ["S", "M", "L"]
 
 func remove(data []string, item string) []string {
@@ -55,20 +56,33 @@ func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rul
 	return allRulesAreValid
 }
 
-func containsColor(rulePieces []string) bool {
-	for piece := range rulePieces {
-	    for color := range ValidColors {
-	        if piece == color {
-	            return true
-	        }
-	    }
+func ruleColor(rulePieces []string) string {
+	for _, piece := range rulePieces {
+		for _, color := range ValidColors {
+			if piece == color {
+				return color
+			}
+		}
 	}
-	return false
+	return "none"
 }
 
-func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string) bool {
-	if containsColor(rulePieces) {
-		// eval rule and return
+func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
+	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
+
+	ruleColor := ruleColor(rulePieces)
+	if ruleColor != "none" {
+		for _, koanPiece := range koanPieces {
+			for _, color := range ValidColors {
+				if koanPiece == color {
+					if koanPiece != ruleColor {
+						return false
+					}
+					return allRulesAreValid
+				}
+			}
+		}
+		return false // koan must have color to be valid
 	}
 	return allRulesAreValid
 }
@@ -81,11 +95,13 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 			return false
 		}
 		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
+		koanPieces := strings.Split(koan, "")
+
 		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
 
 		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
 		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
-		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces)
+		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
 
 	}
 	return allRulesAreValid
