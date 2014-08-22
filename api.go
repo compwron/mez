@@ -11,7 +11,20 @@ import (
 var originalRule = Rule{strings.Split("1^", ",")}
 var CurrentRule = originalRule
 
-func CreateGame(w http.ResponseWriter, r *http.Request) {
+func Game() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case "GET":
+			w.Write([]byte(KoanSummaries()))
+		case "POST":
+			createGame(w, r)
+		default:
+			w.Write([]byte("not supported"))
+		}
+	}
+}
+
+func createGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Trying to create game")
 	parsed, err := Parse(r.Body)
 	if err != nil {
@@ -38,10 +51,6 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-}
-
-func ViewGame(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(KoanSummaries()))
 }
 
 func CreateKoan(w http.ResponseWriter, r *http.Request) {

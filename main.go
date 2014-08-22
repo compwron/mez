@@ -9,6 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", Instructions())
+	http.HandleFunc("/game", Game())
 
 	port := ":3000"
 	fmt.Println("Starting server on port", port)
