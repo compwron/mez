@@ -9,7 +9,6 @@ import (
 
 func main() {
 	http.HandleFunc("/", Instructions())
-	
 
 	port := ":3000"
 	fmt.Println("Starting server on port", port)
