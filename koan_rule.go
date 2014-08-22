@@ -16,34 +16,52 @@ func remove(data []string, item string) []string {
 	return newData
 }
 
-func DoesKoanFulfillRule(rule Rule, koan string) bool {
-	// if first character is !, set "not" and remove it
+func analyzeSingleRule(ruleDescription string) (bool, int) {
 	ruleNot := false
-	ruleCharacters := strings.Split(rule.ruleDescriptions[0], "")
+	ruleCharacters := strings.Split(ruleDescription, "")
 	if ruleCharacters[0] == "!" {
 		ruleNot = true
 		ruleCharacters = ruleCharacters[1:]
 	}
 
 	rulePieceCount := intOf(ruleCharacters[0])
+	return ruleNot, rulePieceCount
+}
 
+func splitKoan(koan string) (bool, int) {
+	invalidKoan := false
 	koanCharacters := strings.Split(koan, "")
-	// koan is not allowed to contain !
 	if koanCharacters[0] == "!" {
-		fmt.Println("Koans are not allowed to have !, returning false")
-		return false
+		invalidKoan = true
 	}
 
 	koanPieceCount := intOf(koanCharacters[0])
 
-	// if rule is a not, check that koanCount is anything other than ruleCount
-	if ruleNot {
-		return koanPieceCount != rulePieceCount
-	} else {
-		return koanPieceCount >= rulePieceCount
-	}
+	return invalidKoan, koanPieceCount
+}
 
-	return false
+func DoesKoanFulfillRule(rule Rule, koan string) bool {
+	allRulesAreValid := true
+	for i := 0; i < len(rule.ruleDescriptions); i++ {
+		invalidKoan, koanPieceCount := splitKoan(koan)
+		if invalidKoan {
+			return false
+		}
+		ruleNot, rulePieceCount := analyzeSingleRule(rule.ruleDescriptions[i])
+
+		// if rule is a not, check that koanCount is anything other than ruleCount
+		if ruleNot {
+			if koanPieceCount == rulePieceCount {
+				allRulesAreValid = false
+			}
+		} else {
+			if !(koanPieceCount >= rulePieceCount) {
+				allRulesAreValid = false
+			}
+		}
+
+	}
+	return allRulesAreValid
 }
 
 func intOf(char string) int {
