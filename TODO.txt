@@ -1,13 +1,6 @@
 TODO
 
-wipe rule and koans on game end (or move into historical games section / write to file)
-
-Print whether rule is default rule in GET /game
-
-
-
-
-
+test that createRule works for rule that passes its own koans (and negative case)
 
 
 DONE

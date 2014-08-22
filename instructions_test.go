@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestHandler(t *testing.T) {
+func TestInstructions(t *testing.T) {
 	handler := Instructions()
 	server := httptest.NewServer(handler)
 	defer server.Close()
