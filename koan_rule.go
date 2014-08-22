@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+var ValidColors = [3]string{"B", "G", "R"}
+// var ValidSize []string = ["S", "M", "L"]
+
 func remove(data []string, item string) []string {
 	newData := make([]string, len(data)-1)
 	for i := 0; i < len(data); i++ {
@@ -15,9 +18,8 @@ func remove(data []string, item string) []string {
 	return newData
 }
 
-func analyzeSingleRule(ruleDescription string) (bool, int) {
+func analyzeSingleRule(ruleCharacters []string) (bool, int) {
 	ruleNot := false
-	ruleCharacters := strings.Split(ruleDescription, "")
 	if ruleCharacters[0] == "!" {
 		ruleNot = true
 		ruleCharacters = ruleCharacters[1:]
@@ -53,7 +55,21 @@ func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rul
 	return allRulesAreValid
 }
 
-func evaluatePiecesColorTypeRules(allRulesAreValid bool) bool {
+func containsColor(rulePieces []string) bool {
+	for piece := range rulePieces {
+	    for color := range ValidColors {
+	        if piece == color {
+	            return true
+	        }
+	    }
+	}
+	return false
+}
+
+func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string) bool {
+	if containsColor(rulePieces) {
+		// eval rule and return
+	}
 	return allRulesAreValid
 }
 
@@ -64,11 +80,12 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		if invalidKoan {
 			return false
 		}
-		ruleNot, rulePieceCount := analyzeSingleRule(rule.ruleDescriptions[i])
+		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
+		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
 
 		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
 		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
-		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid)
+		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces)
 
 	}
 	return allRulesAreValid
