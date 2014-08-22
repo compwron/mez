@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-var originalRule = Rule{strings.Split("1^", ",")}
-var CurrentRule = originalRule
+var OriginalRule = Rule{strings.Split("1^", ",")}
+var CurrentRule = OriginalRule
 
 func Game() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "GET":
-			w.Write([]byte(KoanSummaries()))
+			w.Write([]byte(KoanSummaries() + "\n" + RuleSummary()))
 		case "POST":
 			createGame(w, r)
 		default:
@@ -30,7 +30,7 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
-		if reflect.DeepEqual(CurrentRule.ruleDescriptions, originalRule.ruleDescriptions) {
+		if reflect.DeepEqual(CurrentRule.ruleDescriptions, OriginalRule.ruleDescriptions) {
 			fmt.Println("Current rule is default rule")
 			submittedRule := ParseRule(parsed)
 			trueKoan := ParseKoan(parsed, true)
@@ -98,10 +98,13 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
-		CurrentRule = originalRule
+
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
+
 		//  TODO reset rule and koans list here
+		CurrentRule = OriginalRule
+		Koans = nil
 	} else {
 		w.Write([]byte("false guess"))
 	}
