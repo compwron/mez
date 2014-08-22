@@ -47,3 +47,23 @@ func TestGuessRulePost(t *testing.T) {
 		t.Errorf("Length of koans should be 0")
 	}
 }
+
+func TestGameGet(t *testing.T) {
+	handler := Game()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Get(server.URL)
+	defer res.Body.Close()
+
+	dataBuf, _ := ioutil.ReadAll(res.Body)
+	data := string(dataBuf)
+
+	if !strings.Contains(data, "Koans:") {
+		t.Errorf("Should have Koans list in game summary")
+	}
+
+	if !strings.Contains(data, "current rule is original rule") {
+		t.Errorf("Should have original rule in game summary")
+	}
+}

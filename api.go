@@ -102,7 +102,7 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
 
-		//  TODO reset rule and koans list here
+		//  reset rule and koans list
 		CurrentRule = OriginalRule
 		Koans = nil
 	} else {
