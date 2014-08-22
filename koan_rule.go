@@ -39,6 +39,24 @@ func splitKoan(koan string) (bool, int) {
 	return invalidKoan, koanPieceCount
 }
 
+func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, ruleNot bool) bool {
+	// if rule is a not, check that koanCount is anything other than ruleCount
+	if ruleNot {
+		if koanPieceCount == rulePieceCount {
+			allRulesAreValid = false
+		}
+	} else {
+		if !(koanPieceCount >= rulePieceCount) {
+			allRulesAreValid = false
+		}
+	}
+	return allRulesAreValid
+}
+
+func evaluatePiecesColorTypeRules(allRulesAreValid bool) bool {
+	return allRulesAreValid
+}
+
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
 	for i := 0; i < len(rule.ruleDescriptions); i++ {
@@ -48,16 +66,9 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		}
 		ruleNot, rulePieceCount := analyzeSingleRule(rule.ruleDescriptions[i])
 
-		// if rule is a not, check that koanCount is anything other than ruleCount
-		if ruleNot {
-			if koanPieceCount == rulePieceCount {
-				allRulesAreValid = false
-			}
-		} else {
-			if !(koanPieceCount >= rulePieceCount) {
-				allRulesAreValid = false
-			}
-		}
+		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
+		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
+		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid)
 
 	}
 	return allRulesAreValid
