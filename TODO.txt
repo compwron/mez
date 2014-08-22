@@ -1,3 +1,15 @@
+TODO
+
+wipe rule and koans on game end (or move into historical games section / write to file)
+
+Print whether rule is default rule in GET /game
+
+
+
+
+
+
+
 DONE
 can set rule at game beginning
 can reset rule only once (no resettting rule after game starts until game is won)

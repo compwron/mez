@@ -53,7 +53,18 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func CreateKoan(w http.ResponseWriter, r *http.Request) {
+func CreateKoan() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case "POST":
+			acceptKoan(w, r)
+		default:
+			w.Write([]byte("not supported"))
+		}
+	}
+}
+
+func acceptKoan(w http.ResponseWriter, r *http.Request) {
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
 	AddKoan(newKoan)
@@ -67,17 +78,30 @@ func CreateKoan(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GuessRule(w http.ResponseWriter, r *http.Request) {
+func GuessRule() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case "POST":
+			guessRule(w, r)
+		default:
+			w.Write([]byte("not supported"))
+		}
+	}
+}
+
+func guessRule(w http.ResponseWriter, r *http.Request) {
 	// if rule matches, end game
 	ruleGuessHash, err := Parse(r.Body)
 	if err != nil {
-		fmt.Println("Can't get rule from response")
+		w.Write([]byte("Can't get rule from response"))
 	}
+
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
 		CurrentRule = originalRule
 		w.Write([]byte("true"))
 		fmt.Println("Game won! Rule reset.")
+		//  TODO reset rule and koans list here
 	} else {
 		w.Write([]byte("false guess"))
 	}
