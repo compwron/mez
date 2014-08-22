@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -67,7 +66,6 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 func intOf(char string) int {
 	i, err := strconv.Atoi(char)
 	if err != nil {
-		fmt.Println("Failed to parse", char)
 		return 0
 	}
 	return i
