@@ -11,14 +11,6 @@ import (
 var originalRule = Rule{strings.Split("1^", ",")}
 var CurrentRule = originalRule
 
-func Instructions(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("How to play:" +
-		"\n		POST /game {\"rule\": \"new rule\"} to start game" +
-		"\n		GET /game to see current rule and current koans w/ outcomes" +
-		"\n		POST /game/koan {\"koan\": \"new koan\"} to submit a koan (get boolean win/fail back)" +
-		"\n		POST /game/guess {\"rule\": \"your guess for the rule\"} to possibly end game"))
-}
-
 func CreateGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Trying to create game")
 	parsed, err := Parse(r.Body)
