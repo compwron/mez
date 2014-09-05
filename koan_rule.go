@@ -9,17 +9,17 @@ var validColors = [3]string{"B", "G", "R"}
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
-	for i := 0; i < len(rule.ruleDescriptions); i++ {
+	for _, description := range rule.ruleDescriptions {
 		koanPieces := strings.Split(koan, "")
 		invalidKoan, koanPieceCount := koanCountValidity(koanPieces)
 		if invalidKoan {
 			return false
 		}
 
-		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
+		rulePieces := strings.Split(description, "")
 		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
 
-		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
+		// We could get performance gains by only running rules until something comes back false, but wait to optimize until optimization is needed.
 		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
 		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
 
