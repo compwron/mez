@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -139,6 +139,8 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 	colorsMatch := koanPieceColor == ruleColor
 
 	if isNegativeColorRule(rulePieces) {
+		fmt.Println("negative color rule")
+		fmt.Println("koanPieces", koanPieces)
 		return !colorsMatch
 	} else if !colorsMatch {
 		return false

@@ -5,6 +5,7 @@ import (
 )
 
 type Koan struct {
+	// koanDescription  []string
 	description  string
 	fulfillsRule bool
 }
@@ -20,8 +21,10 @@ func KoanSummaries() string {
 	return summary
 }
 
-func AddKoan(newKoan string) {
-	Koans = append(Koans, Koan{newKoan, DoesKoanFulfillRule(CurrentRule, newKoan)})
+func AddKoan(newKoan string) bool {
+	doesKoanFulfillRule := DoesKoanFulfillRule(CurrentRule, newKoan)
+	Koans = append(Koans, Koan{newKoan, doesKoanFulfillRule})
+	return doesKoanFulfillRule
 }
 
 func AddFullKoan(koan Koan) {

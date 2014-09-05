@@ -75,11 +75,11 @@ func CreateKoan() http.HandlerFunc {
 func acceptKoan(w http.ResponseWriter, r *http.Request) {
 	newKoanHash, err := Parse(r.Body)
 	newKoan := newKoanHash["koan"].(string)
-	AddKoan(newKoan)
+	doesKoanFulfillRule := AddKoan(newKoan)
 	if err != nil {
 		w.Write([]byte("Bad input"))
 	}
-	if DoesKoanFulfillRule(CurrentRule, newKoan) {
+	if doesKoanFulfillRule {
 		w.Write([]byte("true"))
 	} else {
 		w.Write([]byte("false"))
