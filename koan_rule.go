@@ -19,24 +19,27 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 	allRulesAreValid := true
 	for _, description := range rule.ruleDescriptions {
-		koanPieces := strings.Split(koan, "")
-		koanPieceCount, err := koanCount(koanPieces)
-		if err != nil {
-			return false
-		}
+		koanChunks := strings.Split(koan, ",")
+		for _, koanChunk := range koanChunks {
+			koanPieces := strings.Split(koanChunk, "")
+			koanPieceCount, err := koanCount(koanPieces)
+			if err != nil {
+				return false
+			}
 
-		rulePieces := strings.Split(description, "")
-		isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
+			rulePieces := strings.Split(description, "")
+			isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 
-		if ruleContains(rulePieces, "count") {
-			allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
-		}
-		if ruleContains(rulePieces, "color") {
-			allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
-		}
-		if allRulesAreValid == false {
-			// for performance
-			return allRulesAreValid
+			if ruleContains(rulePieces, "count") {
+				allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
+			}
+			if ruleContains(rulePieces, "color") {
+				allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
+			}
+			if allRulesAreValid == false {
+				// for performance
+				return allRulesAreValid
+			}
 		}
 	}
 	return allRulesAreValid
@@ -71,7 +74,7 @@ func ruleContains(rulePieces []string, ruleType string) bool {
 func nextPieceIsAColor(rulePieces []string, currentIndex int) bool {
 	// TODO make this shorter but still clear
 
-	colorOfNextPiece := colorOf(strings.Split(rulePieces[currentIndex + 1], ""))
+	colorOfNextPiece := colorOf(strings.Split(rulePieces[currentIndex+1], ""))
 	if colorOfNextPiece != "none" {
 		return true
 	}
@@ -122,6 +125,7 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 		return allRulesAreValid
 	}
 
+	// will more than one koan piece at a time ever be passed in here?
 	koanPieceColor := colorOf(koanPieces)
 
 	if koanPieceColor != ruleColor {

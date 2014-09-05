@@ -28,6 +28,12 @@ func TestTwoPiecesMustBeGreenWithMultiPieceKoanFail(t *testing.T) {
 	falsify(rule, koan, t)
 }
 
+func TestTwoPiecesMustBeGreenWithMultiPieceKoanBackwardsOrderFail(t *testing.T) {
+	rule := "2G"
+	koan := "1^SR,1^SG"
+	falsify(rule, koan, t)
+}
+
 func TestNegativeColorRulePass(t *testing.T) {
 	rule := "!1G"
 	koan := "1^SR"

@@ -52,3 +52,12 @@ Colors:
 * "!2G" One or three etc pieces may be green, but not two pieces. 
 * "GR" Nonsensical rule 
 * "G,R" At least one piece must be green. At least one piece must be red. No single-piece koans will be true.
+
+
+Internal Koan nomenclature: (for development, not for playing the game)
+====
+
+* koan "1^SG"
+* koan "1^SG,2^MB"
+* koanChunks ["1^SG","2^MB"]
+* koanPieces ["1", "^", "S", "G"] # should never have "," in it
