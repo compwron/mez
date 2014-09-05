@@ -4,6 +4,9 @@ import (
 	"testing"
 )
 
+// * "!G" No pieces may be green
+// * "!2G" One or three etc pieces may be green, but not two pieces.
+
 func TestOnePieceMustBeGreenPass(t *testing.T) {
 	rule := "G" // At least one piece must be green
 	koan := "1^SG"

@@ -72,7 +72,7 @@ func verifyValidRule(rule string, t *testing.T) {
 	}
 }
 
-func falsifyValidRule(rule string, t *testing.T) {
+func verifyThatRuleIsInvalid(rule string, t *testing.T) {
 	if validRule(Rule{[]string{rule}}) {
 		t.Errorf("is a valid rule but should not be")
 	}
