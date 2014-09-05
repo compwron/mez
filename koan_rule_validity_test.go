@@ -19,4 +19,14 @@ func TestNonsenseRuleNonValidity(t *testing.T) {
 	falsifyValidRule(rule, t)
 }
 
+func LeadingReverseCharactersInRulesOk(t *testing.T) {
+	rule := "!1^"
+	verifyValidRule(rule, t)
+}
+
+func NoNonLeadingReverseCharactersInRules(t *testing.T) {
+	rule := "1^!"
+	falsifyValidRule(rule, t)
+}
+
 // test fancy complicated rule validity also

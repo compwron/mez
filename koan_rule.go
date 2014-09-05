@@ -7,25 +7,8 @@ import (
 )
 
 var validColors = [3]string{"B", "G", "R"} // blue green red
-var ruleTypes = [2]string{"count", "color"}
 
-func validRule(rule Rule) bool {
-	// rule must be a color or count (or both) rule (more rules coming soon)
-		for _, ruleChunk := range rule.ruleDescriptions {
-			hasValidRuleType := false
-			for _, ruleType := range ruleTypes {
-				if ruleContains(strings.Split(ruleChunk, ""), ruleType){
-					hasValidRuleType = true
-				}
-			}
-
-			// All rule chunks must have a valid rule type
-			if hasValidRuleType != true {
-				return false
-			}
-		}
-	return true
-}
+var ruleTypes = [2]string{"count", "color"} // more coming soon
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !validRule(rule) {
@@ -33,8 +16,8 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	}
 
 	allRulesAreValid := true
-	for _, description := range rule.ruleDescriptions {
-		koanChunks := strings.Split(koan, ",")
+	koanChunks := strings.Split(koan, ",")
+	for _, ruleChunk := range rule.ruleDescriptions {
 		for _, koanChunk := range koanChunks {
 			koanPieces := strings.Split(koanChunk, "")
 			koanPieceCount, err := koanCount(koanPieces)
@@ -42,26 +25,40 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 				return false
 			}
 
-			rulePieces := strings.Split(description, "")
-			isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
+			rulePieces := strings.Split(ruleChunk, "")
 
 			if ruleContains(rulePieces, "count") {
+				isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 				allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
 			}
+
 			if ruleContains(rulePieces, "color") {
-				allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
-			}
-			if allRulesAreValid == false {
-				// for performance
-				return allRulesAreValid
+				allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
 			}
 		}
 	}
 	return allRulesAreValid
 }
 
+func validRule(rule Rule) bool {
+	for _, ruleChunk := range rule.ruleDescriptions {
+		hasValidRuleType := false
+		for _, ruleType := range ruleTypes {
+			rulePieces := strings.Split(ruleChunk, "")
+			if ruleContains(rulePieces, ruleType) {
+				hasValidRuleType = true
+			}
+		}
+
+		// All rule chunks must have a valid rule type
+		if hasValidRuleType != true {
+			return false
+		}
+	}
+	return true
+}
+
 func ruleContains(rulePieces []string, ruleType string) bool {
-	// TODO fix duplication
 	switch ruleType {
 	case "count":
 		for i, rulePiece := range rulePieces {
@@ -87,9 +84,7 @@ func ruleContains(rulePieces []string, ruleType string) bool {
 }
 
 func nextPieceIsAColor(rulePieces []string, currentIndex int) bool {
-	// TODO make this shorter but still clear
-
-	colorOfNextPiece := colorOf(strings.Split(rulePieces[currentIndex+1], ""))
+	colorOfNextPiece := colorOf([]string{rulePieces[currentIndex+1]})
 	if colorOfNextPiece != "none" {
 		return true
 	}
@@ -152,7 +147,7 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 }
 
 func isNegativeColorRule(rulePieces []string) bool {
-	return rulePieces[0] == "!" 
+	return rulePieces[0] == "!"
 }
 
 func intOf(char string) int {
