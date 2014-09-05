@@ -63,8 +63,9 @@ go fmt
 go test 
 ````
 
-Internal Koan nomenclature: (for development, not for playing the game)
+Internal Koan nomenclature: 
 ====
+(for development, not for playing the game)
 
 * koan "1^SG"
 * koan "1^SG,2^MB"
