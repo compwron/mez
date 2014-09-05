@@ -33,11 +33,11 @@ go test
 Game flow:
 ====
 
-A player sets the rule with two koans (one true, one false) (POST /game {"rule": "1^", "true":"1^SG", "false":"1>SG"})
-Other players submit koans (POST /game/koan {"koan":"1>SG"})
-Players view koans and results (GET /game)
-Players guess rule (POST /game/guess {"rule":"3^G"})
-If guess is correct, game resets
+* A player sets the rule with two koans (one true, one false) (POST /game {"rule": "1^", "true":"1^SG", "false":"1>SG"})
+* Other players submit koans (POST /game/koan {"koan":"1>SG"})
+* Players view koans and results (GET /game)
+* Players guess rule (POST /game/guess {"rule":"3^G"})
+* If guess is correct, game resets
 
 
 Rules Guide
