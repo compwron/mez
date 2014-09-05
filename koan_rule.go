@@ -119,19 +119,25 @@ func colorOf(pieces []string) string {
 }
 
 func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
-	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
 	ruleColor := colorOf(rulePieces)
 	if ruleColor == "none" {
 		return allRulesAreValid
 	}
 
-	// will more than one koan piece at a time ever be passed in here?
 	koanPieceColor := colorOf(koanPieces)
 
-	if koanPieceColor != ruleColor {
+	colorsMatch := koanPieceColor == ruleColor
+
+	if isNegativeColorRule(rulePieces) {
+		return !colorsMatch
+	} else if !colorsMatch {
 		return false
 	}
 	return allRulesAreValid
+}
+
+func isNegativeColorRule(rulePieces []string) bool {
+	return rulePieces[0] == "!" 
 }
 
 func intOf(char string) int {
