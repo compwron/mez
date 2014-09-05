@@ -17,25 +17,21 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		}
 
 		rulePieces := strings.Split(description, "")
-		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
+		isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 
 		// We could get performance gains by only running rules until something comes back false, but wait to optimize until optimization is needed.
-		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
+		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
 		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
 
 	}
 	return allRulesAreValid
 }
 
-func analyzeSingleRule(ruleCharacters []string) (bool, int) {
-	ruleNot := false
+func countInRulePiece(ruleCharacters []string) (bool, int) {
 	if ruleCharacters[0] == "!" {
-		ruleNot = true
-		ruleCharacters = ruleCharacters[1:]
+		return true, intOf(ruleCharacters[1])
 	}
-
-	rulePieceCount := intOf(ruleCharacters[0])
-	return ruleNot, rulePieceCount
+	return false, intOf(ruleCharacters[0])
 }
 
 func koanCountValidity(koanCharacters []string) (bool, int) {
@@ -49,9 +45,9 @@ func koanCountValidity(koanCharacters []string) (bool, int) {
 	return invalidKoan, koanPieceCount
 }
 
-func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, ruleNot bool) bool {
+func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, isNegativeRule bool) bool {
 	// if rule is a not, check that koanCount is anything other than ruleCount
-	if ruleNot {
+	if isNegativeRule {
 		if koanPieceCount == rulePieceCount {
 			allRulesAreValid = false
 		}
