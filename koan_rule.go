@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "fmt"
 	"strconv"
 	"strings"
 )
@@ -64,15 +65,11 @@ func colorOf(pieces []string) string {
 
 func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
 	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
-
-	// Nesting is bad and I should feel bad.
 	ruleColor := colorOf(rulePieces)
-	for _, koanPiece := range koanPieces {
-		koanPieceColor := colorOf(strings.Split(koanPiece, ""))
-		if koanPieceColor != ruleColor {
-			return false
-		}
-		return allRulesAreValid
+	koanPieceColor := colorOf(koanPieces)
+	
+	if koanPieceColor != ruleColor {
+		return false
 	}
 	return allRulesAreValid
 }

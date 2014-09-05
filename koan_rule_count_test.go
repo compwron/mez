@@ -4,7 +4,6 @@ import (
 	"testing"
 )
 
-// Count rule
 func TestOneOrMoreButNotThreePieces(t *testing.T) {
 	rules := []string{"!3^", "1^"}
 	koan := "1^SG"
@@ -57,11 +56,4 @@ func TestSimplestKoanWithSimplestRule(t *testing.T) {
 	rule := "1^"
 	koan := "1^SG"
 	verify(rule, koan, t)
-}
-
-func verify(rule string, koan string, t *testing.T) {
-	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
-	if !zen {
-		t.Errorf(koan + " should fulfill rule " + rule)
-	}
 }

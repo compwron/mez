@@ -17,6 +17,11 @@ How to run tests and see coverage percentage:
 go tool cover -html=coverage.out
 ````
 
+Run just one test:
+````
+go test -run <testname>
+````
+
 Game flow:
 A player sets the rule with two koans (one true, one false) (POST /game {"rule": "1^", "true":"1^SG", "false":"1>SG"})
 Other players submit koans (POST /game/koan {"koan":"1>SG"})

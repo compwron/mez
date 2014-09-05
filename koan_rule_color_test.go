@@ -14,8 +14,7 @@ func TestAllPiecesMustBeSameColorFailWithMultiColorKoan(t *testing.T) {
 func TestNegativeAllPiecesMustBeSameColorPass(t *testing.T) {}
 func TestNegativeAllPiecesMustBeSameColorFail(t *testing.T) {}
 
-// Color rule
-func TestAllPiecesMustBeSameColorPass(t *testing.T) {
+func TestAllPiecesMustBeSameColorPassSimple(t *testing.T) {
 	rule := "G" // All pieces must be green
 	koan := "1^SG"
 	verify(rule, koan, t)

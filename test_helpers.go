@@ -9,6 +9,13 @@ import (
 	"testing"
 )
 
+func verify(rule string, koan string, t *testing.T) {
+	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
+	if !zen {
+		t.Errorf(koan + " should fulfill rule " + rule)
+	}
+}
+
 // assert fails the test if the condition is false.
 func assert(tb testing.TB, condition bool, msg string, v ...interface{}) {
 	if !condition {
