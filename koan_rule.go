@@ -11,8 +11,8 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
 	for _, description := range rule.ruleDescriptions {
 		koanPieces := strings.Split(koan, "")
-		invalidKoan, koanPieceCount := koanCountValidity(koanPieces)
-		if invalidKoan {
+		koanPieceCount, err := koanCount(koanPieces)
+		if err != nil {
 			return false
 		}
 
@@ -34,15 +34,8 @@ func countInRulePiece(ruleCharacters []string) (bool, int) {
 	return false, intOf(ruleCharacters[0])
 }
 
-func koanCountValidity(koanCharacters []string) (bool, int) {
-	invalidKoan := false
-	if koanCharacters[0] == "!" {
-		invalidKoan = true
-	}
-
-	koanPieceCount := intOf(koanCharacters[0])
-
-	return invalidKoan, koanPieceCount
+func koanCount(koanCharacters []string) (int, error) {
+	return strconv.Atoi(koanCharacters[0])
 }
 
 func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, isNegativeRule bool) bool {
