@@ -58,6 +58,10 @@ func ruleContains(rulePieces []string, ruleType string) bool {
 				return true
 			}
 		}
+		if colorOf(rulePieces) != "none" {
+			// for rule "G" instead of "1G"
+			return true
+		}
 		return false
 	default:
 		return false
