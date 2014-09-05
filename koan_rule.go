@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-var validColors = [3]string{"B", "G", "R"}
+var validColors = [3]string{"B", "G", "R"} // blue green red
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
@@ -19,10 +19,9 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		rulePieces := strings.Split(description, "")
 		isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 
-		// We could get performance gains by only running rules until something comes back false, but wait to optimize until optimization is needed.
+		// Get performance gains by only running rules until something comes back false
 		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
 		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
-
 	}
 	return allRulesAreValid
 }
@@ -42,11 +41,11 @@ func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rul
 	// if rule is a not, check that koanCount is anything other than ruleCount
 	if isNegativeRule {
 		if koanPieceCount == rulePieceCount {
-			allRulesAreValid = false
+			return false
 		}
 	} else {
 		if !(koanPieceCount >= rulePieceCount) {
-			allRulesAreValid = false
+			return false
 		}
 	}
 	return allRulesAreValid

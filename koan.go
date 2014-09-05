@@ -25,7 +25,7 @@ func AddKoan(newKoan string) {
 }
 
 func AddFullKoan(koan Koan) {
-
+	Koans = append(Koans, koan)
 }
 
 func AddKoanWithOutcome(newKoan string, outcome bool) {
