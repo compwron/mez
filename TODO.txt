@@ -1,3 +1,7 @@
+Odd behavior:
+panic caused by `curl --data '{"koan"guess":"!3^"}' localhost:3000/game/guess'`
+
+
 Rules to make work
 
 DONE Number of pieces in rule is satisfied

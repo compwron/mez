@@ -5,18 +5,26 @@ import (
 	"strings"
 )
 
-var ValidColors = [3]string{"B", "G", "R"}
+var validColors = [3]string{"B", "G", "R"}
 
-// var ValidSize []string = ["S", "M", "L"]
-
-func remove(data []string, item string) []string {
-	newData := make([]string, len(data)-1)
-	for i := 0; i < len(data); i++ {
-		if data[i] != item {
-			newData = append(newData, data[i])
+func DoesKoanFulfillRule(rule Rule, koan string) bool {
+	allRulesAreValid := true
+	for i := 0; i < len(rule.ruleDescriptions); i++ {
+		koanPieces := strings.Split(koan, "")
+		invalidKoan, koanPieceCount := koanCountValidity(koanPieces)
+		if invalidKoan {
+			return false
 		}
+
+		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
+		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
+
+		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
+		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
+		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
+
 	}
-	return newData
+	return allRulesAreValid
 }
 
 func analyzeSingleRule(ruleCharacters []string) (bool, int) {
@@ -57,7 +65,7 @@ func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rul
 
 func ruleColor(rulePieces []string) string {
 	for _, piece := range rulePieces {
-		for _, color := range ValidColors {
+		for _, color := range validColors {
 			if piece == color {
 				return color
 			}
@@ -73,7 +81,7 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 	ruleColor := ruleColor(rulePieces)
 	if ruleColor != "none" {
 		for _, koanPiece := range koanPieces {
-			for _, color := range ValidColors {
+			for _, color := range validColors {
 				if koanPiece == color {
 					if koanPiece != ruleColor {
 						return false
@@ -83,26 +91,6 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 			}
 		}
 		return false // koan must have color to be valid
-	}
-	return allRulesAreValid
-}
-
-func DoesKoanFulfillRule(rule Rule, koan string) bool {
-	allRulesAreValid := true
-	for i := 0; i < len(rule.ruleDescriptions); i++ {
-		koanPieces := strings.Split(koan, "")
-		invalidKoan, koanPieceCount := koanCountValidity(koanPieces)
-		if invalidKoan {
-			return false
-		}
-
-		rulePieces := strings.Split(rule.ruleDescriptions[i], "")
-		ruleNot, rulePieceCount := analyzeSingleRule(rulePieces)
-
-		// We could get performance gains by only running rules until something comes back false, but wait until optimization is needed.
-		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, ruleNot)
-		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
-
 	}
 	return allRulesAreValid
 }

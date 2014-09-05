@@ -4,26 +4,6 @@ import (
 	"testing"
 )
 
-// Color rule
-func TestAllPiecesMustBeSameColorPass(t *testing.T) {
-	rule := "G" // All pieces must be green
-	koan := "1^SG"
-	verify(rule, koan, t)
-}
-
-func TestAllPiecesMustBeSameColorFail(t *testing.T) {
-	rule := "G"
-	koan := "1^SB"
-	falsify(rule, koan, t)
-}
-
-func TestAllPiecesMustBeSameColorPassWithMultiColorKoan(t *testing.T) {
-	rule := "G"
-	multiColorKoan := "1^SG,1^SG"
-	verify(rule, multiColorKoan, t)
-}
-
-
 // Count rule
 func TestOneOrMoreButNotThreePieces(t *testing.T) {
 	rules := []string{"!3^", "1^"}
@@ -83,28 +63,5 @@ func verify(rule string, koan string, t *testing.T) {
 	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if !zen {
 		t.Errorf(koan + " should fulfill rule " + rule)
-	}
-}
-
-func falsify(rule string, koan string, t *testing.T) {
-	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
-	if zen {
-		t.Errorf(koan + " should NOT fulfill rule " + rule)
-	}
-}
-
-func verifyMultiRule(rules []string, koan string, t *testing.T) {
-	multiRule(true, rules, koan, t)
-}
-
-func falsifyPartOfMultiRule(rules []string, koan string, t *testing.T) {
-	multiRule(false, rules, koan, t)
-}
-
-func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
-	zen := DoesKoanFulfillRule(Rule{rules}, koan)
-	if zen != shouldPass {
-		// TODO rephrase this error for negative case; it is confusing.
-		t.Errorf(koan + " should not fulfill rule ")
 	}
 }

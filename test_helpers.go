@@ -35,3 +35,26 @@ func equals(tb testing.TB, exp, act interface{}) {
 		tb.FailNow()
 	}
 }
+
+func falsify(rule string, koan string, t *testing.T) {
+	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
+	if zen {
+		t.Errorf(koan + " should NOT fulfill rule " + rule)
+	}
+}
+
+func verifyMultiRule(rules []string, koan string, t *testing.T) {
+	multiRule(true, rules, koan, t)
+}
+
+func falsifyPartOfMultiRule(rules []string, koan string, t *testing.T) {
+	multiRule(false, rules, koan, t)
+}
+
+func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
+	zen := DoesKoanFulfillRule(Rule{rules}, koan)
+	if zen != shouldPass {
+		// TODO rephrase this error for negative case; it is confusing.
+		t.Errorf(koan + " should not fulfill rule ")
+	}
+}
