@@ -8,7 +8,7 @@ import (
 func TestAllPiecesMustBeSameColorFailWithMultiColorKoan(t *testing.T) {
 	rule := "G"
 	multiColorKoan := "1^SB,1^SG"
-	verify(rule, multiColorKoan, t)
+	falsify(rule, multiColorKoan, t)
 }
 
 func TestNegativeAllPiecesMustBeSameColorPass(t *testing.T) {}
