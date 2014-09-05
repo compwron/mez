@@ -22,7 +22,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 		// Get performance gains by only running rules until something comes back false
 		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
-		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
+		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
 	}
 	return allRulesAreValid
 }
@@ -66,6 +66,10 @@ func colorOf(pieces []string) string {
 func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
 	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
 	ruleColor := colorOf(rulePieces)
+	if ruleColor == "none" {
+		return allRulesAreValid
+	}
+
 	koanPieceColor := colorOf(koanPieces)
 	
 	if koanPieceColor != ruleColor {

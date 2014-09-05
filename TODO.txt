@@ -1,6 +1,8 @@
 Odd behavior:
 panic caused by `curl --data '{"koan"guess":"!3^"}' localhost:3000/game/guess'`
 
+Need better names around koan pieces (different ice house pieces vs split descriptions of one ice house piece)
+
 
 Rules to make work
 
