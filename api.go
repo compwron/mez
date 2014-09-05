@@ -28,7 +28,7 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
 	} else {
-		if reflect.DeepEqual(CurrentRule.ruleDescriptions, OriginalRule.ruleDescriptions) {
+		if ruleIsSettable() {
 			submittedRule := ParseRule(parsed)
 
 			if (parsed["true"] == nil) || (parsed["false"] == nil) {
@@ -53,6 +53,10 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+}
+
+func ruleIsSettable() bool {
+	return reflect.DeepEqual(CurrentRule.ruleDescriptions, OriginalRule.ruleDescriptions)
 }
 
 func CreateKoan() http.HandlerFunc {
