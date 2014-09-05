@@ -4,6 +4,8 @@ panic caused by `curl --data '{"koan"guess":"!3^"}' localhost:3000/game/guess'`
 Need better names around koan pieces (different ice house pieces vs split descriptions of one ice house piece)
 
 
+make things that are []char not be stored as []string
+
 Rules to make work
 
 DONE Number of pieces in rule is satisfied

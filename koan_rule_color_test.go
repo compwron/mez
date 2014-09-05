@@ -4,7 +4,9 @@ import (
 	"testing"
 )
 
-// * "!G" No pieces may be green
+func TestNoPiecesMayBeGreen(t *testing.T) {
+	// TODO
+}
 
 func TestExcludeCertainNumberOfCertainColorPiecesFail(t *testing.T) {
 	rule := "!2G"
@@ -54,13 +56,13 @@ func TestTwoPiecesMustBeGreenWithMultiPieceKoanBackwardsOrderFail(t *testing.T) 
 	falsify(rule, koan, t)
 }
 
-func TestNegativeColorRulePass(t *testing.T) {
+func TestNegativeSingleColorRulePass(t *testing.T) {
 	rule := "!1G"
 	koan := "1^SR"
 	verify(rule, koan, t)
 }
 
-func TestNegativeColorRuleFail(t *testing.T) {
+func TestNegativeSingleColorRuleFail(t *testing.T) {
 	rule := "!1G"
 	koan := "1^SG"
 	falsify(rule, koan, t)
