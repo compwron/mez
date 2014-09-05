@@ -65,3 +65,15 @@ func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
 		t.Errorf(koan + " should not fulfill rule ")
 	}
 }
+
+func verifyValidRule(rule string, t *testing.T) {
+	if !validRule(Rule{[]string{rule}}) {
+		t.Errorf("is NOT a valid rule")
+	}
+}
+
+func falsifyValidRule(rule string, t *testing.T) {
+	if validRule(Rule{[]string{rule}}) {
+		t.Errorf("is a valid rule but should not be")
+	}
+}

@@ -50,7 +50,5 @@ Colors:
 * "2G" At least two pieces must be green
 * "!G" No pieces may be green
 * "!2G" One or three etc pieces may be green, but not two pieces. 
-
 * "GR" Nonsensical rule 
 * "G,R" At least one piece must be green. At least one piece must be red. No single-piece koans will be true.
-

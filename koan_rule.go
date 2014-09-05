@@ -8,7 +8,15 @@ import (
 
 var validColors = [3]string{"B", "G", "R"} // blue green red
 
+func validRule(rule Rule) bool {
+	return true
+}
+
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
+	if !validRule(rule) {
+		return false
+	}
+
 	allRulesAreValid := true
 	for _, description := range rule.ruleDescriptions {
 		koanPieces := strings.Split(koan, "")
@@ -20,11 +28,29 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		rulePieces := strings.Split(description, "")
 		isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 
-		// Get performance gains by only running rules until something comes back false
-		allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
-		allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
+		if ruleContains(rulePieces, "count") {
+			allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
+		}
+		if ruleContains(rulePieces, "color") {
+			allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
+		}
+		if allRulesAreValid == false {
+			// for performance
+			return allRulesAreValid
+		}
 	}
 	return allRulesAreValid
+}
+
+func ruleContains(rulePieces []string, ruleType string) bool {
+	switch ruleType {
+	case "count":
+		return true
+	case "color":
+		return true
+	default:
+		return false
+	}
 }
 
 func countInRulePiece(ruleCharacters []string) (bool, int) {
@@ -41,6 +67,7 @@ func koanCount(koanCharacters []string) (int, error) {
 func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, isNegativeRule bool) bool {
 	// if rule is a not, check that koanCount is anything other than ruleCount
 	if isNegativeRule {
+		// how do you handle a negative rule without color?
 		if koanPieceCount == rulePieceCount {
 			return false
 		}
@@ -71,7 +98,7 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 	}
 
 	koanPieceColor := colorOf(koanPieces)
-	
+
 	if koanPieceColor != ruleColor {
 		return false
 	}
