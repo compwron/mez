@@ -79,11 +79,8 @@ func acceptKoan(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte("Bad input"))
 	}
-	if doesKoanFulfillRule {
-		w.Write([]byte("true"))
-	} else {
-		w.Write([]byte("false"))
-	}
+
+	w.Write([]byte(strconv.FormatBool(doesKoanFulfillRule)))
 }
 
 func GuessRule() http.HandlerFunc {

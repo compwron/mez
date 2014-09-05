@@ -14,6 +14,34 @@ func body(res *http.Response) string {
 	return string(dataBuf)
 }
 
+func TestCreateKoanValid(t *testing.T) {
+	handler := CreateKoan()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"koan\":\"1>SG\"}")))
+	defer res.Body.Close()
+
+	data := body(res)
+	if !(data == "true") {
+		t.Errorf("should return true. Actually got: " + data)
+	}
+}
+
+func TestCreateKoanInvalid(t *testing.T) {
+	handler := CreateKoan()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"koan\":\"0>SG\"}")))
+	defer res.Body.Close()
+
+	data := body(res)
+	if !(data == "false") {
+		t.Errorf("should return false. Actually got: " + data)
+	}
+}
+
 func TestGuessRuleGet(t *testing.T) {
 	handler := GuessRule()
 	server := httptest.NewServer(handler)
