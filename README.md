@@ -1,4 +1,4 @@
-This is intended to grow into an implementation of the game Zendo playable via GET and POST requests and hosted on a central server. So far only two simple types of rules (color and count) have been implemented. 
+This is intended to grow into an implementation of the [game Zendo](https://en.wikipedia.org/wiki/Zendo_(game)) playable via GET and POST requests and hosted on a central server. So far only two simple types of rules (color and count) have been implemented. 
 
 Pull requests are welcome, along with other suggestions. I do not claim to be fluent in golang. 
 
@@ -6,7 +6,7 @@ Pull requests are welcome, along with other suggestions. I do not claim to be fl
 
 To play with an existing game server:
 ````
-fill this in
+fill this in 
 ````
 
 To run the game server locally:
