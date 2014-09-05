@@ -27,7 +27,7 @@ it contains at least two pieces that are touching each other.
 
 
 TODO
-Verify koan syntax when koan is sent
+Verify koan syntax when koan is sent (add verification step somewhere to make all koans have colors)
 Make all beginning rules work http://www.koryheath.com/zendo/rules-for-beginners/
 Deploy to heroku
 When at least two of the beginning rules work, grit my teeth and let someone playtest it
