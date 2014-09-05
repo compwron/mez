@@ -1,8 +1,15 @@
-This is supposed to be a game, played via GET and POST requests. 
+This is intended to grow into an implementation of the game Zendo playable via GET and POST requests and hosted on a central server. So far only two simple types of rules (color and count) have been implemented. 
+
+Pull requests are welcome, along with other suggestions. I do not claim to be fluent in golang. 
 
 [![Build Status](https://travis-ci.org/compwron/mez.svg)](https://travis-ci.org/compwron/mez)
 
-To run locally:
+To play with an existing game server:
+````
+fill this in
+````
+
+To run the game server locally:
 
 ````
 export GOHOME=<your go home path>
@@ -12,23 +19,7 @@ go install
 ./../../bin/mez
 ````
 
-Development:
 
-How to run tests and see coverage percentage:
-````
-go tool cover -html=coverage.out
-````
-
-Run just one test:
-````
-go test -run <testname>  # <- actually this is a regex running against test names
-````
-
-Before pushing code:
-````
-go fmt 
-go test 
-````
 
 Game flow:
 ====
@@ -53,6 +44,24 @@ Colors:
 * "GR" Nonsensical rule 
 * "G,R" At least one piece must be green. At least one piece must be red. No single-piece koans will be true.
 
+Development:
+====
+
+How to run tests and see coverage percentage:
+````
+go tool cover -html=coverage.out
+````
+
+Run just one test:
+````
+go test -run <testname>  # <- actually this is a regex running against test names
+````
+
+Before pushing code:
+````
+go fmt 
+go test 
+````
 
 Internal Koan nomenclature: (for development, not for playing the game)
 ====
