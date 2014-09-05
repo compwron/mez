@@ -9,34 +9,15 @@ import (
 	"testing"
 )
 
-func body(res *http.Response) string {
-	dataBuf, _ := ioutil.ReadAll(res.Body)
-	return string(dataBuf)
-}
-
 func TestCreateKoanValid(t *testing.T) {
-	handler := CreateKoan()
-	server := httptest.NewServer(handler)
-	defer server.Close()
-
-	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"koan\":\"1>SG\"}")))
-	defer res.Body.Close()
-
-	data := body(res)
+	data := createKoanBody("{\"koan\":\"1>SG\"}")
 	if !(data == "true") {
 		t.Errorf("should return true. Actually got: " + data)
 	}
 }
 
 func TestCreateKoanInvalid(t *testing.T) {
-	handler := CreateKoan()
-	server := httptest.NewServer(handler)
-	defer server.Close()
-
-	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"koan\":\"0>SG\"}")))
-	defer res.Body.Close()
-
-	data := body(res)
+	data := createKoanBody("{\"koan\":\"0>SG\"}")
 	if !(data == "false") {
 		t.Errorf("should return false. Actually got: " + data)
 	}
@@ -135,6 +116,22 @@ func TestNonValidGamePost(t *testing.T) {
 	if !strings.Contains(data, "Koans do not fulfull rule") {
 		t.Errorf("rule should NOT be valid", data)
 	}
+}
+
+func body(res *http.Response) string {
+	dataBuf, _ := ioutil.ReadAll(res.Body)
+	return string(dataBuf)
+}
+
+func createKoanBody(escapedKoanString string) string {
+	handler := CreateKoan()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(escapedKoanString)))
+	defer res.Body.Close()
+
+	return body(res)
 }
 
 // test setting rule twice

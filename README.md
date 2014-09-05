@@ -6,7 +6,7 @@ Pull requests are welcome, along with other suggestions. I do not claim to be fl
 
 To play with an existing game server:
 ````
-fill this in 
+fill this in with commandline curl stuff
 ````
 
 To run the game server locally:
