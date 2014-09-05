@@ -9,9 +9,14 @@ func TestTrueSimpleRuleValidity(t *testing.T) {
 	verifyValidRule(rule, t)
 }
 
-func TestTrueSimpleRuleNonValidity(t *testing.T) {
-	rule := "FOOBARBAZTHING1234!!"
+func TestEmptyRuleNonValidity(t *testing.T) {
+	rule := ""
 	falsifyValidRule(rule, t)
 }
 
-// test fancy complicated rule validity too
+func TestNonsenseRuleNonValidity(t *testing.T) {
+	rule := "FOO"
+	falsifyValidRule(rule, t)
+}
+
+// test fancy complicated rule validity also

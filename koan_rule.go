@@ -7,8 +7,23 @@ import (
 )
 
 var validColors = [3]string{"B", "G", "R"} // blue green red
+var ruleTypes = [2]string{"count", "color"}
 
 func validRule(rule Rule) bool {
+	// rule must be a color or count (or both) rule (more rules coming soon)
+		for _, ruleChunk := range rule.ruleDescriptions {
+			hasValidRuleType := false
+			for _, ruleType := range ruleTypes {
+				if ruleContains(strings.Split(ruleChunk, ""), ruleType){
+					hasValidRuleType = true
+				}
+			}
+
+			// All rule chunks must have a valid rule type
+			if hasValidRuleType != true {
+				return false
+			}
+		}
 	return true
 }
 
