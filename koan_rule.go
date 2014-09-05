@@ -51,8 +51,8 @@ func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rul
 	return allRulesAreValid
 }
 
-func ruleColor(rulePieces []string) string {
-	for _, piece := range rulePieces {
+func colorOf(pieces []string) string {
+	for _, piece := range pieces {
 		for _, color := range validColors {
 			if piece == color {
 				return color
@@ -66,7 +66,7 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 	// check for multiple colors in rules&koans? Or do rule validation elsewhere?
 
 	// Nesting is bad and I should feel bad.
-	ruleColor := ruleColor(rulePieces)
+	ruleColor := colorOf(rulePieces)
 	if ruleColor != "none" {
 		for _, koanPiece := range koanPieces {
 			for _, color := range validColors {
