@@ -46,10 +46,12 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 				AddFullKoan(falseKoan)
 				CurrentRule = submittedRule
 				w.Write([]byte("true"))
+				return
 			} else {
 				w.Write([]byte("Koans do not fulfull rule; game not started.\n"))
 				w.Write([]byte("\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk)))
 				w.Write([]byte("\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk)))
+				return
 			}
 		}
 	}
