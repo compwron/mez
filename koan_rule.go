@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -29,9 +29,11 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		isNegativeRule, rulePieceCount := countInRulePiece(rulePieces)
 
 		if ruleContains(rulePieces, "count") {
+			fmt.Println("is a count rule")
 			allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
 		}
 		if ruleContains(rulePieces, "color") {
+			fmt.Println("is a COLOR rule")
 			allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces) // need loop per koans
 		}
 		if allRulesAreValid == false {
@@ -45,12 +47,27 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 func ruleContains(rulePieces []string, ruleType string) bool {
 	switch ruleType {
 	case "count":
-		return true
+		for i, rulePiece := range rulePieces {
+			if intOf(rulePiece) != 0 && !nextPieceIsAColor(rulePieces, i) {
+				return true
+			}
+		}
+		return false
 	case "color":
 		return true
 	default:
 		return false
 	}
+}
+
+func nextPieceIsAColor(rulePieces []string, currentIndex int) bool {
+	// TODO make this shorter but still clear
+
+	colorOfNextPiece := colorOf(strings.Split(rulePieces[currentIndex + 1], ""))
+	if colorOfNextPiece != "none" {
+		return true
+	}
+	return false
 }
 
 func countInRulePiece(ruleCharacters []string) (bool, int) {
