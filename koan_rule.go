@@ -67,18 +67,12 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 
 	// Nesting is bad and I should feel bad.
 	ruleColor := colorOf(rulePieces)
-	if ruleColor != "none" {
-		for _, koanPiece := range koanPieces {
-			for _, color := range validColors {
-				if koanPiece == color {
-					if koanPiece != ruleColor {
-						return false
-					}
-					return allRulesAreValid
-				}
-			}
+	for _, koanPiece := range koanPieces {
+		koanPieceColor := colorOf(strings.Split(koanPiece, ""))
+		if koanPieceColor != ruleColor {
+			return false
 		}
-		return false // koan must have color to be valid
+		return allRulesAreValid
 	}
 	return allRulesAreValid
 }
