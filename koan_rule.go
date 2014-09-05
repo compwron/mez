@@ -30,8 +30,6 @@ func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koanCh
 		koanColor := colorOf(strings.Split(koanChunk, ""))
 		colorsOfKoanChunks[koanColor] += 1
 	}
-	fmt.Println(colorsOfKoanChunks)
-
 	return colorsOfKoanChunks[ruleColor] == diallowedColorCount
 }
 
@@ -71,11 +69,13 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 		// if rule is a negative COUNT of color rule, must evaluate against all koans
 		if isColorRule && isNegativeRule(rulePieces) {
-			if koanHasDisallowedNumberOf(colorOf(rulePieces), diallowedColorCount(rulePieces), koanChunks) {
+			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(rulePieces), diallowedColorCount(rulePieces), koanChunks) 
+			if koanHasDisallowedNumberOfColor {
 				return false
 			}
 			// else continue to checking other things
 		}
+		fmt.Println("did ok, continuing")
 
 		for _, koanChunk := range koanChunks {
 			koanPieces := strings.Split(koanChunk, "")
