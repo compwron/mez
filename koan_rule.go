@@ -10,50 +10,6 @@ var validColors = [3]string{"B", "G", "R"} // blue green red
 
 var ruleTypes = [2]string{"count", "color"} // more coming soon
 
-func isNegativeRule(rulePieces []string) bool {
-	return rulePieces[0] == "!"
-}
-
-func initializeEmptyColorCount() map[string]int {
-	colorsOfKoanChunks := map[string]int{}
-	for _, validColor := range validColors {
-		colorsOfKoanChunks[validColor] = 0
-	}
-
-	return colorsOfKoanChunks
-}
-
-func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koanChunks []string) bool {
-	colorsOfKoanChunks := initializeEmptyColorCount()
-
-	for _, koanChunk := range koanChunks {
-		koanColor := colorOf(strings.Split(koanChunk, ""))
-		colorsOfKoanChunks[koanColor] += 1
-	}
-	return colorsOfKoanChunks[ruleColor] == diallowedColorCount
-}
-
-func diallowedColorCount(rulePieces []string) int {
-	for i, rulePiece := range rulePieces {
-		if isValidColor(rulePiece) {
-			numberOfColor := intOf(rulePieces[i-1])
-			if numberOfColor != 0 {
-				return numberOfColor
-			}
-		}
-	}
-	return 1 // "!G" is the same of "!1G"
-}
-
-func isValidColor(c string) bool {
-	for _, color := range validColors {
-		if color == c {
-			return true
-		}
-	}
-	return false
-}
-
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !validRule(rule) {
 		return false
@@ -112,6 +68,50 @@ func validRule(rule Rule) bool {
 		}
 	}
 	return true
+}
+
+func isNegativeRule(rulePieces []string) bool {
+	return rulePieces[0] == "!"
+}
+
+func initializeEmptyColorCount() map[string]int {
+	colorsOfKoanChunks := map[string]int{}
+	for _, validColor := range validColors {
+		colorsOfKoanChunks[validColor] = 0
+	}
+
+	return colorsOfKoanChunks
+}
+
+func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koanChunks []string) bool {
+	colorsOfKoanChunks := initializeEmptyColorCount()
+
+	for _, koanChunk := range koanChunks {
+		koanColor := colorOf(strings.Split(koanChunk, ""))
+		colorsOfKoanChunks[koanColor] += 1
+	}
+	return colorsOfKoanChunks[ruleColor] == diallowedColorCount
+}
+
+func diallowedColorCount(rulePieces []string) int {
+	for i, rulePiece := range rulePieces {
+		if isValidColor(rulePiece) {
+			numberOfColor := intOf(rulePieces[i-1])
+			if numberOfColor != 0 {
+				return numberOfColor
+			}
+		}
+	}
+	return 1 // "!G" is the same of "!1G"
+}
+
+func isValidColor(c string) bool {
+	for _, color := range validColors {
+		if color == c {
+			return true
+		}
+	}
+	return false
 }
 
 func ruleContains(rulePieces []string, ruleType string) bool {
