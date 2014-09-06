@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"strconv"
 	"strings"
 )
@@ -69,13 +69,12 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 		// if rule is a negative COUNT of color rule, must evaluate against all koans
 		if isColorRule && isNegativeRule(rulePieces) {
-			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(rulePieces), diallowedColorCount(rulePieces), koanChunks) 
+			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(rulePieces), diallowedColorCount(rulePieces), koanChunks)
 			if koanHasDisallowedNumberOfColor {
 				return false
 			}
 			// else continue to checking other things
 		}
-		fmt.Println("did ok, continuing")
 
 		for _, koanChunk := range koanChunks {
 			koanPieces := strings.Split(koanChunk, "")
@@ -195,16 +194,10 @@ func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, ko
 
 	colorsMatch := koanPieceColor == ruleColor
 
-	if isNegativeColorRule(rulePieces) {
-		return !colorsMatch
-	} else if !colorsMatch {
+	if !colorsMatch && !isNegativeRule(rulePieces) { // because negative rules have been previously handled
 		return false
 	}
 	return allRulesAreValid
-}
-
-func isNegativeColorRule(rulePieces []string) bool {
-	return rulePieces[0] == "!"
 }
 
 func intOf(char string) int {
