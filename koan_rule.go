@@ -185,7 +185,7 @@ func colorOf(pieces []string) string {
 }
 
 func evaluatePiecesColorTypeRules(allRulesAreValid bool, rulePieces []string, koanPieces []string) bool {
-	//  fix somewhere in here... 
+	//  fix somewhere in here...
 	// 1 color must be in at least 1 koan, not in all koans.
 
 	ruleColor := colorOf(rulePieces)
