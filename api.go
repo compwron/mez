@@ -18,7 +18,7 @@ func Game() http.HandlerFunc {
 		case "POST":
 			createGame(w, r)
 		default:
-			w.Write([]byte("not supported"))
+			w.Write([]byte("not supported\n"))
 		}
 	}
 }
@@ -32,7 +32,7 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 			submittedRule := ParseRule(parsed)
 
 			if (parsed["true"] == nil) || (parsed["false"] == nil) {
-				w.Write([]byte("need true koan and false koan"))
+				w.Write([]byte("need true koan and false koan\n"))
 				return
 			}
 
@@ -49,8 +49,8 @@ func createGame(w http.ResponseWriter, r *http.Request) {
 				return
 			} else {
 				w.Write([]byte("Koans do not fulfull rule; game not started.\n"))
-				w.Write([]byte("\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk)))
-				w.Write([]byte("\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk)))
+				w.Write([]byte("\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk) + "\n"))
+				w.Write([]byte("\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk) + "\n"))
 				return
 			}
 		}
@@ -67,7 +67,7 @@ func CreateKoan() http.HandlerFunc {
 		case "POST":
 			acceptKoan(w, r)
 		default:
-			w.Write([]byte("not supported"))
+			w.Write([]byte("not supported\n"))
 		}
 	}
 }
@@ -89,7 +89,7 @@ func GuessRule() http.HandlerFunc {
 		case "POST":
 			guessRule(w, r)
 		default:
-			w.Write([]byte("not supported"))
+			w.Write([]byte("not supported\n"))
 		}
 	}
 }
@@ -98,18 +98,18 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 	// if rule matches, end game
 	ruleGuessHash, err := Parse(r.Body)
 	if err != nil {
-		w.Write([]byte("Can't get rule from response"))
+		w.Write([]byte("Can't get rule from response\n"))
 	}
 
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
 
-		w.Write([]byte("true"))
+		w.Write([]byte("true\n"))
 
 		//  reset rule and koans list
 		CurrentRule = OriginalRule
 		Koans = nil
 	} else {
-		w.Write([]byte("false guess"))
+		w.Write([]byte("false guess\n"))
 	}
 }

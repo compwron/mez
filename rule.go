@@ -11,9 +11,9 @@ type Rule struct {
 func RuleSummary() string {
 	same := (len(CurrentRule.ruleDescriptions) == 1) && (CurrentRule.ruleDescriptions[0] == OriginalRule.ruleDescriptions[0])
 	if same {
-		return "current rule is original rule"
+		return "current rule is original rule\n"
 	} else {
-		return "current rule is not original rule"
+		return "current rule is not original rule\n"
 	}
 }
 
