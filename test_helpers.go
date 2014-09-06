@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"strconv"
 	"testing"
 )
 
@@ -59,11 +60,20 @@ func falsifyPartOfMultiRule(rules []string, koan string, t *testing.T) {
 }
 
 func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
-	zen := DoesKoanFulfillRule(Rule{rules}, koan)
+	rule := Rule{rules}
+	zen := DoesKoanFulfillRule(rule, koan)
 	if zen != shouldPass {
 		// TODO rephrase this error for negative case; it is confusing.
-		t.Errorf(koan + " should not fulfill rule ")
+		t.Errorf((koan + " should be " + strconv.FormatBool(shouldPass) + " for rule " + stringRule(rule)))
 	}
+}
+
+func stringRule(rule Rule) string {
+	all := ""
+	for _, d := range rule.ruleDescriptions {
+		all += "," + d
+	}
+	return all
 }
 
 func verifyValidRule(rule string, t *testing.T) {

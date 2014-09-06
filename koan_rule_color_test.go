@@ -8,6 +8,12 @@ func TestNoPiecesMayBeGreen(t *testing.T) {
 	// TODO
 }
 
+func TestTwoColorsInTwoRuleChunks(t *testing.T) {
+	rules := []string{"1G", "1R"}
+	koan := "1^SG,1^SR"
+	verifyMultiRule(rules, koan, t)
+}
+
 func TestExcludeCertainNumberOfCertainColorPiecesFail(t *testing.T) {
 	rule := "!2G"
 	koan := "1^SG,1^SG"
