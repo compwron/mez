@@ -49,6 +49,7 @@ Development:
 
 How to run tests and see coverage percentage:
 ````
+go test -coverprofile=coverage.out 
 go tool cover -html=coverage.out
 ````
 
