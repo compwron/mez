@@ -4,8 +4,12 @@ import (
 	"testing"
 )
 
-func TestNoPiecesMayBeGreen(t *testing.T) {
-	// TODO
+func TestNoPiecesMayBeGreenKoan(t *testing.T) {
+	rule := "!G"
+	trueKoan := "2^LR,1^SY"
+	falseKoan := "1^LG,2^MR"
+	verify(rule, trueKoan, t)
+	falsify(rule, falseKoan, t)
 }
 
 func TestTwoColorsInTwoRuleChunks(t *testing.T) {
