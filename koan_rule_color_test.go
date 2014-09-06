@@ -8,12 +8,17 @@ func TestNoPiecesMayBeGreen(t *testing.T) {
 	// TODO
 }
 
-func TestTwoColorsInTwoRuleChunks(t *testing.T) {
+func TestTwoColorsInTwoRuleChunksWithOneColorEach(t *testing.T) {
 	rules := []string{"1G", "1R"}
 	koan := "1^SG,1^SR"
 	verifyMultiRule(rules, koan, t)
 }
 
+func TestTwoColorsInTwoRuleChunksWithOneColorRequiringTwoKoanPiecesOfItsColor(t *testing.T) {
+	rules := []string{"2G", "1R"}
+	koan := "2^SG,1^SR"
+	verifyMultiRule(rules, koan, t)
+}
 
 func TestTwoPiecesMustBeGreenWithMultiPieceKoanBackwardsOrderFail(t *testing.T) {
 	rule := "2G"
@@ -21,8 +26,11 @@ func TestTwoPiecesMustBeGreenWithMultiPieceKoanBackwardsOrderFail(t *testing.T) 
 	falsify(rule, koan, t)
 }
 
-// how can one but not both of the two above tests not pass?
-// ===========
+func TestTwoPiecesMustBeGreenWithMultiPieceKoanBackwardsOrderPass(t *testing.T) {
+	rule := "2G"
+	koan := "1^SG,1^SG"
+	verify(rule, koan, t)
+}
 
 func TestExcludeCertainNumberOfCertainColorPiecesFail(t *testing.T) {
 	rule := "!2G"

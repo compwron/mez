@@ -36,6 +36,9 @@ Make all beginning rules work http://www.koryheath.com/zendo/rules-for-beginners
 Deploy to heroku
 When at least two of the beginning rules work, grit my teeth and let someone playtest it
 Save past games to file
+Make chars chars instead of strings
 
 MAYBE?
 Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
+
+get rid of all calls to (strings.Split(koanChunk, "") for colorOf. DRY
