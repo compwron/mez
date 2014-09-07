@@ -2,6 +2,8 @@ package main
 
 import (
 	"strings"
+	"reflect"
+	"fmt"
 )
 
 type Rule struct {
@@ -22,6 +24,14 @@ func ParseRule(data map[string]interface{}) Rule {
 	return Rule{strings.Split(newRule, ",")}
 }
 
+func UnparseRuleDescriptions(ruleDescriptions []string) string {
+	return strings.Join(ruleDescriptions, ",")
+}
+
 func ruleMatches(guess string) bool {
-	return true
+	println("ZMD DEBUG A")
+	println(guess)
+	fmt.Println(reflect.TypeOf(guess))
+	println(UnparseRuleDescriptions(CurrentRule.ruleDescriptions))
+	return guess == UnparseRuleDescriptions(CurrentRule.ruleDescriptions)
 }

@@ -117,6 +117,42 @@ func TestNonValidGamePost(t *testing.T) {
 	}
 }
 
+func TestCorrectGuess(t *testing.T) {
+	handler := GuessRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	correctGuess := fmt.Sprintf("{\"rule\": \"%s\"}", CurrentRule)
+
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(correctGuess)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if err != nil {
+	 	t.Errorf("Should not get error when submitting correct guess")
+	}
+
+	 if !strings.Contains(data, "Victory") {
+	 	t.Errorf("correct guess should prompt victory message", data)
+	 }
+}
+
+func TestIncorrectGuess(t *testing.T) {
+	handler := GuessRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	incorrectGuess := "{\"rule\": \"What is Toronto????\"}"
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(incorrectGuess)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if !strings.Contains(data, "incorrect guess") {
+	 	t.Errorf("incorrect guess should prompt corresponding message", data)
+	}
+}
+
 func body(res *http.Response) string {
 	dataBuf, _ := ioutil.ReadAll(res.Body)
 	return string(dataBuf)
