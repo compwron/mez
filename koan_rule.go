@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	// "fmt"
 	"strconv"
 	"strings"
 )
@@ -36,30 +36,25 @@ func countOfColor(koanChunk string, ruleColor string) int {
 	return 0
 }
 
-func allColorRulesAreValid(rule Rule, koanChunks []string) bool {
+func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
 
-	hasColorRules, colorRules := multipleColorRules(rule)
 	allColorRulesFulfilled := true
+	for _, ruleChunk := range colorRules {
+		ruleColor := colorOf(strings.Split(ruleChunk, ""))
+		ruleColorCountInKoanChunks := 0
 
-	if hasColorRules {
-		for _, ruleChunk := range colorRules {
-			ruleColor := colorOf(strings.Split(ruleChunk, ""))
-			ruleColorCountInKoanChunks := 0
-
-			for _, koanChunk := range koanChunks {
-				if colorOf(strings.Split(koanChunk, "")) == ruleColor {
-					ruleColorCountInKoanChunks += countOfColor(koanChunk, ruleColor)
-				}
+		for _, koanChunk := range koanChunks {
+			if colorOf(strings.Split(koanChunk, "")) == ruleColor {
+				ruleColorCountInKoanChunks += countOfColor(koanChunk, ruleColor)
 			}
-
-			ruleColorCount := countOfColor(ruleChunk, ruleColor)
-			if !(ruleColorCountInKoanChunks >= ruleColorCount) {
-				return false
-			}
-
 		}
+
+		ruleColorCount := countOfColor(ruleChunk, ruleColor)
+		if !(ruleColorCountInKoanChunks >= ruleColorCount) {
+			return false
+		}
+
 	}
-	fmt.Println("allColorRulesFulfilled", allColorRulesFulfilled)
 	return allColorRulesFulfilled
 }
 
@@ -71,7 +66,8 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	allRulesAreValid := true
 	koanChunks := strings.Split(koan, ",")
 
-	if !allColorRulesAreValid(rule, koanChunks) {
+	hasColorRules, colorRules := multipleColorRules(rule)
+	if !allColorRulesAreValid(colorRules, koanChunks) {
 		return false
 	}
 
@@ -102,7 +98,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 				allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
 			}
 
-			if isColorRule {
+			if isColorRule && !hasColorRules {
 				allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, rulePieces, koanPieces)
 			}
 		}
