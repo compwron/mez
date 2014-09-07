@@ -56,9 +56,15 @@ func TestOnePieceMustBeGreenPass(t *testing.T) {
 	verify(rule, koan, t)
 }
 
-func TestOnePieceMustBeGreenFail(t *testing.T) {
+func TestAllPiecesMustBeGreenFail(t *testing.T) {
 	rule := "G"
 	koan := "1^SB"
+	falsify(rule, koan, t)
+}
+
+func TestAllPiecesInMultiKoanMustBeGreenFail(t *testing.T) {
+	rule := "G"
+	koan := "1^SB,1^SG"
 	falsify(rule, koan, t)
 }
 

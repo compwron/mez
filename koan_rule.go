@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	// "fmt"	
 	"strconv"
 	"strings"
 )
@@ -16,7 +16,7 @@ func multipleColorRules(rule Rule) (bool, []string) {
 	var colorRules []string
 
 	for _, ruleChunk := range rule.ruleDescriptions {
-		if colorOf(strings.Split(ruleChunk, "")) != NONE {
+		if colorOf(strings.Split(ruleChunk, "")) != NONE  && !isNegativeRule(strings.Split(ruleChunk, "")) {
 			colorRules = append(colorRules, ruleChunk)
 		}
 	}
@@ -36,8 +36,14 @@ func countOfColor(koanChunk string, ruleColor string) int {
 	return 0
 }
 
-func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
+func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
+	if colorRuleCount == 0 {
+		return len(koanChunks) + 1 // <- this is pretending to be "all"
+	}
+	return colorRuleCount
+}
 
+func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
 	allColorRulesFulfilled := true
 	for _, ruleChunk := range colorRules {
 		ruleColor := colorOf(strings.Split(ruleChunk, ""))
@@ -49,7 +55,8 @@ func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
 			}
 		}
 
-		ruleColorCount := countOfColor(ruleChunk, ruleColor)
+		ruleColorCount := handleAllColorRule(koanChunks, countOfColor(ruleChunk, ruleColor))
+
 		if !(ruleColorCountInKoanChunks >= ruleColorCount) {
 			return false
 		}
