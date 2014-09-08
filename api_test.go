@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -31,10 +32,8 @@ func TestGuessRuleGet(t *testing.T) {
 	res, _ := http.Get(server.URL)
 	defer res.Body.Close()
 
-	data := body(res)
-
-	if !strings.Contains(data, "not supported") {
-		t.Errorf("Should not support Get for Guess")
+	if res.Status != "405 Method Not Allowed" {
+		t.Errorf(fmt.Sprintf("Should not support GET for Guess; expected status \"405 Method Not Allowed\", but got \"%s\"", res.Status))
 	}
 }
 

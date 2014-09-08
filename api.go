@@ -14,7 +14,7 @@ func Game() http.HandlerFunc {
 		case "POST":
 			createGame(w, r)
 		default:
-			w.Write([]byte("not supported\n"))
+			http.Error(w, "not supported", 405)
 		}
 	}
 }
@@ -63,7 +63,7 @@ func CreateKoan() http.HandlerFunc {
 		case "POST":
 			acceptKoan(w, r)
 		default:
-			w.Write([]byte("not supported\n"))
+			http.Error(w, "not supported", 405)
 		}
 	}
 }
@@ -85,7 +85,7 @@ func GuessRule() http.HandlerFunc {
 		case "POST":
 			guessRule(w, r)
 		default:
-			w.Write([]byte("not supported\n"))
+			http.Error(w, "not supported", 405)
 		}
 	}
 }
