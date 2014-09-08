@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"	
+	"fmt"	
 	"strconv"
 	"strings"
 )
@@ -14,36 +14,34 @@ var NONE = "none"
 
 func multipleColorRules(rule Rule) (bool, []string) {
 	var colorRules []string
-
 	for _, ruleChunk := range rule.ruleDescriptions {
 		if colorOf(strings.Split(ruleChunk, "")) != NONE  && !isNegativeRule(strings.Split(ruleChunk, "")) {
 			colorRules = append(colorRules, ruleChunk)
 		}
 	}
-
 	return len(colorRules) != 0, colorRules
 }
 
-func countOfColor(koanChunk string, ruleColor string) int {
-	koanPieces := strings.Split(koanChunk, "")
-	for _, koanPiece := range koanPieces {
-		if koanPiece == ruleColor {
-			koanCount, _ := koanCount(koanPieces)
+func countOfColor(chunk string, ruleColor string) int {
+	pieces := strings.Split(chunk, "")
+	for _, piece := range pieces {
+		if piece == ruleColor {
+			koanCount, _ := koanCount(pieces)
 			return koanCount
 		}
 	}
-
 	return 0
 }
 
 func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
 	if colorRuleCount == 0 {
-		return len(koanChunks) + 1 // <- this is pretending to be "all"
+		return len(koanChunks) + 100 // <- this is pretending to be "all"
 	}
 	return colorRuleCount
 }
 
 func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
+
 	allColorRulesFulfilled := true
 	for _, ruleChunk := range colorRules {
 		ruleColor := colorOf(strings.Split(ruleChunk, ""))
@@ -97,6 +95,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 			koanPieces := strings.Split(koanChunk, "")
 			koanPieceCount, err := koanCount(koanPieces)
 			if err != nil {
+				fmt.Println("ERR", err)
 				return false
 			}
 

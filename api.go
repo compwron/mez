@@ -4,11 +4,7 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
-	"strings"
 )
-
-var OriginalRule = Rule{strings.Split("1^", ",")}
-var CurrentRule = OriginalRule
 
 func Game() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

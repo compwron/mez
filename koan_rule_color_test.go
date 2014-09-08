@@ -51,7 +51,7 @@ func TestExcludeCertainNumberOfCertainColorPiecesPassWithSmallerNumberOfPieces(t
 }
 
 func TestOnePieceMustBeGreenPass(t *testing.T) {
-	rule := "G" // At least one piece must be green
+	rule := "G" // All pieces must be green
 	koan := "1^SG"
 	verify(rule, koan, t)
 }
