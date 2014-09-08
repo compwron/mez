@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"	
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -15,7 +15,7 @@ var NONE = "none"
 func multipleColorRules(rule Rule) (bool, []string) {
 	var colorRules []string
 	for _, ruleChunk := range rule.ruleDescriptions {
-		if colorOf(strings.Split(ruleChunk, "")) != NONE  && !isNegativeRule(strings.Split(ruleChunk, "")) {
+		if colorOf(strings.Split(ruleChunk, "")) != NONE && !isNegativeRule(strings.Split(ruleChunk, "")) {
 			colorRules = append(colorRules, ruleChunk)
 		}
 	}
