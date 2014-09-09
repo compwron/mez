@@ -100,12 +100,12 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if ruleMatches(ruleGuess) {
 
-		w.Write([]byte("true\n"))
+		w.Write([]byte("Victory!\n"))
 
 		//  reset rule and koans list
 		CurrentRule = OriginalRule
 		Koans = nil
 	} else {
-		w.Write([]byte("false guess\n"))
+		w.Write([]byte("incorrect guess\n"))
 	}
 }

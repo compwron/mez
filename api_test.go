@@ -48,7 +48,7 @@ func TestGuessRulePost(t *testing.T) {
 	// Confirm that data is present
 
 	// End game by guessing rule
-	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"rule\":\"rule1,rule3\"}")))
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"rule\":\"1rule,2rule\"}")))
 	defer res.Body.Close()
 
 	// Check that data from previous game is not in new game
@@ -114,6 +114,45 @@ func TestNonValidGamePost(t *testing.T) {
 
 	if !strings.Contains(data, "Koans do not fulfull rule") {
 		t.Errorf("rule should NOT be valid", data)
+	}
+}
+
+func TestCorrectGuess(t *testing.T) {
+	handler := GuessRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	correctGuess := "{\"rule\": \"" + CurrentRule.ruleDescriptions[0] + "\"}"
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(correctGuess)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if err != nil {
+		t.Errorf("Should not get error when submitting correct guess")
+	}
+
+	if !strings.Contains(data, "Victory") {
+		t.Errorf("correct guess should prompt victory message", data)
+	}
+
+	if !strings.Contains(data, "Victory") {
+		t.Errorf("correct guess should prompt victory message", data)
+	}
+}
+
+func TestIncorrectGuess(t *testing.T) {
+	handler := GuessRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	incorrectGuess := "{\"rule\": \"What is Toronto????\"}"
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(incorrectGuess)))
+	defer res.Body.Close()
+	data := body(res)
+
+	if !strings.Contains(data, "incorrect guess") {
+		t.Errorf("incorrect guess should prompt corresponding message", data)
 	}
 }
 

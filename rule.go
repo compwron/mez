@@ -25,6 +25,10 @@ func ParseRule(data map[string]interface{}) Rule {
 	return Rule{strings.Split(newRule, ",")}
 }
 
+func UnparseRuleDescriptions(ruleDescriptions []string) string {
+	return strings.Join(ruleDescriptions, ",")
+}
+
 func ruleMatches(guess string) bool {
-	return true
+	return guess == UnparseRuleDescriptions(CurrentRule.ruleDescriptions)
 }
