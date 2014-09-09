@@ -222,8 +222,6 @@ func koanCount(koanChunk string) (int, error) {
 	return strconv.Atoi(pieces(koanChunk)[0])
 }
 
-
-
 func rulePieceCount(ruleChunk string, isNegativeRule bool) int {
 	rulePieces := pieces(ruleChunk)
 	if isNegativeRule {
@@ -234,13 +232,8 @@ func rulePieceCount(ruleChunk string, isNegativeRule bool) int {
 }
 
 func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanChunk string, ruleChunk string) bool {
-
 	isNegativeRule := isNegativeRule(ruleChunk)
-
 	rulePieceCount := rulePieceCount(ruleChunk, isNegativeRule)
-	
-
-
 	koanPieceCount, err := koanCount(koanChunk)
 	if err != nil {
 		return false
