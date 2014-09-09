@@ -242,8 +242,10 @@ func colorOf(chunk string) string {
 }
 
 func koanPassesColorRule(ruleChunk string, koanChunk string) bool {
-	colorsMatch := colorOf(koanChunk) == colorOf(ruleChunk)
-	return colorsMatch || isNegativeRule(ruleChunk)
+	// TODO Why is this?
+	// colorsMatch := colorOf(koanChunk) == colorOf(ruleChunk)
+	// return colorsMatch || isNegativeRule(ruleChunk)
+	return isNegativeRule(ruleChunk)
 }
 
 func intOf(char string) int {
