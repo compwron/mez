@@ -12,6 +12,8 @@ var ruleTypes = [2]string{"count", "color"} // more coming soon
 
 var NONE = "none"
 
+var ALL = 100
+
 func multipleColorRules(rule Rule) (bool, []string) {
 	var colorRules []string
 	for _, ruleChunk := range rule.ruleDescriptions {
@@ -35,14 +37,14 @@ func countOfColor(chunk string, ruleColor string) int {
 
 func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
 	if colorRuleCount == 0 {
-		return len(koanChunks) + 100 // <- this is pretending to be "all"
+		return len(koanChunks) + ALL 
 	}
 	return colorRuleCount
 }
 
 func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
-
 	allColorRulesFulfilled := true
+	
 	for _, ruleChunk := range colorRules {
 		ruleColor := colorOf(strings.Split(ruleChunk, ""))
 		ruleColorCountInKoanChunks := 0
@@ -55,6 +57,9 @@ func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
 
 		ruleColorCount := handleAllColorRule(koanChunks, countOfColor(ruleChunk, ruleColor))
 
+		if ruleColorCountInKoanChunks == len(koanChunks) { // all are the color of the rule
+			return true
+		}
 		if !(ruleColorCountInKoanChunks >= ruleColorCount) {
 			return false
 		}

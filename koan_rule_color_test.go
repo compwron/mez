@@ -55,7 +55,6 @@ func TestExcludeCertainNumberOfCertainColorPiecesPassWithSmallerNumberOfPieces(t
 }
 
 func TestOnePieceMustBeGreenPass(t *testing.T) {
-	t.Skipf("Linda: Skipping this failing test for the moment - this is a bug in how multi-count multi-color rules work")
 	rule := "G" // All pieces must be green
 	koan := "1^SG"
 	verify(rule, koan, t)
