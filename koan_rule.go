@@ -24,27 +24,22 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	}
 
 	for _, ruleChunk := range rule.ruleDescriptions {
-
-		isCountRule := ruleContains(ruleChunk, "count")
-		isColorRule := ruleContains(ruleChunk, "color")
-
 		if koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk, koan) {
 			return false
 		}
 
 		for _, koanChunk := range koanChunks {
-			koanPieceCount, err := koanCount(koanChunk)
-			if err != nil {
-				return false
+
+			if ruleContains(ruleChunk, "count") {
+				if !evaluatePiecesCountTypeRules(allRulesAreValid, koanChunk, ruleChunk) {
+					return false
+				}
 			}
 
-			if isCountRule {
-				isNegativeRule, rulePieceCount := countInRulePiece(ruleChunk)
-				allRulesAreValid = evaluatePiecesCountTypeRules(allRulesAreValid, koanPieceCount, rulePieceCount, isNegativeRule)
-			}
-
-			if isColorRule && isNegativeRule(ruleChunk) {
-				allRulesAreValid = evaluatePiecesColorTypeRules(allRulesAreValid, ruleChunk, koanChunk)
+			if ruleContains(ruleChunk, "color") && isNegativeRule(ruleChunk) {
+				if !evaluatePiecesColorTypeRules(allRulesAreValid, ruleChunk, koanChunk) {
+					return false
+				}
 			}
 		}
 	}
@@ -231,17 +226,22 @@ func koanCount(koanChunk string) (int, error) {
 	return strconv.Atoi(strings.Split(koanChunk, "")[0])
 }
 
-func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanPieceCount int, rulePieceCount int, isNegativeRule bool) bool {
+func evaluatePiecesCountTypeRules(allRulesAreValid bool, koanChunk string, ruleChunk string) bool {
+	isNegativeRule, rulePieceCount := countInRulePiece(ruleChunk)
+
+	koanPieceCount, err := koanCount(koanChunk)
+	if err != nil {
+		return false
+	}
+
 	// if rule is a not, check that koanCount is anything other than ruleCount
 	if isNegativeRule {
 		// how do you handle a negative rule without color?
 		if koanPieceCount == rulePieceCount {
 			return false
 		}
-	} else {
-		if !(koanPieceCount >= rulePieceCount) {
+	} else if !(koanPieceCount >= rulePieceCount) {
 			return false
-		}
 	}
 	return allRulesAreValid
 }
