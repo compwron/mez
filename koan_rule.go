@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -100,7 +99,6 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 			koanPieces := strings.Split(koanChunk, "")
 			koanPieceCount, err := koanCount(koanPieces)
 			if err != nil {
-				fmt.Println("ERR", err)
 				return false
 			}
 
