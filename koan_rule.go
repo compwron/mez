@@ -28,13 +28,8 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		isCountRule := ruleContains(ruleChunk, "count")
 		isColorRule := ruleContains(ruleChunk, "color")
 
-		// if rule is a negative COUNT of color rule, must evaluate against all koans
-		if isColorRule && isNegativeRule(ruleChunk) {
-			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(ruleChunk), diallowedColorCount(ruleChunk), koan)
-			if koanHasDisallowedNumberOfColor {
-				return false
-			}
-			// else continue to checking other things
+		if koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk, koan){
+			return false
 		}
 
 		for _, koanChunk := range koanChunks {
@@ -55,6 +50,17 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		}
 	}
 	return allRulesAreValid
+}
+
+func koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk string, koan string) bool {
+	if ruleContains(ruleChunk, "color") && isNegativeRule(ruleChunk) {
+			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(ruleChunk), diallowedColorCount(ruleChunk), koan)
+			if koanHasDisallowedNumberOfColor {
+				return true
+			}
+			// else continue to checking other things
+		}
+	return false
 }
 
 func multipleColorRules(rule Rule) (bool, []string) {
