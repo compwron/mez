@@ -63,7 +63,6 @@ func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
 	rule := Rule{rules}
 	zen := DoesKoanFulfillRule(rule, koan)
 	if zen != shouldPass {
-		// TODO rephrase this error for negative case; it is confusing.
 		t.Errorf((koan + " should be " + strconv.FormatBool(shouldPass) + " for rule " + stringRule(rule)))
 	}
 }
@@ -78,12 +77,19 @@ func stringRule(rule Rule) string {
 
 func verifyValidRule(rule string, t *testing.T) {
 	if !validRule(Rule{[]string{rule}}) {
-		t.Errorf("is NOT a valid rule")
+		t.Errorf(rule + " is NOT a valid rule but should be")
+	}
+}
+
+func verifyValidMultirule(rule Rule, t *testing.T) {
+	zen := validRule(rule)
+	if !zen {
+		t.Errorf("should be a valid rule but is not")
 	}
 }
 
 func verifyThatRuleIsInvalid(rule string, t *testing.T) {
 	if validRule(Rule{[]string{rule}}) {
-		t.Errorf("is a valid rule but should not be")
+		t.Errorf(rule + " IS a valid rule but should not be")
 	}
 }

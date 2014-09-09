@@ -13,70 +13,16 @@ var NONE = "none"
 
 var ALL = 100
 
-func multipleColorRules(rule Rule) (bool, []string) {
-	var colorRules []string
-	for _, ruleChunk := range rule.ruleDescriptions {
-		if colorOf(ruleChunk) != NONE && !isNegativeRule(strings.Split(ruleChunk, "")) {
-			colorRules = append(colorRules, ruleChunk)
-		}
-	}
-	return len(colorRules) != 0, colorRules
-}
-
-func countOfColor(chunk string, ruleColor string) int {
-	pieces := strings.Split(chunk, "")
-	for _, piece := range pieces {
-		if piece == ruleColor {
-			koanCount, _ := koanCount(pieces)
-			return koanCount
-		}
-	}
-	return 0
-}
-
-func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
-	if colorRuleCount == 0 {
-		return len(koanChunks) + ALL 
-	}
-	return colorRuleCount
-}
-
-func allColorRulesAreValid(colorRules []string, koanChunks []string) bool {
-	allColorRulesFulfilled := true
-	
-	for _, ruleChunk := range colorRules {
-		ruleColor := colorOf(ruleChunk)
-		ruleColorCountInKoanChunks := 0
-
-		for _, koanChunk := range koanChunks {
-			if colorOf(koanChunk) == ruleColor {
-				ruleColorCountInKoanChunks += countOfColor(koanChunk, ruleColor)
-			}
-		}
-
-		ruleColorCount := handleAllColorRule(koanChunks, countOfColor(ruleChunk, ruleColor))
-
-		if ruleColorCountInKoanChunks == len(koanChunks) { // all are the color of the rule
-			return true
-		}
-		if !(ruleColorCountInKoanChunks >= ruleColorCount) {
-			return false
-		}
-
-	}
-	return allColorRulesFulfilled
-}
-
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !validRule(rule) {
 		return false
 	}
 
 	allRulesAreValid := true
-	koanChunks := strings.Split(koan, ",")
+	koanChunks := chunk(koan)
 
 	hasColorRules, colorRules := multipleColorRules(rule)
-	if !allColorRulesAreValid(colorRules, koanChunks) {
+	if !allColorRulesAreValid(colorRules, koan) {
 		return false
 	}
 
@@ -88,7 +34,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		// if rule is a negative COUNT of color rule, must evaluate against all koans
 		rulePieces := strings.Split(ruleChunk, "")
 		if isColorRule && isNegativeRule(rulePieces) {
-			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(ruleChunk), diallowedColorCount(rulePieces), koanChunks)
+			koanHasDisallowedNumberOfColor := koanHasDisallowedNumberOf(colorOf(ruleChunk), diallowedColorCount(rulePieces), koan)
 			if koanHasDisallowedNumberOfColor {
 				return false
 			}
@@ -113,6 +59,65 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		}
 	}
 	return allRulesAreValid
+}
+
+func multipleColorRules(rule Rule) (bool, []string) {
+	var colorRules []string
+	for _, ruleChunk := range rule.ruleDescriptions {
+		if colorOf(ruleChunk) != NONE && !isNegativeRule(strings.Split(ruleChunk, "")) {
+			colorRules = append(colorRules, ruleChunk)
+		}
+	}
+	return len(colorRules) != 0, colorRules
+}
+
+func countOfColor(chunk string, ruleColor string) int {
+	pieces := strings.Split(chunk, "")
+	for _, piece := range pieces {
+		if piece == ruleColor {
+			koanCount, _ := koanCount(pieces)
+			return koanCount
+		}
+	}
+	return 0
+}
+
+func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
+	if colorRuleCount == 0 {
+		return len(koanChunks) + ALL
+	}
+	return colorRuleCount
+}
+
+func chunk(thingWithComma string) []string {
+	return strings.Split(thingWithComma, ",")
+}
+
+func allColorRulesAreValid(colorRules []string, koan string) bool {
+	allColorRulesFulfilled := true
+	koanChunks := chunk(koan)
+
+	for _, ruleChunk := range colorRules {
+		ruleColor := colorOf(ruleChunk)
+		ruleColorCountInKoanChunks := 0
+
+		for _, koanChunk := range koanChunks {
+			if colorOf(koanChunk) == ruleColor {
+				ruleColorCountInKoanChunks += countOfColor(koanChunk, ruleColor)
+			}
+		}
+
+		ruleColorCount := handleAllColorRule(koanChunks, countOfColor(ruleChunk, ruleColor))
+
+		if ruleColorCountInKoanChunks == len(koanChunks) { // all are the color of the rule
+			return true
+		}
+		if !(ruleColorCountInKoanChunks >= ruleColorCount) {
+			return false
+		}
+
+	}
+	return allColorRulesFulfilled
 }
 
 func validRule(rule Rule) bool {
@@ -145,7 +150,8 @@ func initializeEmptyColorCount() map[string]int {
 	return colorsOfKoanChunks
 }
 
-func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koanChunks []string) bool {
+func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koan string) bool {
+	koanChunks := chunk(koan)
 	colorsOfKoanChunks := initializeEmptyColorCount()
 
 	for _, koanChunk := range koanChunks {

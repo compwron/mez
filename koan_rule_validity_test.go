@@ -6,10 +6,7 @@ import (
 
 func RuleWithTwoColorsInTwoChunksIsValid(t *testing.T) {
 	multiColorRule := Rule{[]string{"G", "R"}}
-	zen := validRule(multiColorRule)
-	if !zen {
-		t.Errorf("should be a valid rule but is not")
-	}
+	verifyValidMultirule(multiColorRule, t)
 }
 
 func RuleWithTwoColorsInOneChunkIsInvalid(t *testing.T) {
