@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "fmt"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -69,8 +69,7 @@ func koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk string, koan st
 func countOfColor(chunk string, ruleColor string) int {
 	for _, piece := range pieces(chunk) {
 		if piece == ruleColor {
-			koanCount, _ := koanCount(chunk)
-			return koanCount
+			return koanCount(chunk)
 		}
 	}
 	return 0
@@ -217,8 +216,12 @@ func nextPieceIsAColor(ruleChunk string, currentIndex int) bool {
 	return false
 }
 
-func koanCount(koanChunk string) (int, error) {
-	return strconv.Atoi(pieces(koanChunk)[0])
+func koanCount(koanChunk string) int {
+	count, err := strconv.Atoi(pieces(koanChunk)[0])
+	if err != nil {
+		fmt.Println("koanCount has been wrongly called with a non-int first character of ", koanChunk)
+	}
+	return count
 }
 
 func rulePieceCount(ruleChunk string, isNegativeRule bool) int {
@@ -231,20 +234,11 @@ func rulePieceCount(ruleChunk string, isNegativeRule bool) int {
 }
 
 func evaluatePiecesCountTypeRules(koanChunk string, ruleChunk string) bool {
-	isNegativeRule := isNegativeRule(ruleChunk)
-	rulePieceCount := rulePieceCount(ruleChunk, isNegativeRule)
-	koanPieceCount, err := koanCount(koanChunk)
-	if err != nil {
-		return false
-	}
-
-	// if rule is a not, check that koanCount is anything other than ruleCount
-	if isNegativeRule {
-		// how do you handle a negative rule without color?
-		if koanPieceCount == rulePieceCount {
+	if isNegativeRule(ruleChunk) {
+		if koanCount(koanChunk) == rulePieceCount(ruleChunk, isNegativeRule(ruleChunk)) {
 			return false
 		}
-	} else if !(koanPieceCount >= rulePieceCount) {
+	} else if !(koanCount(koanChunk) >= rulePieceCount(ruleChunk, isNegativeRule(ruleChunk))) {
 		return false
 	}
 	return true
