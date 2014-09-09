@@ -12,7 +12,7 @@ var NONE = "none"
 var ALL = 100
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
-	if !validRule(rule) {
+	if !syntacticallyValidRule(rule) {
 		return false
 	}
 
@@ -119,7 +119,7 @@ func allColorRulesAreValid(colorRules []string, koan string) bool {
 	return allColorRulesFulfilled
 }
 
-func validRule(rule Rule) bool {
+func syntacticallyValidRule(rule Rule) bool {
 	for _, ruleChunk := range rule.ruleDescriptions {
 		hasValidRuleType := false
 		for _, ruleType := range ruleTypes {
