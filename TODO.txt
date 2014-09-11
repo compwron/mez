@@ -40,5 +40,5 @@ Make chars chars instead of strings
 
 MAYBE?
 Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
-
-get rid of all calls to (strings.Split(koanChunk, "") for colorOf. DRY
+generate a rule which can be overridden (better than default rule - for actual guessing when running locally and playing solo)
+view old games at GET /games/old
