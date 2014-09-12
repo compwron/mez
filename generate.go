@@ -16,4 +16,5 @@ func GenerateRule() {
 	}
 	println("Generated rule", out.String())
 	CurrentRule = Rule{strings.Split(out.String(), ",")} // Put the parsing in rule.go?
+	Koans = nil
 }

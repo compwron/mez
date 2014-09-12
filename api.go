@@ -77,7 +77,7 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 
 		//  reset rule and koans list
 		CurrentRule = OriginalRule
-		Koans = nil
+		Koans = nil // move this into method in Koan.go ?
 	} else {
 		w.Write([]byte("incorrect guess\n"))
 	}
