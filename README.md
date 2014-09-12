@@ -6,7 +6,11 @@ Pull requests are welcome, along with other suggestions. I do not claim to be fl
 
 To play with an existing game server:
 ````
-fill this in with commandline curl stuff
+curl -X POST http://localhost:3000/game/generate
+curl -X GET http://localhost:3000/game
+
+etc
+
 ````
 
 To run the game server locally:
