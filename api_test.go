@@ -6,9 +6,25 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strings"
 	"testing"
 )
+
+func TestGenerateRule(t *testing.T) {
+	t.Skipf("Skipping test")
+
+	handler := GenerateRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{}")))
+	defer res.Body.Close()
+
+	if reflect.DeepEqual(OriginalRule, CurrentRule) {
+		t.Errorf("Should have set original rule to a new rule")
+	}
+}
 
 func TestCreateKoanValid(t *testing.T) {
 	data := createKoanBody("{\"koan\":\"1>SG\"}")
