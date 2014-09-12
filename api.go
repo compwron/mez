@@ -22,7 +22,7 @@ func Game() http.HandlerFunc {
 		case "GET":
 			w.Write([]byte(KoanSummaries() + "\n" + RuleSummary()))
 		case "POST":
-			CreateGame(w, r)
+			w.Write([]byte(CreateGame(w, r)))
 		default:
 			http.Error(w, "not supported", 405)
 		}
@@ -45,7 +45,7 @@ func acceptKoan(w http.ResponseWriter, r *http.Request) {
 	newKoan := newKoanHash["koan"].(string)
 	doesKoanFulfillRule := AddKoan(newKoan)
 	if err != nil {
-		w.Write([]byte("Bad input"))
+		w.Write([]byte("Bad input\n"))
 	}
 
 	w.Write([]byte(strconv.FormatBool(doesKoanFulfillRule)))

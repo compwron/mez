@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func CreateGame(w http.ResponseWriter, r *http.Request) {
+func CreateGame(w http.ResponseWriter, r *http.Request) string {
 	parsed, err := Parse(r.Body)
 	if err != nil {
 		http.Error(w, "malformed JSON", 400)
@@ -15,8 +15,7 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 			submittedRule := ParseRule(parsed)
 
 			if (parsed["true"] == nil) || (parsed["false"] == nil) {
-				w.Write([]byte("need true koan and false koan\n"))
-				return
+				return "need true koan and false koan\n"
 			}
 
 			trueKoan := ParseKoan(parsed, true)
@@ -28,16 +27,16 @@ func CreateGame(w http.ResponseWriter, r *http.Request) {
 				AddFullKoan(trueKoan)
 				AddFullKoan(falseKoan)
 				CurrentRule = submittedRule
-				w.Write([]byte("true"))
-				return
+				return "Successfully set rule\n"
 			} else {
-				w.Write([]byte("Koans do not fulfull rule; game not started.\n"))
-				w.Write([]byte("\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk) + "\n"))
-				w.Write([]byte("\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk) + "\n"))
-				return
+				message := "Koans do not fulfull rule; game not started." +
+					"\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk) + "\n" +
+					"\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk) + "\n"
+				return message
 			}
 		}
 	}
+	return "Can't create game because game is already in progress\n"
 }
 
 func ruleIsSettable() bool {
