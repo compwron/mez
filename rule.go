@@ -1,8 +1,8 @@
 package main
 
 import (
-	"strings"
 	"reflect"
+	"strings"
 )
 
 var OriginalRule = Rule{strings.Split("1^", ",")} // TODO fix syntax

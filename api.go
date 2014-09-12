@@ -9,7 +9,7 @@ func StartGameWithUnknownRule() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
-			GenerateRule()
+			w.Write([]byte(GenerateRule()))
 		default:
 			http.Error(w, "not supported", 405)
 		}
