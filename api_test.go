@@ -109,7 +109,7 @@ func TestValidGamePost(t *testing.T) {
 		t.Errorf("Should not error when setting rule ")
 	}
 
-	if data != "true" {
+	if data != "Successfully set rule" {
 		t.Errorf("rule should be valid", data)
 	}
 }
@@ -174,7 +174,7 @@ func TestIncorrectGuess(t *testing.T) {
 
 func body(res *http.Response) string {
 	dataBuf, _ := ioutil.ReadAll(res.Body)
-	return string(dataBuf)
+	return strings.Trim(string(dataBuf), "\n")
 }
 
 func createKoanBody(escapedKoanString string) string {
@@ -185,7 +185,7 @@ func createKoanBody(escapedKoanString string) string {
 	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(escapedKoanString)))
 	defer res.Body.Close()
 
-	return strings.Trim(body(res), "\n")
+	return body(res)
 }
 
 // test setting rule twice

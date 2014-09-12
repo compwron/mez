@@ -12,6 +12,24 @@ type Koan struct {
 
 var Koans []Koan
 
+func AddKoanIfValid(newKoanHash map[string]interface{}) string {
+	newKoan := newKoanHash["koan"].(string)
+	if !KoanIsValid(newKoan) {
+		return "Invalid koan"
+	}
+	doesKoanFulfillRule := AddKoan(newKoan)
+	return strconv.FormatBool(doesKoanFulfillRule) + "\n"
+}
+
+func KoanIsValid(koan string) bool {
+	// no !
+	// must have <number> <symbol>
+	// optional number
+	// Must have color
+	// that's it
+	return true
+}
+
 func KoanSummaries() string {
 	summary := "Koans:\n"
 	for koanNum := range Koans {

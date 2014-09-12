@@ -76,20 +76,20 @@ func stringRule(rule Rule) string {
 }
 
 func verifyValidRule(rule string, t *testing.T) {
-	if !syntacticallyValidRule(Rule{[]string{rule}}) {
+	if !SyntacticallyValidRule(Rule{[]string{rule}}) {
 		t.Errorf(rule + " is NOT a valid rule but should be")
 	}
 }
 
 func verifyValidMultirule(rule Rule, t *testing.T) {
-	zen := syntacticallyValidRule(rule)
+	zen := SyntacticallyValidRule(rule)
 	if !zen {
 		t.Errorf("should be a valid rule but is not")
 	}
 }
 
 func verifyThatRuleIsInvalid(rule string, t *testing.T) {
-	if syntacticallyValidRule(Rule{[]string{rule}}) {
+	if SyntacticallyValidRule(Rule{[]string{rule}}) {
 		t.Errorf(rule + " IS a valid rule but should not be")
 	}
 }

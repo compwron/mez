@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"strconv"
 )
 
 func StartGameWithUnknownRule() http.HandlerFunc {
@@ -33,23 +32,17 @@ func CreateKoan() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
-			acceptKoan(w, r)
+			newKoanHash, err := Parse(r.Body)
+			if err != nil {
+				w.Write([]byte("Impossible to parse formatting\n"))
+				return
+			}
+			w.Write([]byte(AddKoanIfValid(newKoanHash)))
+			w.Write([]byte("\n"))
 		default:
 			http.Error(w, "not supported", 405)
 		}
 	}
-}
-
-func acceptKoan(w http.ResponseWriter, r *http.Request) {
-	newKoanHash, err := Parse(r.Body)
-	newKoan := newKoanHash["koan"].(string)
-	doesKoanFulfillRule := AddKoan(newKoan)
-	if err != nil {
-		w.Write([]byte("Bad input\n"))
-	}
-
-	w.Write([]byte(strconv.FormatBool(doesKoanFulfillRule)))
-	w.Write([]byte("\n"))
 }
 
 func GuessRule() http.HandlerFunc {

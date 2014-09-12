@@ -9,7 +9,7 @@ func RuleWithTwoColorsInTwoChunksIsValid(t *testing.T) {
 	verifyValidMultirule(multiColorRule, t)
 }
 
-func RuleWithTwoColorsInOneChunkIsInvalid(t *testing.T) {
+func TestRuleWithTwoColorsInOneChunkIsInvalid(t *testing.T) {
 	rule := "GR"
 	verifyThatRuleIsInvalid(rule, t)
 }
@@ -29,12 +29,12 @@ func TestNonsenseRuleNonValidity(t *testing.T) {
 	verifyThatRuleIsInvalid(rule, t)
 }
 
-func LeadingReverseCharactersInRulesOk(t *testing.T) {
+func TestLeadingReverseCharactersInRulesOk(t *testing.T) {
 	rule := "!1^"
 	verifyValidRule(rule, t)
 }
 
-func NoNonLeadingReverseCharactersInRules(t *testing.T) {
+func TestNoNonLeadingReverseCharactersInRules(t *testing.T) {
 	rule := "1^!"
 	verifyThatRuleIsInvalid(rule, t)
 }
