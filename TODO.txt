@@ -1,8 +1,7 @@
-Generate must reset existing koans. 
-Generate cannot end game unless rule is default rule. 
 Generate should return message about what it does.
 koan "1^R" should not be true for rule "4^2R"
 Add validation that koan must have count, color, etc to be added
+Figure out how to not have all tests use a shared CurrentRule state, ack
 
 
 Odd behavior:

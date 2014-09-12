@@ -28,14 +28,15 @@ func TestCreateKoanValid(t *testing.T) {
 	CurrentRule = OriginalRule // Setup state for test
 	data := createKoanBody("{\"koan\":\"1>SG\"}")
 	if !(data == "true") {
-		t.Errorf("should return true. Actually got: " + data)
+		t.Errorf("should return true. Actually got: " + data + " and current rule is: " + RuleToString(CurrentRule))
 	}
 }
 
 func TestCreateKoanInvalid(t *testing.T) {
+	CurrentRule = OriginalRule // Setup state for test
 	data := createKoanBody("{\"koan\":\"0>SG\"}")
 	if !(data == "false") {
-		t.Errorf("should return false. Actually got: " + data)
+		t.Errorf("should return false. Actually got: " + data + " and current rule is: " + RuleToString(CurrentRule))
 	}
 }
 
@@ -184,7 +185,7 @@ func createKoanBody(escapedKoanString string) string {
 	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(escapedKoanString)))
 	defer res.Body.Close()
 
-	return body(res)
+	return strings.Trim(body(res), "\n")
 }
 
 // test setting rule twice

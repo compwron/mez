@@ -2,6 +2,7 @@ package main
 
 import (
 	"strings"
+	"reflect"
 )
 
 var OriginalRule = Rule{strings.Split("1^", ",")} // TODO fix syntax
@@ -29,6 +30,15 @@ func RuleMatches(guess string) bool {
 	return guess == unparseRuleDescriptions(CurrentRule.ruleDescriptions)
 }
 
+func OkToChangeCurrentRule() bool {
+	return reflect.DeepEqual(CurrentRule, OriginalRule)
+}
+
 func unparseRuleDescriptions(ruleDescriptions []string) string {
 	return strings.Join(ruleDescriptions, ",")
+}
+
+// for testing
+func RuleToString(rule Rule) string {
+	return unparseRuleDescriptions(rule.ruleDescriptions)
 }
