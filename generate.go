@@ -14,5 +14,6 @@ func GenerateRule() {
 	if err != nil {
 		println("Failed to generate new rule.")
 	}
+	println("Generated rule", out.String())
 	CurrentRule = Rule{strings.Split(out.String(), ",")} // Put the parsing in rule.go?
 }

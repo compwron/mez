@@ -8,6 +8,7 @@ To play with an existing game server:
 ````
 curl -X POST http://localhost:3000/game/generate
 curl -X GET http://localhost:3000/game
+curl -X POST http://localhost:3000/game/koan --data "{\"koan\":\"1^G\"}"
 
 etc
 

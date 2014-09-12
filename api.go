@@ -49,6 +49,7 @@ func acceptKoan(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte(strconv.FormatBool(doesKoanFulfillRule)))
+	w.Write([]byte("\n"))
 }
 
 func GuessRule() http.HandlerFunc {
