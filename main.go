@@ -12,7 +12,7 @@ func main() {
 	http.HandleFunc("/game", Game())
 	http.HandleFunc("/game/koan", CreateKoan())
 	http.HandleFunc("/game/guess", GuessRule())
-	http.HandleFunc("/game/generate", GenerateRule())
+	http.HandleFunc("/game/generate", StartGameWithUnknownRule())
 
 	port := ":3000"
 	fmt.Println("Starting server on port", port)

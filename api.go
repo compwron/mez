@@ -5,11 +5,11 @@ import (
 	"strconv"
 )
 
-func GenerateRule() http.HandlerFunc {
+func StartGameWithUnknownRule() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
-			GenerateAutomaticRule()
+			GenerateRule()
 		default:
 			http.Error(w, "not supported", 405)
 		}
@@ -70,7 +70,7 @@ func guessRule(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ruleGuess := ruleGuessHash["rule"].(string)
-	if ruleMatches(ruleGuess) {
+	if RuleMatches(ruleGuess) {
 
 		w.Write([]byte("Victory!\n"))
 

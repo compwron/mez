@@ -12,21 +12,20 @@ import (
 )
 
 func TestGenerateRule(t *testing.T) {
-	t.Skipf("Skipping test")
-
-	handler := GenerateRule()
+	handler := StartGameWithUnknownRule()
 	server := httptest.NewServer(handler)
 	defer server.Close()
 
 	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{}")))
 	defer res.Body.Close()
 
-	if reflect.DeepEqual(OriginalRule, CurrentRule) {
-		t.Errorf("Should have set original rule to a new rule")
+	if reflect.DeepEqual(OriginalRule, CurrentRule) || RuleMatches("") {
+		t.Errorf("Should have set original rule to a new non-blank rule")
 	}
 }
 
 func TestCreateKoanValid(t *testing.T) {
+	CurrentRule = OriginalRule // Setup state for test
 	data := createKoanBody("{\"koan\":\"1>SG\"}")
 	if !(data == "true") {
 		t.Errorf("should return true. Actually got: " + data)
