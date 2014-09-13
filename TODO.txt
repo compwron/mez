@@ -1,6 +1,4 @@
-Add validation that koan must have count, color, etc to be added: "foo"
 Figure out how to not have all tests use a shared CurrentRule state, ack
-
 
 Odd behavior:
 panic caused by `curl --data '{"koan"guess":"!3^"}' localhost:3000/game/guess'`
