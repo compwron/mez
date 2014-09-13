@@ -152,6 +152,12 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 	switch ruleType {
 	case "count":
 		for i, rulePiece := range rulePieces {
+			if rulePiece == "!" && i != 0 { // no non-leading negatives
+				return false
+			}
+		}
+
+		for i, rulePiece := range rulePieces {
 			if intOf(rulePiece) != 0 && !nextPieceIsAColor(ruleChunk, i) {
 				return true
 			}
