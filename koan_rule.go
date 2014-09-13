@@ -163,7 +163,7 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 				return true
 			}
 		}
-		if colorOf(ruleChunk) != NONE {
+		if colorOf(ruleChunk) != NONE && !multipleColors(ruleChunk){
 			// for rule "G" instead of "1G"
 			return true
 		}
@@ -171,6 +171,16 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 	default:
 		return false
 	}
+}
+
+func multipleColors(ruleChunk string) bool {
+	colorCount := 0
+	for _, piece := range pieces(ruleChunk) {
+		if colorOf(piece) != NONE {
+			colorCount += 1
+		}
+	}
+	return colorCount > 1
 }
 
 func nextPieceIsAColor(ruleChunk string, currentIndex int) bool {
