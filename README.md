@@ -8,7 +8,7 @@ To play with an existing game server:
 ````
 curl -X GET http://localhost:3000/game # see the state of the current game
 curl -X POST http://localhost:3000/game/generate # generate a new koan if the current game is using the default koan (1^)
-curl -X POST http://localhost:3000/game/koan --data "{\"koan\":\"1^G\"}" # Send a koan to be evaluated by the rule
+curl -X POST http://localhost:3000/game/koan --data "{\"koan\":\"1^SG\"}" # Send a koan to be evaluated by the rule
 curl -X POST http://localhost:3000/game/guess --data "{\"rule\":\"1^\"}" # guess what the rule is 
 curl -X POST http://localhost:3000/game --data "{\"rule\": \"2^\", \"true\":\"3^G\", \"false\":\"1^G\"}" # set new rule to a rule of your choosing (must include valid true and false koans)
 

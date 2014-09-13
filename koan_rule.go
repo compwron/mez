@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"strings"
 )
 
-var validColors = [3]string{"B", "G", "R"}  // blue green red
 var ruleTypes = [2]string{"count", "color"} // more coming soon
 var NONE = "none"
 var ALL = 100
@@ -74,14 +72,6 @@ func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
 	return colorRuleCount
 }
 
-func chunk(thingWithComma string) []string {
-	return strings.Split(thingWithComma, ",")
-}
-
-func pieces(chunk string) []string {
-	return strings.Split(chunk, "")
-}
-
 func allColorRulesAreValid(colorRules []string, koan string) bool {
 	koanChunks := chunk(koan)
 
@@ -147,7 +137,7 @@ func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koan s
 func diallowedColorCount(ruleChunk string) int {
 	rulePieces := pieces(ruleChunk)
 	for i, rulePiece := range rulePieces {
-		if isValidColor(rulePiece) {
+		if isValid(validColors, rulePiece) {
 			numberOfColor := intOf(rulePieces[i-1])
 			if numberOfColor > 0 {
 				return numberOfColor
@@ -155,15 +145,6 @@ func diallowedColorCount(ruleChunk string) int {
 		}
 	}
 	return 1 // "!G" is the same of "!1G"
-}
-
-func isValidColor(c string) bool {
-	for _, color := range validColors {
-		if color == c {
-			return true
-		}
-	}
-	return false
 }
 
 func ruleContains(ruleChunk string, ruleType string) bool {

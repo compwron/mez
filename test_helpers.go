@@ -93,3 +93,15 @@ func verifyThatRuleIsInvalid(rule string, t *testing.T) {
 		t.Errorf(rule + " IS a valid rule but should not be")
 	}
 }
+
+func verifyValidKoan(koan string, t *testing.T) {
+	if !SyntacticallyValidKoan(koan) {
+		t.Errorf(koan + " is not valid but should be")
+	}
+}
+
+func falsifyInvalidKoan(koan string, t *testing.T) {
+	if SyntacticallyValidKoan(koan) {
+		t.Errorf(koan + " is valid but should NOT be")
+	}
+}
