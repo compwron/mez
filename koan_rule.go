@@ -169,7 +169,7 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 				return true
 			}
 		}
-		if colorOf(ruleChunk) != NONE && !multipleColors(ruleChunk){
+		if colorOf(ruleChunk) != NONE && !multipleColors(ruleChunk) {
 			// for rule "G" instead of "1G"
 			return true
 		}

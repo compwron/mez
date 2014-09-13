@@ -11,8 +11,8 @@ type Koan struct {
 }
 
 var Koans []Koan
-var validSizes = []string{"S", "M", "L"}  // small medium large
-var validColors = []string{"B", "G", "R"} // blue green red
+var validSizes = []string{"S", "M", "L"}        // small medium large
+var validColors = []string{"B", "G", "R"}       // blue green red
 var validOrientations = []string{"^", ">", "<"} // upright, sideways right, sideways left
 
 func AddKoanIfValid(newKoanHash map[string]interface{}) string {
@@ -58,7 +58,7 @@ func SyntacticallyValidKoan(koan string) bool {
 			}
 
 			if i == 1 { // symbol
-				if !isValid(validOrientations, koanPiece) { 
+				if !isValid(validOrientations, koanPiece) {
 					return false
 				}
 			}
