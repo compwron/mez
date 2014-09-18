@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-var ruleTypes = [2]string{"count", "color"} // more coming soon
+var ruleTypes = [3]string{"count", "color", "size"} // more coming soon
 var NONE = "none"
 var ALL = 100
 
@@ -31,9 +31,17 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 			if ruleContains(ruleChunk, "color") && isNegativeRule(ruleChunk) && !koanPassesColorRule(ruleChunk, koanChunk) {
 				return false
 			}
+			if koanPassesSizeRule(koanChunk, ruleChunk) {
+				return true
+			}
 		}
 	}
 	return true
+}
+
+func koanPassesSizeRule(koanChunk string, ruleChunk string) bool {
+	size := sizeOf(ruleChunk)
+	return size != NONE && size == sizeOf(koanChunk)
 }
 
 func colorRules(rule Rule) []string {
@@ -174,9 +182,23 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 			return true
 		}
 		return false
+	case "size":
+		return sizeOf(ruleChunk) != NONE
 	default:
 		return false
 	}
+}
+
+func sizeOf(chunk string) string {
+	pieces := pieces(chunk)
+	for _, piece := range pieces {
+		for _, size := range validSizes {
+			if piece == size {
+				return size
+			}
+		}
+	}
+	return NONE
 }
 
 func multipleColors(ruleChunk string) bool {
