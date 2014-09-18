@@ -6,7 +6,7 @@ import (
 
 func TestNoPiecesMayBeGreenKoan(t *testing.T) {
 	rule := "!G"
-	trueKoan := "2^LR,1^SY"
+	trueKoan := "2^LR,1^SB"
 	falseKoan := "1^LG,2^MR"
 	verify(rule, trueKoan, t)
 	falsify(rule, falseKoan, t)
