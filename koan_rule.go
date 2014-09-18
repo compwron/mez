@@ -15,7 +15,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 	koanChunks := chunk(koan)
 
-	if !allColorRulesAreValid(colorRules(rule), koan) {
+	if !allColorRulesAreValid(rule, koan) {
 		return false
 	}
 
@@ -64,8 +64,11 @@ func koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk string, koan st
 }
 
 func countOfColor(chunk string, ruleColor string) int {
-	for _, piece := range pieces(chunk) {
+	for i, piece := range pieces(chunk) {
 		if piece == ruleColor {
+			if i == 0 { // There is no count for the color
+				return 0
+			} 
 			return koanCount(chunk)
 		}
 	}
@@ -79,13 +82,12 @@ func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
 	return colorRuleCount
 }
 
-func allColorRulesAreValid(colorRules []string, koan string) bool {
+func allColorRulesAreValid(rule Rule, koan string) bool {
+	colorRules := colorRules(rule)
 	koanChunks := chunk(koan)
-
 	for _, ruleChunk := range colorRules {
 		ruleColor := colorOf(ruleChunk)
 		ruleColorCountInKoanChunks := 0
-
 		for _, koanChunk := range koanChunks {
 			if colorOf(koanChunk) == ruleColor {
 				ruleColorCountInKoanChunks += countOfColor(koanChunk, ruleColor)
@@ -222,7 +224,7 @@ func nextPieceIsAColor(ruleChunk string, currentIndex int) bool {
 func koanCount(koanChunk string) int {
 	count, err := strconv.Atoi(pieces(koanChunk)[0])
 	if err != nil {
-		println("koanCount has been wrongly called with a non-int first character of ", koanChunk, " ...Returning count:", count)
+		println("Something went wrong with finding count of first digit in ", koanChunk, " ...Returning count:", count)
 	}
 	return count
 }
