@@ -1,12 +1,12 @@
-# implement size match rule
-# implement ^/>/< rule
-# implement pip math rules (with config file mapping pips to sizes)
-# write out the rules for each of the example rules on the website
-# Make all beginning rules work http://www.koryheath.com/zendo/rules-for-beginners/
-# Deploy somewhere publically accessible
-# Save past games and view old games at GET /games/old
-# Make chars chars instead of strings
-# Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
+- implement size match rule
+- implement ^/>/< rule
+- implement pip math rules (with config file mapping pips to sizes)
+- write out the rules for each of the example rules on the website
+- Make all beginning rules work http://www.koryheath.com/zendo/rules-for-beginners/
+- Deploy somewhere publically accessible
+- Save past games and view old games at GET /games/old
+- Make chars chars instead of strings
+- Persistence across server restarts, possibly using Bolt https://github.com/boltdb/bolt
 
 Rules to make work
 
