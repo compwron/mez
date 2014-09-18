@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -223,7 +222,7 @@ func nextPieceIsAColor(ruleChunk string, currentIndex int) bool {
 func koanCount(koanChunk string) int {
 	count, err := strconv.Atoi(pieces(koanChunk)[0])
 	if err != nil {
-		fmt.Println("koanCount has been wrongly called with a non-int first character of ", koanChunk, " ...Returning count:", count)
+		println("koanCount has been wrongly called with a non-int first character of ", koanChunk, " ...Returning count:", count)
 	}
 	return count
 }
