@@ -13,6 +13,10 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		return false
 	}
 
+	if !SyntacticallyValidKoan(koan) {
+		return false
+	}
+
 	koanChunks := chunk(koan)
 
 	if !allColorRulesAreValid(rule, koan) {
