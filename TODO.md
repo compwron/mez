@@ -10,10 +10,9 @@
 
 Rules to make work
 
-DONE Number of pieces in rule is satisfied
-DONE Number of pieces excluded in rule is avoided
-DONE Multiple rules (must be at least one but not 3 pieces) can be parsed
-
+- DONE Number of pieces in rule is satisfied
+- DONE Number of pieces excluded in rule is avoided
+- DONE Multiple rules (must be at least one but not 3 pieces) can be parsed
 - all its pieces are the same color.
 - all its pieces are the same size.
 - all its pieces are flat.
