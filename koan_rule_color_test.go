@@ -67,7 +67,6 @@ func TestAllPiecesMustBeGreenFail(t *testing.T) {
 }
 
 func TestAllPiecesInMultiKoanMustBeGreenFail(t *testing.T) {
-	println("TestAllPiecesInMultiKoanMustBeGreenFail")
 	rule := "G"
 	koan := "1^SB,1^SG"
 	falsify(rule, koan, t)
