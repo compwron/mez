@@ -72,7 +72,7 @@ func countOfColor(chunk string, ruleColor string) int {
 		if piece == ruleColor {
 			if i == 0 { // There is no count for the color
 				return 0
-			} 
+			}
 			return koanCount(chunk)
 		}
 	}
