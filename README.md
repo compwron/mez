@@ -71,6 +71,8 @@ go fmt
 go test 
 ````
 
+nomenclature: Count vs Size: count is number of pieces; size is small/medium/large
+
 Internal Koan nomenclature: 
 ====
 (for development, not for playing the game)

@@ -43,8 +43,12 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 }
 
 func koanFailsSizeRule(koanChunk string, ruleChunk string) bool {
-	size := sizeOf(ruleChunk)
-	return size != NONE && size != sizeOf(koanChunk)
+	ruleSize := sizeOf(ruleChunk)
+	koanSize := sizeOf(koanChunk)
+	if !isNegativeRule(ruleChunk) {
+		return ruleSize != NONE && ruleSize != koanSize
+	}
+	return ruleSize == koanSize
 }
 
 func colorRules(rule Rule) []string {
