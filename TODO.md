@@ -10,12 +10,12 @@
 
 Rules to make work
 
-- DONE Number of pieces in rule is satisfied
-- DONE Number of pieces excluded in rule is avoided
+- DONE Number of pieces in rule is satisfied [Example: "3"]
+- DONE Number of pieces excluded in rule is avoided [Example: "!3"] // There can be 1, 2, 4, etc pieces
 - DONE Multiple rules (must be at least one but not 3 pieces) can be parsed
-- all its pieces are the same color.
-- all its pieces are the same size.
-- all its pieces are flat.
+- DONE all its pieces are the same color. [Example: "!G, !R, B"] // Therefore all pieces must be the one remaining color, blue
+- DONE all its pieces are the same size. [Example: "L"] // All pieces must be L
+- all its pieces are flat. 
 - it contains at least one red piece.
 - it contains at least one small piece.
 - it contains at least one piece of each of the four colors.

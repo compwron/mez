@@ -4,6 +4,10 @@ import (
 	"testing"
 )
 
+// - DONE Number of pieces excluded in rule is avoided [Example: "!3"] // There can be 1, 2, 4, etc pieces
+func TestCombinedPiecesCountIsForbiddenPass(t *testing.T) {}
+func TestCombinedPiecesCountIsForbiddenFail(t *testing.T) {}
+
 func TestOneOrMoreButNotThreePieces(t *testing.T) {
 	rules := []string{"!3^", "1^"}
 	koan := "1^SG"
