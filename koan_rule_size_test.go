@@ -4,7 +4,11 @@ import (
 	"testing"
 )
 
-// negative size test
+func TestSizeMustMatchSizeRuleInvalid(t *testing.T) {
+	rule := "S"
+	koan := "1^MG"
+	falsify(rule, koan, t)
+}
 
 func TestSizeMustMatchSizeRuleValid(t *testing.T) {
 	rule := "S"
