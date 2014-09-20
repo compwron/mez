@@ -48,12 +48,12 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 }
 
 func koanFailsOrientationRule(koanChunk string, ruleChunk string) bool {
-	ruleOrientation := orientation(koanChunk) // duplication - can use lambdas?
-	koanOrientation := orientation(ruleChunk)
+	ruleOrientation := orientation(ruleChunk) // duplication - can use lambdas?
+	koanOrientation := orientation(koanChunk)
 	if !isNegativeRule(ruleChunk) {
 		println("is not neg")
 		println(ruleOrientation, koanOrientation)
-		return ruleOrientation != koanOrientation
+		return ruleOrientation != NONE && ruleOrientation != koanOrientation
 	}
 	println("is neg rule")
 	return ruleOrientation == koanOrientation
@@ -207,7 +207,7 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 		return false
 	case "size":
 		return sizeOf(ruleChunk) != NONE
-	case "orientation"
+	case "orientation":
 		return orientation(ruleChunk) != NONE
 	default:
 		return false
