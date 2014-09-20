@@ -4,6 +4,28 @@ import (
 	"testing"
 )
 
+// - DONE it contains two or more upright pieces. [Example: "2^"] # wait does this actually work
+func TestTwoOrMoreUprightPieces(t *testing.T) {
+	rule := "2^"
+	koan := "2^SG"
+	verify(rule, koan, t)
+
+	koan = "1^SG,1^SG"
+	verify(rule, koan, t)
+
+	koan = "2^SG,1^SG"
+	verify(rule, koan, t)
+
+	koan = "2>SG"
+	falsify(rule, koan, t)
+
+	koan = "2>SG,1^SG"
+	falsify(rule, koan, t)
+
+	koan = "1^SG"
+	falsify(rule, koan, t)
+}
+
 func TestUprightKoanWithoutCountPass(t *testing.T) {
 	rule := "^"
 	koan := "1^SG"

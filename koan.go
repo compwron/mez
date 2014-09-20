@@ -12,7 +12,7 @@ type Koan struct {
 
 var Koans []Koan
 var validSizes = []string{"S", "M", "L"}        // small medium large
-var validColors = []string{"B", "G", "R"}       // blue green red
+var validColors = []string{"B", "G", "R", "Y"}       // blue green red yellow
 var validOrientations = []string{"^", ">", "<"} // upright, sideways right, sideways left
 
 func AddKoanIfValid(newKoanHash map[string]interface{}) string {
