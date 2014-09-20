@@ -18,6 +18,10 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 	koanChunks := chunk(koan)
 
+	if koanFailsPipRule(rule, koanChunks) {
+		return false
+	}
+
 	if !allColorRulesAreValid(rule, koan) {
 		return false
 	}
@@ -42,6 +46,37 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 		}
 	}
 	return true
+}
+
+func koanFailsPipRule(rule Rule, koanChunks []string) bool {
+	for _, ruleChunk := range rule.ruleDescriptions {
+		rulePips := rulePips(ruleChunk)
+		koanPips := 0
+		for _, koanChunk := range koanChunks {
+			koanPips += pipsFor(sizeOf(koanChunk)) * koanCount(koanChunk)
+		}
+		if !isNegativeRule(rule) {
+			return rulePips > koanPips
+		}
+	}
+}
+
+func rulePips(ruleChunk string) {
+
+}
+
+func pipsFor(size string) int {
+	switch ruleType {
+	case "S":
+		return Configuration.pipS
+	case "M":
+		return Configuration.pipM
+	case "L":
+		return Configuration.pipL
+	default:
+		println("You should not be able to have no pips in a koan unless its size is 0")
+		return 0
+	}
 }
 
 func koanFailsOrientationRule(koanChunk string, ruleChunk string) bool {

@@ -7,7 +7,7 @@ import (
 
 var OriginalRule = Rule{strings.Split("1^", ",")} // TODO fix syntax
 var CurrentRule = OriginalRule
-var ruleTypes = [4]string{"count", "color", "size", "orientation"} // more coming soon
+var ruleTypes = []string{"count", "color", "size", "orientation", "pip"} // more coming soon
 
 type Rule struct {
 	ruleDescriptions []string
