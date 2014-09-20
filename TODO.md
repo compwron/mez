@@ -1,5 +1,6 @@
 // What part of the rule does a negative apply to? Gotta be the whole thing. So !3^SG means nothing that is 3 AND Small AND G
 
+- t.Skipf("skipping koan chunk addition for now") <- fix this
 - disallow multiple ! in rule
 - implement pip math rules (with config file mapping pips to sizes)
 - write out the rules for each of the example rules on the website
