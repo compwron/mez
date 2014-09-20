@@ -7,9 +7,26 @@ import (
 
 var OriginalRule = Rule{strings.Split("1^", ",")} // TODO fix syntax
 var CurrentRule = OriginalRule
+var ruleTypes = [4]string{"count", "color", "size", "orientation"} // more coming soon
 
 type Rule struct {
 	ruleDescriptions []string
+}
+
+func SyntacticallyValidRule(rule Rule) bool {
+	for _, ruleChunk := range rule.ruleDescriptions {
+		hasValidRuleType := false
+		for _, ruleType := range ruleTypes {
+			if ruleContains(ruleChunk, ruleType) {
+				hasValidRuleType = true
+			}
+		}
+
+		if !hasValidRuleType {
+			return false
+		}
+	}
+	return true
 }
 
 func RuleSummary() string {

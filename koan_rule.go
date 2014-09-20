@@ -4,12 +4,12 @@ import (
 	"strconv"
 )
 
-var ruleTypes = [3]string{"count", "color", "size"} // more coming soon
 var NONE = "none"
 var ALL = 100
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !SyntacticallyValidRule(rule) {
+		println("syntax")
 		return false
 	}
 
@@ -35,11 +35,41 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 				return false
 			}
 			if koanFailsSizeRule(koanChunk, ruleChunk) {
+				println("fail size")
+				return false
+			}
+			if koanFailsOrientationRule(koanChunk, ruleChunk) {
+				println("fail ori")
 				return false
 			}
 		}
 	}
 	return true
+}
+
+func koanFailsOrientationRule(koanChunk string, ruleChunk string) bool {
+	ruleOrientation := orientation(koanChunk) // duplication - can use lambdas?
+	koanOrientation := orientation(ruleChunk)
+	if !isNegativeRule(ruleChunk) {
+		println("is not neg")
+		println(ruleOrientation, koanOrientation)
+		return ruleOrientation != koanOrientation
+	}
+	println("is neg rule")
+	return ruleOrientation == koanOrientation
+}
+
+func orientation(chunk string) string {
+	pieces := pieces(chunk)
+	for _, piece := range pieces {
+		for _, orientation := range validOrientations {
+			if piece == orientation {
+				println("found orientation", piece)
+				return orientation
+			}
+		}
+	}
+	return NONE
 }
 
 func koanFailsSizeRule(koanChunk string, ruleChunk string) bool {
@@ -113,22 +143,6 @@ func allColorRulesAreValid(rule Rule, koan string) bool {
 	return true
 }
 
-func SyntacticallyValidRule(rule Rule) bool {
-	for _, ruleChunk := range rule.ruleDescriptions {
-		hasValidRuleType := false
-		for _, ruleType := range ruleTypes {
-			if ruleContains(ruleChunk, ruleType) {
-				hasValidRuleType = true
-			}
-		}
-
-		if !hasValidRuleType {
-			return false
-		}
-	}
-	return true
-}
-
 func isNegativeRule(ruleChunk string) bool {
 	return pieces(ruleChunk)[0] == "!"
 }
@@ -193,6 +207,8 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 		return false
 	case "size":
 		return sizeOf(ruleChunk) != NONE
+	case "orientation"
+		return orientation(ruleChunk) != NONE
 	default:
 		return false
 	}

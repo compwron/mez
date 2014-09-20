@@ -1,4 +1,4 @@
-- implement size match rule
+- implement size match rule DONE
 - implement ^/>/< rule
 - implement pip math rules (with config file mapping pips to sizes)
 - write out the rules for each of the example rules on the website
