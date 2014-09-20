@@ -26,7 +26,7 @@ func TestGenerateRule(t *testing.T) {
 
 func TestCreateKoanValid(t *testing.T) {
 	CurrentRule = OriginalRule // Setup state for test
-	data := createKoanBody("{\"koan\":\"1>SG\"}")
+	data := createKoanBody("{\"koan\":\"1^SG\"}")
 	if !(data == "true") {
 		t.Errorf("should return true. Actually got: " + data + " and current rule is: " + RuleToString(CurrentRule))
 	}

@@ -1,8 +1,10 @@
+# This implementation does make impossible rules sometimes. See comments 
+
 options = {:count_negation => ["!", ""],
-			:piece_count => [1, 2, 3, 4, 5],
-			:piece_orientation => "^",
-			:color_negation => ["!", ""],
-			:color_count => [1, 2, 3, 4, 5],
+			:piece_count => [1, 2, 3, 4, 5, nil],
+			:piece_orientation => ["^", ">", "<"],
+			:color_negation => ["!", ""], # do not have two ! in a rule
+			:color_count => [1, 2, 3, 4, 5, nil], # may not be larger than piece_count
 			:color => ["R", "G", "B"]
 		}
 

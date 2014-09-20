@@ -1,3 +1,6 @@
+// What part of the rule does a negative apply to? Gotta be the whole thing. So !3^SG means nothing that is 3 AND Small AND G
+
+- disallow multiple ! in rule
 - implement size match rule DONE
 - implement ^/>/< rule
 - implement pip math rules (with config file mapping pips to sizes)

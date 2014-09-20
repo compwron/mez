@@ -15,6 +15,9 @@ type Rule struct {
 
 func SyntacticallyValidRule(rule Rule) bool {
 	for _, ruleChunk := range rule.ruleDescriptions {
+		if lastPieceIsNegative(ruleChunk) { // cannot have ! not immediately before something else
+			return false
+		}
 		hasValidRuleType := false
 		for _, ruleType := range ruleTypes {
 			if ruleContains(ruleChunk, ruleType) {
@@ -27,6 +30,11 @@ func SyntacticallyValidRule(rule Rule) bool {
 		}
 	}
 	return true
+}
+
+func lastPieceIsNegative(chunk string) bool {
+	trimmed := strings.TrimRight(chunk, "!")
+	return !(trimmed == chunk)
 }
 
 func RuleSummary() string {

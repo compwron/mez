@@ -9,7 +9,6 @@ var ALL = 100
 
 func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !SyntacticallyValidRule(rule) {
-		println("syntax")
 		return false
 	}
 
@@ -35,11 +34,9 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 				return false
 			}
 			if koanFailsSizeRule(koanChunk, ruleChunk) {
-				println("fail size")
 				return false
 			}
 			if koanFailsOrientationRule(koanChunk, ruleChunk) {
-				println("fail ori")
 				return false
 			}
 		}
@@ -51,12 +48,10 @@ func koanFailsOrientationRule(koanChunk string, ruleChunk string) bool {
 	ruleOrientation := orientation(ruleChunk) // duplication - can use lambdas?
 	koanOrientation := orientation(koanChunk)
 	if !isNegativeRule(ruleChunk) {
-		println("is not neg")
-		println(ruleOrientation, koanOrientation)
 		return ruleOrientation != NONE && ruleOrientation != koanOrientation
 	}
-	println("is neg rule")
-	return ruleOrientation == koanOrientation
+	//  Strange bug here, negative needs different aggregation
+	return false
 }
 
 func orientation(chunk string) string {
@@ -64,7 +59,6 @@ func orientation(chunk string) string {
 	for _, piece := range pieces {
 		for _, orientation := range validOrientations {
 			if piece == orientation {
-				println("found orientation", piece)
 				return orientation
 			}
 		}
