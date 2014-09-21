@@ -19,6 +19,9 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 	koanChunks := chunk(koan)
 
+	// if PipRule{rule, koanChunks}.fails() {
+	// return false
+	// }
 	if koanFailsPipRule(rule, koanChunks) {
 		return false
 	}
