@@ -51,21 +51,27 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 
 func koanFailsPipRule(rule Rule, koanChunks []string) bool {
 	for _, ruleChunk := range rule.ruleDescriptions {
-		rulePips := rulePips(ruleChunk)
-		koanPips := 0
-		for _, koanChunk := range koanChunks {
-			koanPips += pipsFor(sizeOf(koanChunk)) * koanCount(koanChunk)
-		}
-		if !isNegativeRule(ruleChunk) {
-			return rulePips > koanPips
+		pipRuleExists, rulePips := rulePips(ruleChunk)
+		if pipRuleExists {
+
+			koanPips := 0
+			for _, koanChunk := range koanChunks {
+				koanPips += pipsFor(sizeOf(koanChunk)) * koanCount(koanChunk)
+			}
+			if !isNegativeRule(ruleChunk) {
+				return rulePips > koanPips
+			}
 		}
 	}
 	return false
 }
 
-func rulePips(ruleChunk string) int {
+func rulePips(ruleChunk string) (bool, int) {
 	i := strings.Index(ruleChunk, "pip")
-	return intOf(pieces(ruleChunk)[i+4]) // pip(<digit we want>) <- 4
+	if i > -1 {
+		return true, intOf(pieces(ruleChunk)[i+4]) // pip(<digit we want>) <- 4
+	}
+	return false, 0
 }
 
 func pipsFor(size string) int {
