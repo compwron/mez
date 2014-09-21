@@ -2,6 +2,7 @@ package main
 
 import (
 	"strconv"
+	"strings"
 )
 
 var NONE = "none"
@@ -55,24 +56,26 @@ func koanFailsPipRule(rule Rule, koanChunks []string) bool {
 		for _, koanChunk := range koanChunks {
 			koanPips += pipsFor(sizeOf(koanChunk)) * koanCount(koanChunk)
 		}
-		if !isNegativeRule(rule) {
+		if !isNegativeRule(ruleChunk) {
 			return rulePips > koanPips
 		}
 	}
+	return false
 }
 
-func rulePips(ruleChunk string) {
-
+func rulePips(ruleChunk string) int {
+	i := strings.Index(ruleChunk, "pip")
+	return intOf(pieces(ruleChunk)[i+4]) // pip(<digit we want>) <- 4
 }
 
 func pipsFor(size string) int {
-	switch ruleType {
+	switch size {
 	case "S":
-		return Configuration.pipS
+		return 1
 	case "M":
-		return Configuration.pipM
+		return 2
 	case "L":
-		return Configuration.pipL
+		return 3
 	default:
 		println("You should not be able to have no pips in a koan unless its size is 0")
 		return 0
@@ -324,6 +327,7 @@ func koanPassesColorRule(ruleChunk string, koanChunk string) bool {
 func intOf(char string) int {
 	i, err := strconv.Atoi(char)
 	if err != nil {
+		// println("Help, tried to get int from", char)
 		return 0
 	}
 	return i

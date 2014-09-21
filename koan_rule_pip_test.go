@@ -9,7 +9,7 @@ import (
 // one piece, two koanchunks
 // multipiece multichunk koan
 // combo with other rule tyles
-func TestPipCountPassOneKoanPiecePass(t *testing.T) {
+func TestPipCountPassOneKoanPiecePassWithOnlyOnePip(t *testing.T) {
 	rule := "pip(1)"
 	koan := "1^SG"
 	verify(rule, koan, t)
