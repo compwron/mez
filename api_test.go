@@ -11,7 +11,20 @@ import (
 	"testing"
 )
 
-func TestGenerateRule(t *testing.T) {
+func TestGenerateRuleSadPath(t *testing.T) {
+	handler := StartGameWithUnknownRule()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Get(server.URL)
+	defer res.Body.Close()
+
+	if res.Status != "405 Method Not Allowed" {
+		t.Errorf("Should not support Get")
+	}
+}
+
+func TestGenerateRuleHappyPath(t *testing.T) {
 	handler := StartGameWithUnknownRule()
 	server := httptest.NewServer(handler)
 	defer server.Close()
