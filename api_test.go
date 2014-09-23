@@ -11,6 +11,20 @@ import (
 	"testing"
 )
 
+func TestCreateKoanWrongHttpMethod(t *testing.T) {
+	handler := CreateKoan()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Head(server.URL)
+	defer res.Body.Close()
+
+	if res.Status != "405 Method Not Allowed" {
+		println(res.Status)
+		t.Errorf("Should not support Get")
+	}
+}
+
 func TestGuessRuleWithMissingRule(t *testing.T) {
 	handler := GuessRule()
 	server := httptest.NewServer(handler)
