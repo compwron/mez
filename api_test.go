@@ -11,6 +11,20 @@ import (
 	"testing"
 )
 
+func TestParseFailInCreateKoan(t *testing.T) {
+	handler := CreateKoan()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{")))
+	defer res.Body.Close()
+
+	if res.Status != "405 Method Not Allowed" || body(res) != "Impossible to parse formatting" {
+		println(res.Status, body(res))
+		t.Errorf("Should not succeed when parsing bad json")
+	}
+}
+
 func TestCreateGameSadPath(t *testing.T) {
 	handler := Game()
 	server := httptest.NewServer(handler)

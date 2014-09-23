@@ -34,7 +34,7 @@ func CreateKoan() http.HandlerFunc {
 		case "POST":
 			newKoanHash, err := Parse(r.Body)
 			if err != nil {
-				w.Write([]byte("Impossible to parse formatting\n"))
+				http.Error(w, "Impossible to parse formatting\n", 405)
 				return
 			}
 			w.Write([]byte(AddKoanIfValid(newKoanHash)))
