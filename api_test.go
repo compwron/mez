@@ -11,6 +11,20 @@ import (
 	"testing"
 )
 
+func TestCreateGameSadPath(t *testing.T) {
+	handler := Game()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Head(server.URL)
+	defer res.Body.Close()
+
+	if res.Status != "405 Method Not Allowed" {
+		println(res.Status)
+		t.Errorf("Should not support Get")
+	}
+}
+
 func TestGenerateRuleSadPath(t *testing.T) {
 	handler := StartGameWithUnknownRule()
 	server := httptest.NewServer(handler)
