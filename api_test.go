@@ -11,17 +11,17 @@ import (
 	"testing"
 )
 
-func TestCreateKoanWithWrongHttpMethodFails(t *testing.T) {
-	handler := CreateKoan()
+func TestGuessRuleWithMissingRule(t *testing.T) {
+	handler := GuessRule()
 	server := httptest.NewServer(handler)
 	defer server.Close()
 
-	res, _ := http.Get(server.URL)
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{\"foo\":\"bar\"}")))
 	defer res.Body.Close()
 
-	if res.Status != "405 Method Not Allowed" || body(res) != "not supported" {
-		println(res.Status, body(res))
-		t.Errorf("Should not support Get")
+	if res.Status != "400 Bad Request" {
+		println(res.Status, "foo"+body(res)+"bar")
+		t.Errorf("Should not win game without valid rule")
 	}
 }
 

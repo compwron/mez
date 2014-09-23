@@ -51,29 +51,28 @@ func GuessRule() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
-			guessRule(w, r)
+			ruleGuessHash, err := Parse(r.Body)
+			if err != nil || (ruleGuessHash["rule"] == nil) {
+				http.Error(w, "Can't get rule from response\n", 400)
+				return
+			}
+
+			w.Write([]byte(guessRule(ruleGuessHash) + "\n"))
 		default:
 			http.Error(w, NOT_SUPPORTED, 405)
 		}
 	}
 }
 
-func guessRule(w http.ResponseWriter, r *http.Request) {
+func guessRule(ruleGuessHash map[string]interface{}) string {
 	// if rule matches, end game
-	ruleGuessHash, err := Parse(r.Body)
-	if err != nil {
-		w.Write([]byte("Can't get rule from response\n"))
-	}
-
 	ruleGuess := ruleGuessHash["rule"].(string)
 	if RuleMatches(ruleGuess) {
-
-		w.Write([]byte("Victory!\n"))
 
 		//  reset rule and koans list
 		CurrentRule = OriginalRule
 		Koans = nil // move this into method in Koan.go ?
-	} else {
-		w.Write([]byte("incorrect guess\n"))
+		return "Victory!"
 	}
+	return "incorrect guess"
 }
