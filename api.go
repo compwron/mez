@@ -4,13 +4,15 @@ import (
 	"net/http"
 )
 
+var NOT_SUPPORTED = "not supported"
+
 func StartGameWithUnknownRule() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "POST":
 			w.Write([]byte(GenerateRule()))
 		default:
-			http.Error(w, "not supported", 405)
+			http.Error(w, NOT_SUPPORTED, 405)
 		}
 	}
 }
@@ -23,7 +25,7 @@ func Game() http.HandlerFunc {
 		case "POST":
 			w.Write([]byte(CreateGame(w, r)))
 		default:
-			http.Error(w, "not supported", 405)
+			http.Error(w, NOT_SUPPORTED, 405)
 		}
 	}
 }
@@ -40,7 +42,7 @@ func CreateKoan() http.HandlerFunc {
 			w.Write([]byte(AddKoanIfValid(newKoanHash)))
 			w.Write([]byte("\n"))
 		default:
-			http.Error(w, "not supported", 405)
+			http.Error(w, NOT_SUPPORTED, 405)
 		}
 	}
 }
@@ -51,7 +53,7 @@ func GuessRule() http.HandlerFunc {
 		case "POST":
 			guessRule(w, r)
 		default:
-			http.Error(w, "not supported", 405)
+			http.Error(w, NOT_SUPPORTED, 405)
 		}
 	}
 }
