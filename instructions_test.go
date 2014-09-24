@@ -17,12 +17,12 @@ func TestInstructions(t *testing.T) {
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		t.Errorf("Expected 200")
+		t.Error("Expected 200")
 	}
 	dataBuf, _ := ioutil.ReadAll(res.Body)
 	data := string(dataBuf)
 
 	if !strings.Contains(data, "game") {
-		t.Errorf("Expected response to include the word game")
+		t.Error("Expected response to include the word game")
 	}
 }

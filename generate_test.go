@@ -8,13 +8,13 @@ import (
 func TestGenerateResetsExistingKoans(t *testing.T) {
 	AddKoan("1^G")
 	if len(Koans) != 1 {
-		t.Errorf("Test setup should contain 1 koan")
+		t.Error("Test setup should contain 1 koan")
 	}
 
 	GenerateRule()
 
 	if len(Koans) != 0 {
-		t.Errorf("Generate should wipe existing koans.")
+		t.Error("Generate should wipe existing koans.")
 	}
 }
 
@@ -23,12 +23,12 @@ func TestGenerateDoesNotChangeNonDefaultRule(t *testing.T) {
 
 	GenerateRule()
 	if reflect.DeepEqual(OriginalRule, CurrentRule) {
-		t.Errorf("Generate should change rule to not be original")
+		t.Error("Generate should change rule to not be original")
 	}
 	firstGeneratedRule := CurrentRule
 
 	GenerateRule()
 	if !reflect.DeepEqual(firstGeneratedRule, CurrentRule) {
-		t.Errorf("Generate should not be able to change change rule from non-original rule")
+		t.Error("Generate should not be able to change change rule from non-original rule")
 	}
 }

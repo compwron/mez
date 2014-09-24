@@ -10,7 +10,7 @@ func TestAddKoanIfValidCatchesBadKoanSyntax(t *testing.T) {
 	parsed, _ := Parse(invalidKoan)
 	result := AddKoanIfValid(parsed)
 	if result != "Invalid koan" {
-		t.Errorf("Koan should be detected as invalid")
+		t.Error("Koan should be detected as invalid")
 	}
 }
 

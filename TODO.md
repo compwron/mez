@@ -1,6 +1,3 @@
-Add generate to instructions at GET "/"
-
-
 Fix golint and govet errors, then add to checkin process
 go get code.google.com/p/go.tools/cmd/vet
 go vet

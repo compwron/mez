@@ -11,7 +11,7 @@ func TestChecksForTrueAndFalseKoan(t *testing.T) {
 
 	result := CreateGame(parsed)
 	if result != "need true koan and false koan" {
-		t.Errorf("Should detect missing true and false koans")
+		t.Error("Should detect missing true and false koans")
 	}
 }
 
@@ -22,7 +22,7 @@ func TestFailsToStartGameIfGameIsInProgress(t *testing.T) {
 
 	result := CreateGame(parsed)
 	if result != "Can't create game because game is already in progress" {
-		t.Errorf("Should not try to create game if game exists")
+		t.Error("Should not try to create game if game exists")
 	}
 	CurrentRule = OriginalRule // test cleanup
 }

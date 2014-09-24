@@ -13,7 +13,7 @@ import (
 func verify(rule string, koan string, t *testing.T) {
 	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if !zen {
-		t.Errorf(koan + " should fulfill rule " + rule)
+		t.Error(koan + " should fulfill rule " + rule)
 	}
 }
 
@@ -47,7 +47,7 @@ func equals(tb testing.TB, exp, act interface{}) {
 func falsify(rule string, koan string, t *testing.T) {
 	zen := DoesKoanFulfillRule(Rule{[]string{rule}}, koan)
 	if zen {
-		t.Errorf(koan + " should NOT fulfill rule " + rule)
+		t.Error(koan + " should NOT fulfill rule " + rule)
 	}
 }
 
@@ -63,7 +63,7 @@ func multiRule(shouldPass bool, rules []string, koan string, t *testing.T) {
 	rule := Rule{rules}
 	zen := DoesKoanFulfillRule(rule, koan)
 	if zen != shouldPass {
-		t.Errorf((koan + " should be " + strconv.FormatBool(shouldPass) + " for rule " + stringRule(rule)))
+		t.Error((koan + " should be " + strconv.FormatBool(shouldPass) + " for rule " + stringRule(rule)))
 	}
 }
 
@@ -77,31 +77,31 @@ func stringRule(rule Rule) string {
 
 func verifyValidRule(rule string, t *testing.T) {
 	if !SyntacticallyValidRule(Rule{[]string{rule}}) {
-		t.Errorf(rule + " is NOT a valid rule but should be")
+		t.Error(rule + " is NOT a valid rule but should be")
 	}
 }
 
 func verifyValidMultirule(rule Rule, t *testing.T) {
 	zen := SyntacticallyValidRule(rule)
 	if !zen {
-		t.Errorf("should be a valid rule but is not")
+		t.Error("should be a valid rule but is not")
 	}
 }
 
 func verifyThatRuleIsInvalid(rule string, t *testing.T) {
 	if SyntacticallyValidRule(Rule{[]string{rule}}) {
-		t.Errorf(rule + " IS a valid rule but should not be")
+		t.Error(rule + " IS a valid rule but should not be")
 	}
 }
 
 func verifyValidKoan(koan string, t *testing.T) {
 	if !SyntacticallyValidKoan(koan) {
-		t.Errorf(koan + " is not valid but should be")
+		t.Error(koan + " is not valid but should be")
 	}
 }
 
 func falsifyInvalidKoan(koan string, t *testing.T) {
 	if SyntacticallyValidKoan(koan) {
-		t.Errorf(koan + " is valid but should NOT be")
+		t.Error(koan + " is valid but should NOT be")
 	}
 }
