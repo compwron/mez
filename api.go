@@ -24,8 +24,9 @@ func Game() http.HandlerFunc {
 			w.Write([]byte(KoanSummaries() + "\n" + RuleSummary()))
 		case "POST":
 			parsed, err := Parse(r.Body)
-			if err != nil {
+			if (err != nil) || (parsed["rule"] == nil) {
 				http.Error(w, "malformed JSON", 400)
+				return
 			}
 			w.Write([]byte(CreateGame(parsed) + "\n"))
 		default:

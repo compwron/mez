@@ -11,6 +11,19 @@ import (
 	"testing"
 )
 
+func TestCreateGameWithBadJson(t *testing.T) {
+	handler := Game()
+	server := httptest.NewServer(handler)
+	defer server.Close()
+
+	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{")))
+	defer res.Body.Close()
+
+	if res.Status != "400 Bad Request" {
+		t.Errorf("Should error on invalid JSON")
+	}
+}
+
 func TestCreateKoanWrongHttpMethod(t *testing.T) {
 	handler := CreateKoan()
 	server := httptest.NewServer(handler)
@@ -20,7 +33,6 @@ func TestCreateKoanWrongHttpMethod(t *testing.T) {
 	defer res.Body.Close()
 
 	if res.Status != "405 Method Not Allowed" {
-		println(res.Status)
 		t.Errorf("Should not support Get")
 	}
 }
