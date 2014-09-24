@@ -23,7 +23,11 @@ func Game() http.HandlerFunc {
 		case "GET":
 			w.Write([]byte(KoanSummaries() + "\n" + RuleSummary()))
 		case "POST":
-			w.Write([]byte(CreateGame(w, r)))
+			parsed, err := Parse(r.Body)
+			if err != nil {
+				http.Error(w, "malformed JSON", 400)
+			}
+			w.Write([]byte(CreateGame(parsed) + "\n"))
 		default:
 			http.Error(w, NOT_SUPPORTED, 405)
 		}
