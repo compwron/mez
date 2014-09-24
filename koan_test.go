@@ -1,8 +1,18 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
+
+func TestAddKoanIfValidCatchesBadKoanSyntax(t *testing.T) {
+	invalidKoan := strings.NewReader("{\"koan\":\"ABCD\"}")
+	parsed, _ := Parse(invalidKoan)
+	result := AddKoanIfValid(parsed)
+	if result != "Invalid koan" {
+		t.Errorf("Koan should be detected as invalid")
+	}
+}
 
 func TestValidKoanIsValid(t *testing.T) {
 	verifyValidKoan("1^SG", t)
