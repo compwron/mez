@@ -26,11 +26,11 @@ func CreateGame(parsed map[string]interface{}) string {
 		} else {
 			message := "Koans do not fulfull rule; game not started." +
 				"\nTrue koan is ok? " + strconv.FormatBool(trueKoanIsOk) + "\n" +
-				"\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk) + "\n"
+				"\nFalse koan is ok? " + strconv.FormatBool(falseKoanIsOk)
 			return message
 		}
 	}
-	return "Can't create game because game is already in progress\n"
+	return "Can't create game because game is already in progress"
 }
 
 func ruleIsSettable() bool {
