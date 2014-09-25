@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestKoanSummaries(t *testing.T) {
+	AddKoan("1^SG")
+	s := KoanSummaries()
+	if !strings.Contains(s, "Koans:") || !strings.Contains(s, "1^SG : false") {
+		t.Error("Incorrect koan summary: " + s)
+	}
+}
+
 func TestKoanIsInvalidWhenThirdCharacterIsAnInvalidSize(t *testing.T) {
 	falsifyInvalidKoan("1^ZG", t)
 }
