@@ -5,6 +5,22 @@ import (
 	"testing"
 )
 
+func TestKoanIsInvalidWhenThirdCharacterIsAnInvalidSize(t *testing.T) {
+	falsifyInvalidKoan("1^ZG", t)
+}
+
+func TestKoanIsInvalidWhenFourthCharacterIsNotAValidSizeOrColor(t *testing.T) {
+	falsifyInvalidKoan("1^SZ", t)
+}
+
+func TestKoanIsInvalidWhenFifthCharacterIsNotAValidColor(t *testing.T) {
+	falsifyInvalidKoan("1^2SZ", t)
+}
+
+func TestKoanIsNotLongerThanFiveCharacters(t *testing.T) {
+	falsifyInvalidKoan("1^2SGZ", t)
+}
+
 func TestAddKoanIfValidCatchesBadKoanSyntax(t *testing.T) {
 	invalidKoan := strings.NewReader("{\"koan\":\"ABCD\"}")
 	parsed, _ := Parse(invalidKoan)
