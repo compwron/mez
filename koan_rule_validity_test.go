@@ -4,7 +4,13 @@ import (
 	"testing"
 )
 
-func RuleWithTwoColorsInTwoChunksIsValid(t *testing.T) {
+func TestSyntaxInvalidityOfRuleFails(t *testing.T) {
+	rule := "ABC!"
+	koan := "1^SG"
+	falsify(rule, koan, t)
+}
+
+func TestRuleWithTwoColorsInTwoChunksIsValid(t *testing.T) {
 	multiColorRule := Rule{[]string{"G", "R"}}
 	verifyValidMultirule(multiColorRule, t)
 }
