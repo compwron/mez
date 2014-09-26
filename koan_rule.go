@@ -16,9 +16,7 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 	if !SyntacticallyValidKoan(koan) {
 		return false
 	}
-
 	koanChunks := chunk(koan)
-
 	if koanFailsPipRule(rule, koanChunks) {
 		return false
 	}
@@ -52,14 +50,14 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 func koanFailsPipRule(rule Rule, koanChunks []string) bool {
 	for _, ruleChunk := range rule.ruleDescriptions {
 		pipRuleExists, rulePips := rulePips(ruleChunk)
-		if pipRuleExists {
 
+		if pipRuleExists {
 			koanPips := 0
 			for _, koanChunk := range koanChunks {
 				koanPips += pipsFor(sizeOf(koanChunk)) * koanCount(koanChunk)
 			}
 			if !isNegativeRule(ruleChunk) {
-				return rulePips > koanPips
+				return rulePips > koanPips || (rulePips == 0 && koanPips != 0)
 			}
 		}
 	}
@@ -247,6 +245,8 @@ func ruleContains(ruleChunk string, ruleType string) bool {
 		return sizeOf(ruleChunk) != NONE
 	case "orientation":
 		return orientation(ruleChunk) != NONE
+	case "pip":
+		return strings.Index(ruleChunk, "pip") != -1
 	default:
 		return false
 	}

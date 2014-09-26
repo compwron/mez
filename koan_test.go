@@ -8,7 +8,7 @@ import (
 func TestKoanSummaries(t *testing.T) {
 	AddKoan("1^SG")
 	s := KoanSummaries()
-	if !strings.Contains(s, "Koans:") || !strings.Contains(s, "1^SG : false") {
+	if !strings.Contains(s, "Koans:") || !strings.Contains(s, "1^SG : ") {
 		t.Error("Incorrect koan summary: " + s)
 	}
 }
