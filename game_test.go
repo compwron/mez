@@ -6,8 +6,8 @@ import (
 )
 
 func TestChecksForTrueAndFalseKoan(t *testing.T) {
-	emptyJsonReader := strings.NewReader("{\"rule\":\"foo\"}")
-	parsed, _ := Parse(emptyJsonReader)
+	emptyJSONReader := strings.NewReader("{\"rule\":\"foo\"}")
+	parsed, _ := Parse(emptyJSONReader)
 
 	result := CreateGame(parsed)
 	if result != "need true koan and false koan" {
@@ -17,8 +17,8 @@ func TestChecksForTrueAndFalseKoan(t *testing.T) {
 
 func TestFailsToStartGameIfGameIsInProgress(t *testing.T) {
 	CurrentRule = Rule{[]string{"some rule"}}
-	emptyJsonReader := strings.NewReader("{\"rule\":\"foo\"}")
-	parsed, _ := Parse(emptyJsonReader)
+	emptyJSONReader := strings.NewReader("{\"rule\":\"foo\"}")
+	parsed, _ := Parse(emptyJSONReader)
 
 	result := CreateGame(parsed)
 	if result != "Can't create game because game is already in progress" {

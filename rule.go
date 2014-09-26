@@ -41,9 +41,8 @@ func RuleSummary() string {
 	same := (len(CurrentRule.ruleDescriptions) == 1) && (CurrentRule.ruleDescriptions[0] == OriginalRule.ruleDescriptions[0])
 	if same {
 		return "current rule is original rule\n"
-	} else {
-		return "current rule is not original rule\n"
 	}
+	return "current rule is NOT original rule\n"
 }
 
 func ParseRule(data map[string]interface{}) Rule {

@@ -198,7 +198,7 @@ func koanHasDisallowedNumberOf(ruleColor string, diallowedColorCount int, koan s
 	colorsOfKoanChunks := initializeEmptyColorCount()
 
 	for _, koanChunk := range chunk(koan) {
-		colorsOfKoanChunks[colorOf(koanChunk)] += 1
+		colorsOfKoanChunks[colorOf(koanChunk)]++
 	}
 	return colorsOfKoanChunks[ruleColor] == diallowedColorCount
 }
@@ -268,7 +268,7 @@ func multipleColors(ruleChunk string) bool {
 	colorCount := 0
 	for _, piece := range pieces(ruleChunk) {
 		if colorOf(piece) != NONE {
-			colorCount += 1
+			colorCount++
 		}
 	}
 	return colorCount > 1
@@ -295,9 +295,8 @@ func rulePieceCount(ruleChunk string) int {
 	rulePieces := pieces(ruleChunk)
 	if isNegativeRule(ruleChunk) {
 		return intOf(rulePieces[1])
-	} else {
-		return intOf(rulePieces[0])
 	}
+	return intOf(rulePieces[0])
 }
 
 func koanPassesCountRule(koanChunk string, ruleChunk string) bool {

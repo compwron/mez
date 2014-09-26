@@ -112,7 +112,6 @@ func AddFullKoan(koan Koan) {
 func ParseKoan(data map[string]interface{}, truthiness bool) Koan {
 	if truthiness {
 		return Koan{data["true"].(string), truthiness}
-	} else {
-		return Koan{data["false"].(string), truthiness}
 	}
+	return Koan{data["false"].(string), truthiness}
 }

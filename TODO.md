@@ -2,7 +2,7 @@ Fix golint and govet errors, then add to checkin process
 go get code.google.com/p/go.tools/cmd/vet
 go vet
 go get github.com/golang/lint/golint
-go lint
+golint
 
 // What part of the rule does a negative apply to? Gotta be the whole thing. So !3^SG means nothing that is 3 AND Small AND G
 

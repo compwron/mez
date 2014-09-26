@@ -181,8 +181,8 @@ func TestValidGamePost(t *testing.T) {
 	server := httptest.NewServer(handler)
 	defer server.Close()
 
-	newRuleJson := "{\"rule\":\"1^\", \"true\":\"1^SG\", \"false\":\"0^SG\"}"
-	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(newRuleJson)))
+	newRuleJSON := "{\"rule\":\"1^\", \"true\":\"1^SG\", \"false\":\"0^SG\"}"
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(newRuleJSON)))
 	defer res.Body.Close()
 	data := body(res)
 
@@ -200,8 +200,8 @@ func TestNonValidGamePost(t *testing.T) {
 	server := httptest.NewServer(handler)
 	defer server.Close()
 
-	badRuleJson := "{\"rule\":\"1^\", \"true\":\"0^SG\", \"false\":\"1^SG\"}"
-	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(badRuleJson)))
+	badRuleJSON := "{\"rule\":\"1^\", \"true\":\"0^SG\", \"false\":\"1^SG\"}"
+	res, err := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte(badRuleJSON)))
 	defer res.Body.Close()
 	data := body(res)
 
