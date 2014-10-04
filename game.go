@@ -5,16 +5,16 @@ import (
 	"strconv"
 )
 
-func CreateGame(parsed map[string]interface{}) string {
+func CreateGame(Parsed map[string]interface{}) string {
 	if ruleIsSettable() {
-		submittedRule := ParseRule(parsed)
+		submittedRule := ParseRule(Parsed)
 
-		if (parsed["true"] == nil) || (parsed["false"] == nil) {
+		if (Parsed["true"] == nil) || (Parsed["false"] == nil) {
 			return "need true koan and false koan"
 		}
 
-		trueKoan := ParseKoan(parsed, true)
-		falseKoan := ParseKoan(parsed, false)
+		trueKoan := ParseKoan(Parsed, true)
+		falseKoan := ParseKoan(Parsed, false)
 		trueKoanIsOk := DoesKoanFulfillRule(submittedRule, trueKoan.description)
 		falseKoanIsOk := !DoesKoanFulfillRule(submittedRule, falseKoan.description)
 

@@ -31,8 +31,8 @@ func TestKoanIsNotLongerThanFiveCharacters(t *testing.T) {
 
 func TestAddKoanIfValidCatchesBadKoanSyntax(t *testing.T) {
 	invalidKoan := strings.NewReader("{\"koan\":\"ABCD\"}")
-	parsed, _ := Parse(invalidKoan)
-	result := AddKoanIfValid(parsed)
+	Parsed, _ := Parse(invalidKoan)
+	result := AddKoanIfValid(Parsed)
 	if result != "Invalid koan" {
 		t.Error("Koan should be detected as invalid")
 	}

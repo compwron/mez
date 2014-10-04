@@ -76,5 +76,5 @@ func falsifyInvalidKoan(koan string, t *testing.T) {
 
 // for testing
 func RuleToString(rule Rule) string {
-	return unparseRuleDescriptions(rule.ruleDescriptions)
+	return unParseRuleDescriptions(rule.ruleDescriptions)
 }

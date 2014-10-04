@@ -59,7 +59,7 @@ func TestParseFailInCreateKoan(t *testing.T) {
 	res, _ := http.Post(server.URL, "text/json", bytes.NewBuffer([]byte("{")))
 	defer res.Body.Close()
 
-	if res.Status != "405 Method Not Allowed" || body(res) != "Impossible to parse formatting" {
+	if res.Status != "405 Method Not Allowed" || body(res) != "Impossible to Parse formatting" {
 		println(res.Status, body(res))
 		t.Error("Should not succeed when parsing bad json")
 	}

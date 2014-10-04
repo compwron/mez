@@ -23,12 +23,12 @@ func Game() http.HandlerFunc {
 		case "GET":
 			w.Write([]byte(KoanSummaries() + "\n" + RuleSummary()))
 		case "POST":
-			parsed, err := Parse(r.Body)
-			if (err != nil) || (parsed["rule"] == nil) {
+			Parsed, err := Parse(r.Body)
+			if (err != nil) || (Parsed["rule"] == nil) {
 				http.Error(w, "malformed JSON", 400)
 				return
 			}
-			w.Write([]byte(CreateGame(parsed) + "\n"))
+			w.Write([]byte(CreateGame(Parsed) + "\n"))
 		default:
 			http.Error(w, NotSupported, 405)
 		}
@@ -41,7 +41,7 @@ func CreateKoan() http.HandlerFunc {
 		case "POST":
 			newKoanHash, err := Parse(r.Body)
 			if err != nil {
-				http.Error(w, "Impossible to parse formatting\n", 405)
+				http.Error(w, "Impossible to Parse formatting\n", 405)
 				return
 			}
 			w.Write([]byte(AddKoanIfValid(newKoanHash)))

@@ -51,13 +51,13 @@ func ParseRule(data map[string]interface{}) Rule {
 }
 
 func RuleMatches(guess string) bool {
-	return guess == unparseRuleDescriptions(CurrentRule.ruleDescriptions)
+	return guess == unParseRuleDescriptions(CurrentRule.ruleDescriptions)
 }
 
 func OkToChangeCurrentRule() bool {
 	return reflect.DeepEqual(CurrentRule, OriginalRule)
 }
 
-func unparseRuleDescriptions(ruleDescriptions []string) string {
+func unParseRuleDescriptions(ruleDescriptions []string) string {
 	return strings.Join(ruleDescriptions, ",")
 }

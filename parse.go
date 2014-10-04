@@ -7,10 +7,10 @@ import (
 
 func Parse(data io.Reader) (map[string]interface{}, error) {
 	var jsonHolder interface{}
-	var parsedMap map[string]interface{}
+	var ParsedMap map[string]interface{}
 	err := json.NewDecoder(data).Decode(&jsonHolder)
 	if err == nil {
-		parsedMap = jsonHolder.(map[string]interface{})
+		ParsedMap = jsonHolder.(map[string]interface{})
 	}
-	return parsedMap, err
+	return ParsedMap, err
 }
