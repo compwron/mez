@@ -111,6 +111,7 @@ func TestCreateKoanValid(t *testing.T) {
 	if !(data == "true") {
 		t.Error("should return true. Actually got: " + data + " and current rule is: " + RuleToString(CurrentRule))
 	}
+	CurrentRule = OriginalRule
 }
 
 func TestCreateKoanInvalid(t *testing.T) {
@@ -155,6 +156,7 @@ func TestGuessRulePost(t *testing.T) {
 	if len(Koans) != 0 {
 		t.Error("Length of koans should be 0")
 	}
+	CurrentRule = OriginalRule
 }
 
 func TestGameGet(t *testing.T) {

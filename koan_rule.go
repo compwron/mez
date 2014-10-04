@@ -33,9 +33,6 @@ func DoesKoanFulfillRule(rule Rule, koan string) bool {
 			if ruleContains(ruleChunk, "count") && !koanPassesCountRule(koanChunk, ruleChunk) {
 				return false
 			}
-			if ruleContains(ruleChunk, "color") && isNegativeRule(ruleChunk) && !koanPassesColorRule(ruleChunk, koanChunk) {
-				return false
-			}
 			if koanFailsSizeRule(koanChunk, ruleChunk) {
 				return false
 			}

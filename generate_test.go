@@ -31,4 +31,5 @@ func TestGenerateDoesNotChangeNonDefaultRule(t *testing.T) {
 	if !reflect.DeepEqual(firstGeneratedRule, CurrentRule) {
 		t.Error("Generate should not be able to change change rule from non-original rule")
 	}
+	CurrentRule = OriginalRule
 }

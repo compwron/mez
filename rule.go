@@ -61,8 +61,3 @@ func OkToChangeCurrentRule() bool {
 func unparseRuleDescriptions(ruleDescriptions []string) string {
 	return strings.Join(ruleDescriptions, ",")
 }
-
-// for testing
-func RuleToString(rule Rule) string {
-	return unparseRuleDescriptions(rule.ruleDescriptions)
-}
