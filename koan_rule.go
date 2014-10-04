@@ -78,7 +78,7 @@ func pipsFor(size string) int {
 	case "L":
 		return 3
 	default:
-		println("You should not be able to have no pips in a koan unless its size is 0")
+		println("Getting to default pips should be impossible because of the syntax check for rule")
 		return 0
 	}
 }
@@ -135,15 +135,16 @@ func koanHasNumberOfColorDisallowedByNegativeColorRule(ruleChunk string, koan st
 }
 
 func countOfColor(chunk string, ruleColor string) int {
+	count := 0
 	for i, piece := range pieces(chunk) {
 		if piece == ruleColor {
 			if i == 0 { // There is no count for the color
-				return 0
+				return i
 			}
-			return koanCount(chunk)
+			count = koanCount(chunk)
 		}
 	}
-	return 0
+	return count
 }
 
 func handleAllColorRule(koanChunks []string, colorRuleCount int) int {
@@ -317,13 +318,6 @@ func colorOf(chunk string) string {
 		}
 	}
 	return NONE
-}
-
-func koanPassesColorRule(ruleChunk string, koanChunk string) bool {
-	// TODO Why is this?
-	// colorsMatch := colorOf(koanChunk) == colorOf(ruleChunk)
-	// return colorsMatch || isNegativeRule(ruleChunk)
-	return isNegativeRule(ruleChunk)
 }
 
 func intOf(char string) int {
