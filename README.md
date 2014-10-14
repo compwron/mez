@@ -81,3 +81,19 @@ Internal Koan nomenclature:
 * koan "1^SG,2^MB"
 * koanChunks ["1^SG","2^MB"]
 * koanPieces ["1", "^", "S", "G"] # should never have "," in it
+
+
+
+Docker
+====
+* docker build -t mez .
+* docker run --publish 6060:3000 --name test --rm mez
+````
+gcloud compute instances create mez \
+    --image container-vm-v20140925 \
+    --image-project google-containers \
+    --metadata-from-file google-container-manifest=containers.yaml \
+    --tags http-server \
+    --zone us-central1-a \
+    --machine-type f1-micro
+````

@@ -1,0 +1,8 @@
+version: 0.0.1
+containers:
+- name: mez
+  image: compwron/mez
+  ports:
+  - name: http
+    hostPort: 80
+    containerPort: 3000
